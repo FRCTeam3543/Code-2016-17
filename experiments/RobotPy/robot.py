@@ -36,6 +36,15 @@ class Team3543Robot(wpilib.IterativeRobot):
         """
         # replace "pass" with your code
         pass
+
+    def disabledPeriodic(self):
+        """Initialization code for disabled mode should go here.
+
+        Users should override this method for initialization code which will be
+        called periodically when the robot is in disabled mode.
+        """
+        # replace "pass" with your code
+        pass
         
     def initMotors(self):
         """Initialize motors"""
