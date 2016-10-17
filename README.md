@@ -130,8 +130,6 @@ $ git checkout someOtherPersonsBranch
 
 Note you will have to commit changes made to your branch before you can switch to someone else's.  But then you can switch back again, and all your changes are restored like magic!
 
-`git` will be your best friend and is a key tool nearly all professional programmers use (alas, some are forced to use crappier competitor's tools).  Here are some more resources describing all the cool things it can do: [git - the simple guide](http://rogerdudler.github.io/git-guide/) and [Git Beginners Guide for Dummies](https://backlogtool.com/git-guide/en/).
-
 TODO - section how to request that someone merge your branch into the master branch.  This is TBD because we still need to establish our code review and merge process _where we test and check each other's work before letting it on the robot!_
 
 ## Running your code
@@ -150,3 +148,8 @@ This should run a sample robot using the RobotPy toolkit.  To stop the running r
 
 Did you get this far?  Go on #general in slack and type WOOHOO!!  Or, if you got this far and s__t's not working, go on #general in slack and ask for help!
 
+## More tools and resources
+
+*  `git` will be your best friend and is a key tool nearly all professional programmers use (alas, some are forced to use crappier competitor's tools).  Here are some more resources describing all the cool things it can do: [git - the simple guide](http://rogerdudler.github.io/git-guide/) and [Git Beginners Guide for Dummies](https://backlogtool.com/git-guide/en/).
+*  That shell you're typing commands into - it does a lot, and there are lots of really useful Linux commands.  [Here's a tutorial on using the shell](http://linuxcommand.org/learning_the_shell.php)
+*  [Learn Python](http://www.learnpython.org/) has a great, hands-on tutorial for learning the Python programming language.  You type your code in a window in the browser and it checks your work.  Do it!
