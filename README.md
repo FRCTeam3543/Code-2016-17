@@ -11,7 +11,7 @@ Specifically the Linux VM includes:
 *  The Ubuntu graphical desktop (similar to Windows or Mac)
 *  The [Eclipse](http://eclipse.org) IDE and [Visual Studio Code](https://code.visualstudio.com) code editor
 *  Tools for managing your source code [Git](http://git-scm.com)
-*  Tools for building and deploying robot code in Java and [Python](http://python.org), namely the [RobotPy](https://robotpy.github.io/) and [pyfrc](http://pyfrc.readthedocs.io/en/latest/) toolkits.
+*  Tools for building (putting together) and deploying (sending to robot) robot code in Java and [Python](http://python.org), namely the [RobotPy](https://robotpy.github.io/) and [pyfrc](http://pyfrc.readthedocs.io/en/latest/) toolkits.
 
 ### Make sure you have the required software and accounts
 
@@ -20,7 +20,7 @@ Specifically the Linux VM includes:
 
 ### Import the virtual machine
 
-*  A snapshot of the virtual machine is located in the team Google Drive folder in the file called FRCTeam3542LinuxDestop.vbox .  Download this file to your computer (it will take a while it's pretty big!  We have it on a USB key in the lab as well if you're having trouble with the school WiFi)
+*  A snapshot of the virtual machine is located in the team Google Drive folder in the file called LinuxVM/FRCLinux.vdi .  Download this file to your computer (it will take a while it's pretty big!  We have it on a USB key in the lab as well if you're having trouble with the school WiFi)
 *  Double-click the file to import and launch the virtual machine.  You should see a new GUI start up with a fancy new desktop.  This is your new Linux VM running inside your computer.  It's a completely separate computer, so don't expect to see its files or folders in your usual file manager.  Hit the right Ctrl key and F to toggle your Linux VM to and from full-screen mode.
 
 *NOTE* - if your computer has limited memory (less than 8GB) it's a good idea to not be running games or other memory-hogging applications at the same time as the VM.  The VM needs 2GB of your system memory to run.  
@@ -31,16 +31,16 @@ When the VM has finished loading you will see a prompt to log in as "FRC Student
 
 ### Setting up your VM to work with your GitHub account
 
-Click the console icon on the left menu of the desktop.  It's a "shell", a window where you can type in low-level commands.  As a programmer you'll come to appreciate how much more powerful and awesome this is compared to a GUI, though it might not seem like it at first!  I'm just going to refer to it as "the shell" from now on.  You'll use it a lot while programming the robot, for deploying code and talking to GitHub.
+Click the "Terminal" icon on the left menu of the desktop.  It's a "shell", a window where you can type in low-level commands.  As a programmer you'll come to appreciate how much more powerful and awesome this is compared to a GUI, though it might not seem like it at first!  I'm just going to refer to it as "the shell" from now on.  You'll use it a lot while programming the robot, for deploying code and talking to GitHub.
 
 **NOTE in all the shell command samples below the `$ ` is there to indicate the prompt, you don't type it, you type everything _after_ it on the line.  You can also copy and paste commands into the shell.**
 
-To talk to the repository on GitHub, you need to generate a pair of keys so that your computer can send and retrieve files from GitHub using a secure protocol called SSH.  Here's how to do that:
+To talk to the repository on GitHub, you need to generate a pair of keys so that your computer can securely send and retrieve files from GitHub using a secure protocol called SSH. GitHub Here's how to do that:
 
 1.  Open the shell.
 2.  At the shell prompt, type `ssh-keygen` and hit &lt;enter&gt;.  Accept all the default choices.  Don't forget the password you choose!  It's not the same as your GitHub password, you can make it anything you want.  
 3.  After your key pair is generated, at the shell prompt, type `cat ~/.ssh/id_rsa.pub`.  This will display your newly-generated _public key_.  You need to give this key to GitHub, so that when `git` encrypts the data you send to GitHub using your _private key_, GitHub can decrypt it using your _public key_ so it's not just encrypted gibberish!  Leave this Notepad window open, you will need it later.
-4.  Launch GitHub.com in your web browser (Firefox or Chrome please) and log in using the GitHub account you set up earlier.  Click on your avatar at top right, then choose "Settings" from the drop-down menu.
+4.  Launch GitHub.com in your web browser (Firefox on the Ubuntu VM) and log in using the GitHub account you set up earlier.  Click on your avatar at top right, then choose "Settings" from the drop-down menu.
 5.  On the Settings page, select "SSH and GPG keys" from the left side menu.
 6.  Click the "New SSH Key" button.  
 7.  Enter whatever you want as a title (it's only so you remember it), then go to the Notepad window you opened, select all the text from your key (Ctrl-A) or Edit > Select All) and then copy it to the clipboard (Ctrl-C or Edit > Copy)
