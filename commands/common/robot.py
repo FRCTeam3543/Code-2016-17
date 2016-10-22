@@ -1,7 +1,5 @@
-#!/usr/bin/env python3
-
 """
-Sample robot in python using RobotPy
+Base Robot class.  Use this to override stuff common to the Team3543 robot - planned sensors, etc.
 
 Adapted from http://robotpy.readthedocs.io/en/latest/guide/anatomy.html#create-your-robot-code
 """
@@ -17,14 +15,6 @@ class Team3543Robot(wpilib.IterativeRobot):
         """
         self.initMotors()
         self.initSensors()
-        self.initEverythingElse()
-
-    def initEverythingElse(self):
-        """
-        Override this method to add extra global initialization
-        for our team's robot
-        """
-        pass
 
     def autonomousInit(self):
         """This function is run once each time the robot enters autonomous mode."""
