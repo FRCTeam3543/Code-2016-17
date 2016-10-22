@@ -86,6 +86,8 @@ You're almost ready to code!  Almost!?  Sheesh.  Yeah, you'll get used to this r
 
 Alright, so here's where `git` really comes in handy.  When you work with `git`, you can create oodles of _branches_ that allow you to work independently on a feature in the code, and then _merge_ that new feature into the main (*master*) branch when it's ready.  If you type `git status` in the shell, you will probably see you are on *master* branch right now.  Even if you change code though, it will only change it on your _local_ master branch.  To share your changes on GitHub, you would need to _push_ your changes up to the remote repository.
 
+The following instructions show you how to interact with `git` using the shell.  You can also do most of the same things right inside Visual Studio code, and you might find that easier.  Complete the following exercise in the shell, then check out the [guide for using git inside VS Code](https://code.visualstudio.com/Docs/editor/versioncontrol).
+
 Since pushing changes to the remote *master* is a really bad idea--master branch should be reserved for tested, reviewed and ready-to-go-on-the-robot-for-realsies code--you should work in a branch of your own.  To keep things simple (for now), everyone will create a branch using their own name.  In the shell type:
 
 ```
