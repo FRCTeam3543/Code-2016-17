@@ -38,8 +38,8 @@ Click the "Terminal" icon on the left menu of the desktop.  It's a "shell", a wi
 To talk to the repository on GitHub, you need to generate a pair of keys so that your computer can securely send and retrieve files from GitHub using a secure protocol called SSH. GitHub Here's how to do that:
 
 1.  Open the shell.
-2.  At the shell prompt, type `ssh-keygen` and hit &lt;enter&gt;.  Accept all the default choices.  Don't forget the password you choose!  It's not the same as your GitHub password, you can make it anything you want.  
-3.  After your key pair is generated, at the shell prompt, type `cat ~/.ssh/id_rsa.pub`.  This will display your newly-generated _public key_.  You need to give this key to GitHub, so that when `git` encrypts the data you send to GitHub using your _private key_, GitHub can decrypt it using your _public key_ so it's not just encrypted gibberish!  Leave this Notepad window open, you will need it later.
+2.  At the shell prompt, type `ssh-keygen` and hit &lt;enter&gt;.  Accept all the default choices, *including agreeing to overwrite any existing key* (that one was created when the VM user account was set up and you want a new, personalized one).  Don't forget the password you choose!  It's not the same as your GitHub password, you can make it anything you want.  
+3.  After your key pair is generated, at the shell prompt, type `cat ~/.ssh/id_rsa.pub`.  This will display your newly-generated _public key_.  You need to give this key to GitHub, so that when `git` encrypts the data you send to GitHub using your _private key_, GitHub can decrypt it using your _public key_ so it's not just encrypted gibberish!  Select the entire key text and hit Ctrl-Shift-C or Edit > Copy from the menu to copy the key to the clipboard.  **IMPORTANT**  - you need to copy the text in `id_rsa.pub` *not* `id_rsa`.  The second one is your *private key*, which is the "other half" *private key* of this key pair.  It needs to stay private to *you* only, don't copy it around or share it with anyone.  The `.pub` one is the "public half" of the key which is shared with others (like GitHub) so it can decrypt data you have encrypted with your private half of the key.
 4.  Launch GitHub.com in your web browser (Firefox on the Ubuntu VM) and log in using the GitHub account you set up earlier.  Click on your avatar at top right, then choose "Settings" from the drop-down menu.
 5.  On the Settings page, select "SSH and GPG keys" from the left side menu.
 6.  Click the "New SSH Key" button.  
@@ -85,6 +85,8 @@ You're almost ready to code!  Almost!?  Sheesh.  Yeah, you'll get used to this r
 ### Not so fast, you don't want your code colliding with other people's code
 
 Alright, so here's where `git` really comes in handy.  When you work with `git`, you can create oodles of _branches_ that allow you to work independently on a feature in the code, and then _merge_ that new feature into the main (*master*) branch when it's ready.  If you type `git status` in the shell, you will probably see you are on *master* branch right now.  Even if you change code though, it will only change it on your _local_ master branch.  To share your changes on GitHub, you would need to _push_ your changes up to the remote repository.
+
+The following instructions show you how to interact with `git` using the shell.  You can also do most of the same things right inside Visual Studio code, and you might find that easier.  Complete the following exercise in the shell, then check out the [guide for using git inside VS Code](https://code.visualstudio.com/Docs/editor/versioncontrol).
 
 Since pushing changes to the remote *master* is a really bad idea--master branch should be reserved for tested, reviewed and ready-to-go-on-the-robot-for-realsies code--you should work in a branch of your own.  To keep things simple (for now), everyone will create a branch using their own name.  In the shell type:
 
