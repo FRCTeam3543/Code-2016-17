@@ -57,27 +57,61 @@ Now let's make sure things are working by _cloning_ the GitHub repository to you
 
 ### Getting ready to code
 
-1.  First, we need to go to the folder we've set up to hold all your code.  Make sure you have a Terminal launched.
+1.  First, we need to go to the folder we've set up to hold all your code.  Make sure you have a Terminal launched.  We already cloned a copy of the Github repository in the Linux VM, so you can skip that step.  But for future reference here's what we **would have done**.  Note that a `#` is a comment line in the shell, not a command.  The following shows the complete output in the terminal.  You would type the commands in lines with a `$` prompt.  Again, you can SKIP this step because we already did it when we set up the Linux VM.
 
-2.  Change to the code directory:
+```
+# Change to the ~/Code directory
+student@team3543linux:~$ cd ~/Code
+
+# Clone the repository
+
+student@team3543linux:~/Code$ 
+$ git clone git@github.com:FRCTeam3543/Code-2016-17.git
+Cloning into 'Code-2016-17'
+The authenticity of host 'github.com (192.30.253.113)' can't be established.
+RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+# You would type "yes" and hit Enter on the following line
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'github.com,192.30.253.113' (RSA) to the list of known hosts.
+# the numbers in the following lines might be different
+remote: Counting objects: 84, done.
+remote: Compressing objects: 100% (50/50), done.
+remote: Total 84 (delta 25), reused 76 (delta 19), pack-reused 0
+Unpacking objects: 100% (84/84), done.
+Checking connectivity... done.
+# Notice that there is now a Code-2016-17 folder containing the project. 'cd' changes to a folder and 'ls' lists a folder's contents
+student@team3543linux:~/Code$ cd Code-2016-17/
+student@team3543linux:~/Code/Code-2016-17$ ls
+experiments  LICENSE.md  README.md
+# this shows you what branch your local git is on and what the state is:
+student@team3543linux:~/Code/Code-2016-17$ git status
+On branch master
+nothing to commit, working directory clean
+
+```
+
+2.  Instead, Change to the project directory:
    ```   
-   $ cd ~/Code
+   student@team3543linux:~$ cd ~/Code/Code-2016-17
    ```
    If you're curious, the `~` is a Bash-shell shorthand for "My Home Folder".  All this command line stuff is good for you, because once you get using Linux to deploy to the robot you will need it even more!
 
-4.  Try to _clone_ this repository, using the Git Bash shell:
-   ```
-   $ git clone git@github.com:FRCTeam3543/Code-2016-17.git
-   ```
-   If all goes will, you should see a new folder called `Code-2016-17` inside your code folder.  In the shell you can type the following to go into the folder.
-   ```
-   $ cd Code-2016-17
-   ```
-   This folder is where you will do all your coding.
+3.  Make sure the project is up to date.  Note that if you DID NOT generate your key pair properly and add your public key to your Github account's SSH Keys you will get an "access denied" error:
 
-5.  Launch Visual Studio Code from the left menu and open your new `Code-2016-17` using File &gt; Open.  Or, from your shell from step 4 do it the fast nerd way.  The following command means "launch visual studio code in _this_ folder" (. means "this folder"):
+```
+# 'pull' gets all the changes from a remote branch.  "origin" is the name of the github server, it's a convention in git to name the 'main' remote server "origin"
+# This command says "fetch the master branch from the origin server and merge any changes into my current local branch"
+student@team3543linux:~/Code/Code-2016-17$ git pull origin master
+# what happens next depends on the state of things (what has changed since we created this VM snapshot).  Something like:
+From github.com:FRCTeam3543/Code-2016-17
+ * branch            master     -> FETCH_HEAD
+Already up-to-date.
+```
+
+5.  Launch Visual Studio Code from the left menu and open your new `Code-2016-17` using File &gt; Open.  Or, from your shell do it the fast nerd way.  The following command means "launch visual studio code in _this_ folder" (the `.` means "this folder"):
     ```
-    $ code .
+    # Note the dot at the end - it means "the current folder"
+    student@team3543linux:~/Code/Code-2016-17$ code .
     ```
 
 You're almost ready to code!  Almost!?  Sheesh.  Yeah, you'll get used to this ritual when you're a professional programmer, it's pretty normal for getting new projects set up.
@@ -88,16 +122,18 @@ Alright, so here's where `git` really comes in handy.  When you work with `git`,
 
 The following instructions show you how to interact with `git` using the shell.  You can also do most of the same things right inside Visual Studio code, and you might find that easier.  Complete the following exercise in the shell, then check out the [guide for using git inside VS Code](https://code.visualstudio.com/Docs/editor/versioncontrol).
 
-Since pushing changes to the remote *master* is a really bad idea--master branch should be reserved for tested, reviewed and ready-to-go-on-the-robot-for-realsies code--you should work in a branch of your own.  To keep things simple (for now), everyone will create a branch using their own name.  In the shell type:
+Since pushing changes to the remote *master* is a really bad idea--master branch should be reserved for tested, reviewed and ready-to-go-on-the-robot-for-realsies code--you should work in a branch of your own.  To keep things simple (for now), everyone will create a branch using their own name.  In the shell type the following.  We're going to have everyone start off by authoring code in their own branch named after themselves.  So **wherever you see `whatsyername` in the commands type `your first name`**!
 
 ```
-$ git branch -t yourNameOrInitialsNoSpaces origin/master 
-```
-
-This meant "create a branch called `yourNameOrInitialsNoSpaces` that's based off the _master_ branch.  Now, _check out_ your branch so you can work on it.
-
-```
-$ git checkout yourNameOrInitialsNoSpaces;
+# Create a branch called whatsername (AGAIN USE YOUR NAME!!) based off the master branch on the github server
+$ git branch whatsyername origin/master 
+# Now let's "check out" your branch locally.  "Checking out" means "make the my current files match the ones in that branch because I'm going to work on it".
+$ git checkout whatsyername
+# Now we're going to 'push' your branch up to the remote server, so you can share your work with everyone.
+# This command copies your branch to the remote server.  
+$ git push -u origin whatsyername
+# You can now go to the project on Github in the browser, click on the Code tab and click the "Branches" dropdown.  You should see your branch listed!
+# BUT HONESTLY, if I see a branch called "whatsyername" on there ...
 ```
 
 *NOW* you're ready to code!
@@ -106,7 +142,7 @@ $ git checkout yourNameOrInitialsNoSpaces;
 
 The great thing about managing code with `git` is it keeps track of all your branches and changes, along with comments and notes about who changed what and when.  If someone changes something in a way that's going to collide with someone else's, it won't allow it!
 
-Now that you are working on your branch, open this `README.md` file in Visual Studio code and edit it.  As an exercise, type your name in between the triple-quotes that follow:
+Now that you are working on your branch, open this `README.md` file in Visual Studio code and edit it.  As an exercise, type your name in between the triple-quotes that follow, just like MK and Ronan did.  So you're not *really* coding yet, but you are editing a file in the project so it's almost the same thing!
 
 ```
 (Everyone type their first name or initials below this line in the README as an exercise)
@@ -115,25 +151,29 @@ Ronan
 
 ```
 
+  **BY THE WAY** even the pros MK works with sometimes are not in the habit of putting a `README` file in their project.  **REMEMBER** as a programmer you have *two* main jobs, prioritized as follows:
+
+  1.  Make sure a human **10 years from now** can understand what you did and *why*
+  2.  Write code so the computer can understand **now**
+
+  Yup, in **that order**.  A *lot* of people get those backwards.  You program is useless to a computer without #2, but your program is useless to your employer without #1!
+
 Now, save the file.  In Visual Studio Code, you will notice your changes are tracked with a little notification on the git icon in the left sidebar (3rd icon from the top).  Click it and you will get a git menu.  Hover over the README.md file and click the "+" button to tell git you want to commit your change.  Now type a short message about your changes (e.g: added my name to the list) and click the _checkmark_ icon to commit your changes.  
 
-Now let's push your changes up to GitHub.  Back in the shell, type the following:
+First commit your changes.  You can do this two ways, but the easiest is to use the `git` tools built into Visual Studio Code.  
 
-```
-$ git push origin yourNameOrInitialsNoSpaces;
-```
+1.  Select the `git` tool (3rd icon down on the left).  You should see the `README.md` file under "Changes".  Mouse over the filename and click the "+" icon.  This means "I want to commit the changes to this file".  When you are editing multiple files in a set of changes, you will do this for each one.  The file will now be listed under "Staged changes".
+2.  Enter a commit message.  This message goes with your change commit and tells others what's in the set of changes.  It should be brief but should identify what's-in-the-box, e.g. "fixed issue #21 where robot would not turn left".  When you've added your message click the checkmark icon to finish committing your changes.
+3.  Your committed changes are only added to your _local_ copy of the repository at this point.  To share them with the team, you need to `push` the changes up to the origin.  Click the ellipsis icon (to the right of the checkmark) and select "push" to push your changes up.  You might need to enter your password from when you set up your SSH keys.  This is **not** your Github password, it's the one you protected your private key with.
 
-If all goes well, your branch will be pushed up to GitHub!  Go to the project on GitHub, click on the _Code_ tab, then click the "Branch" dropdown - you should see your yourNameOrInitialsNoSpaces branch there, along with your comments.  Notice how you can switch back and forth in the GUI between the *master* branch, your branch, or anyone else's, and see exactly what changed and when.  You can even pull down anyone else's branch and try it out on your own machine:
+If all goes well, your branch will be pushed up to GitHub!  Go to the project on GitHub, click on the _Code_ tab, then click the "Branch" dropdown - you should see your `whatsyername` branch there, along with your comments.  Notice how you can switch back and forth in the GUI between the *master* branch, your branch, or anyone else's, and see exactly what changed and when.  magic!  You can submit a "Pull Request" when you want your branch merged into the _master_ branch (meaning "put this in the robot's software for realsies").
 
-```
-# this fetches all the remote branches to your local machine
-$ git fetch --all
-$ git checkout someOtherPersonsBranch
-```
+Note that you can create as many branches as you want on your local machine and switch back and forth between them - in case you want to try something out or hack around, without affecting your "main" code.  
 
-Note you will have to commit changes made to your branch before you can switch to someone else's.  But then you can switch back again, and all your changes are restored like magic!
+Rules on "pull requests":
 
-TODO - section how to request that someone merge your branch into the master branch.  This is TBD because we still need to establish our code review and merge process _where we test and check each other's work before letting it on the robot!_
+*  all pull requests into master need to be code-reviewed and approved by another team member before they can be merged (Github will enforce this)
+*  you should make sure to "pull" changes from the master into your branch often, especially just before you are pushing up code that you intend to be merged via a pull request.  In the shell just do `git pull origin master` in your branch to pull any changes.  If you get CONFLICT warnings ask for help on slack.  We'll cross that bridge when we come to it!
 
 ## Running your code
 
