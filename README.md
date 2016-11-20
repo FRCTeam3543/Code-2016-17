@@ -2,6 +2,10 @@
 
 This README is written in [Markdown](https://daringfireball.net/projects/markdown/syntax)
 
+## Other Documentation
+
+* [Sensor inventory](sensor_inventory.md)
+
 ## Getting started
 
 To make it easier to get going and make sure everyone is coding in the same environment, we are using a tool called *VirtualBox* that runs a *virtual machine* (like a computer-within-a-computer) that runs a standard environment.  It uses an operating system called Linux that is the same one the robot uses and will have all the right tools and libraries already installed.  To use this you will need a decent computer with at least 4GB of memory (8GB would be best) and at least 20GB of free disk space.
