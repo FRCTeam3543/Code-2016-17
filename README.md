@@ -2,6 +2,10 @@
 
 This README is written in [Markdown](https://daringfireball.net/projects/markdown/syntax)
 
+*FIRST FIRST FIRST*!!!  READ THIS!
+
+If you do not read this and follow the steps in detail, the computer genie will not grant *any* of your wishes.  Read it *carefully*!
+
 ## Other Documentation
 
 * [Sensor inventory](sensor_inventory.md)
@@ -181,15 +185,15 @@ Rules on "pull requests":
 
 ## Running your code
 
-OK, so let's try some robot code.  In the shell, type:
+OK, so let's try some example robot code.  In the shell, type:
 
 ```
 # unless you are already in the right folder
-$ cd ~/Code
-$ ./experiments/RobotPy/robot.py
+$ cd ~/Code/Code-2016-17
+$ ./frc-simulate experiments/RobotPy/robot.py
 ```
 
-This should run a sample robot using the RobotPy toolkit.  To stop the running robot, use *Ctrl-C* in the shell (that's what you do to stop anything that is running in the shell BTW).
+This should run a sample robot using the RobotPy simulator.  To stop the running robot, use *Ctrl-C* in the shell (that's what you do to stop anything that is running in the shell BTW).
 
 ## Woohoo?
 
