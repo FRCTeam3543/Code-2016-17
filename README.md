@@ -12,7 +12,11 @@ If you do not read this and follow the steps in detail, the computer genie will 
 
 ## Getting started
 
-To make it easier to get going and make sure everyone is coding in the same environment, we are using a tool called *VirtualBox* that runs a *virtual machine* (like a computer-within-a-computer) that runs a standard environment.  It uses an operating system called Linux that is the same one the robot uses and will have all the right tools and libraries already installed.  To use this you will need a decent computer with at least 4GB of memory (8GB would be best) and at least 20GB of free disk space.
+This section now includes instructions for running the tools on Windows as well as the Ubuntu Linux virtual machine.  Use whichever one you (and your computer) feel more comfortable with.  
+
+### Using the Linux VM
+
+To make it easier to get going and make sure everyone is coding in the same environment, we can use a tool called *VirtualBox* that runs a *virtual machine* (like a computer-within-a-computer) that runs a standard environment.  It uses an operating system called Linux that is the same one the robot uses and will have all the right tools and libraries already installed.  To use this you will need a decent computer with at least 4GB of memory (8GB would be best) and at least 20GB of free disk space. If your computer doesn't meet these requirements you can skip to the "Using Windows" section below.
 
 Specifically the Linux VM includes:
 
@@ -21,12 +25,12 @@ Specifically the Linux VM includes:
 *  Tools for managing your source code [Git](http://git-scm.com)
 *  Tools for building (putting together) and deploying (sending to robot) robot code in Java and [Python](http://python.org), namely the [RobotPy](https://robotpy.github.io/) and [pyfrc](http://pyfrc.readthedocs.io/en/latest/) toolkits.
 
-### Make sure you have the required software and accounts
+#### Make sure you have the required software and accounts
 
 *  Download and install VirtualBox from http://virtualbox.org .  This allows your PC to host the _virtual machine_.
 *  Make sure you have created an account for yourself on http://github.com  and that you have been added to the [FRCTeam3543](https://github.com/FRCTeam3543) team. 
 
-### Import the virtual machine
+#### Import the virtual machine
 
 *  A snapshot of the virtual machine is located in the team Google Drive folder in the file called LinuxVM/FRCLinux.vdi .  Download this file to your computer (it will take a while it's pretty big!  We have it on a USB key in the lab as well if you're having trouble with the school WiFi)
 *  Double-click the file to import and launch the virtual machine.  You should see a new GUI start up with a fancy new desktop.  This is your new Linux VM running inside your computer.  It's a completely separate computer, so don't expect to see its files or folders in your usual file manager.  Hit the right Ctrl key and F to toggle your Linux VM to and from full-screen mode.
@@ -37,15 +41,33 @@ Notice that you can _Pause_ and _Resume_ your VM.  That means when you are not u
 
 When the VM has finished loading you will see a prompt to log in as "FRC Student".  We've made things easy by setting up a single user account that you will customize.  The password for the account is shared in the lab.  You can change it if you want once you log in to your desktop.
 
-### Setting up your VM to work with your GitHub account
+### Using Windows
+
+If you would rather just work natively in Windows, that will work too.  Here is a list of software you need to install (the usual windows way, please accept all the defaults):
+
+* [Git for windows](https://git-scm.com/download/win) - this includes a "Terminal" called *git-bash* that you will use anywhere you see *Terminal* below.
+* [Visual Studio Code](https://code.visualstudio.com/download) - this is your code editor for RobotPy code
+* [Python for windows](https://www.python.org/downloads/release/python-352/) - this is the python programming languages.  **Important** when you install python make sure "Add Python 3.5 to PATH" is checked.  It is not checked by default.
+
+In your Start &gt; Programs list, find the "Git bash" application under "Git" and launch it.  Pin this to your taskbar as you will need to use it a lot.
+
+### Setting up your VM (or Windows) to work with your GitHub account
+
+The "shell" is a terminal window where you can type and run commands.  It seems kind of low-level compared to what you are probably used to, but it is an essential and powerful tool that all programmers rely on.
+
+#### On Linux - open a shell
 
 Click the "Terminal" icon on the left menu of the desktop.  It's a "shell", a window where you can type in low-level commands.  As a programmer you'll come to appreciate how much more powerful and awesome this is compared to a GUI, though it might not seem like it at first!  I'm just going to refer to it as "the shell" from now on.  You'll use it a lot while programming the robot, for deploying code and talking to GitHub.
+
+#### On Windows 10 - open a shell
+
+In your Start &gt; Programs list, find the "Git bash" application under "Git" and launch it.  Pin this to your taskbar as you will need to use it.   *Note* if you are more comfortable with it you can also use Windows PowerShell, however to keep things consistent in this README the following will use git bash.
 
 **NOTE in all the shell command samples below the `$ ` is there to indicate the prompt, you don't type it, you type everything _after_ it on the line.  You can also copy and paste commands into the shell.**
 
 To talk to the repository on GitHub, you need to generate a pair of keys so that your computer can securely send and retrieve files from GitHub using a secure protocol called SSH. GitHub Here's how to do that:
 
-1.  Open the shell.
+1.  Open the shell as per above.
 2.  At the shell prompt, type `ssh-keygen` and hit &lt;enter&gt;.  Accept all the default choices, *including agreeing to overwrite any existing key* (that one was created when the VM user account was set up and you want a new, personalized one).  Don't forget the password you choose!  It's not the same as your GitHub password, you can make it anything you want.  
 3.  After your key pair is generated, at the shell prompt, type `cat ~/.ssh/id_rsa.pub`.  This will display your newly-generated _public key_.  You need to give this key to GitHub, so that when `git` encrypts the data you send to GitHub using your _private key_, GitHub can decrypt it using your _public key_ so it's not just encrypted gibberish!  Select the entire key text and hit Ctrl-Shift-C or Edit > Copy from the menu to copy the key to the clipboard.  **IMPORTANT**  - you need to copy the text in `id_rsa.pub` *not* `id_rsa`.  The second one is your *private key*, which is the "other half" *private key* of this key pair.  It needs to stay private to *you* only, don't copy it around or share it with anyone.  The `.pub` one is the "public half" of the key which is shared with others (like GitHub) so it can decrypt data you have encrypted with your private half of the key.
 4.  Launch GitHub.com in your web browser (Firefox on the Ubuntu VM) and log in using the GitHub account you set up earlier.  Click on your avatar at top right, then choose "Settings" from the drop-down menu.
@@ -114,6 +136,15 @@ student@team3543linux:~/Code/Code-2016-17$ git pull origin master
 From github.com:FRCTeam3543/Code-2016-17
  * branch            master     -> FETCH_HEAD
 Already up-to-date.
+
+```
+
+4.  Make sure the corret Python libraries are installed on your system - these are the [RobotPy](https://robotpy.github.io/) and [pyfrc](https://github.com/robotpy/pyfrc) libraries
+
+From the shell, still in the Code-2016-17/ folder:
+
+```
+$ pip3 install -r requirements.txt
 ```
 
 5.  Launch Visual Studio Code from the left menu and open your new `Code-2016-17` using File &gt; Open.  Or, from your shell do it the fast nerd way.  The following command means "launch visual studio code in _this_ folder" (the `.` means "this folder"):
@@ -190,10 +221,15 @@ OK, so let's try some example robot code.  In the shell, type:
 ```
 # unless you are already in the right folder
 $ cd ~/Code/Code-2016-17
-$ ./frc-simulate experiments/RobotPy/robot.py
+# change to the experiments sub-folder
+$ cd experiments
+# Run the experiment in the simulator - this is for Windows`
+$ python robot.py sim
+# For Linux:
+$ python3 robot.py sim
 ```
 
-This should run a sample robot using the RobotPy simulator.  To stop the running robot, use *Ctrl-C* in the shell (that's what you do to stop anything that is running in the shell BTW).
+This should run a sample robot using the RobotPy simulator.  Click "autonomous" in the GUI to see it navigate the maze.  To stop the running robot, use *Ctrl-C* in the shell (that's what you do to stop anything that is running in the shell BTW) or close the GUI.
 
 ## Woohoo?
 
