@@ -45,7 +45,7 @@ When the VM has finished loading you will see a prompt to log in as "FRC Student
 
 If you would rather just work natively in Windows, that will work too.  Here is a list of software you need to install (the usual windows way, please accept all the defaults):
 
-* [Git for windows](https://git-scm.com/download/win) - this includes a "Terminal" called *git-bash* that you will use anywhere you see *Terminal* below.
+* [Git for windows](https://git-scm.com/download/win) - this includes a "Terminal" called *git-bash* that you will use anywhere you see *Terminal* below.  If you like graphical then [Git Desktop](https://desktop.github.com/) is also useful.
 * [Visual Studio Code](https://code.visualstudio.com/download) - this is your code editor for RobotPy code
 * [Python for windows](https://www.python.org/downloads/release/python-352/) - this is the python programming languages.  **Important** when you install python make sure "Add Python 3.5 to PATH" is checked.  It is not checked by default.
 
