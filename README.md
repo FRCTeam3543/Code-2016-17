@@ -22,6 +22,7 @@ Here is a list of software you need to install (the usual windows way, please ac
 * [Python for windows](https://www.python.org/downloads/release/python-352/) - this is the python programming languages.  **Important** when you install python make sure "Add Python 3.5 to PATH" is checked.  It is not checked by default.
 * [Slack](https://slack.com/downloads) is for team chat.  You can also run it in a web browser.  You should have received an invitation to our slack group, if not talk to Mr. Cudmore.
 
+
 ### Setting up Windows to work with your GitHub account
 
 1.  Open GitHub Desktop
