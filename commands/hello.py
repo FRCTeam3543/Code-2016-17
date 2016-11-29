@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from common import Team3543Robot
+from team3543 import Team3543Robot
 import wpilib
 
 class MyRobot(Team3543Robot):
