@@ -110,8 +110,7 @@ Now that you are working on your branch, open this `README.md` file in Visual St
 
 ```
 (Everyone type their first name or initials below this line in the README as an exercise)
-MK was here 
-Ronan
+MK was here
 
 ```
 
