@@ -121,7 +121,8 @@ class Driveline(command.Subsystem):
         return self.gyro.getAngle()
 
     def drive(self, l, r):
-        self.robot_drive.tankDrive(l, r)        
+        self.robot_drive.tankDrive(l, r)
+
     def turn_left(self):
         self.drive(0.5, -0.5)
 
