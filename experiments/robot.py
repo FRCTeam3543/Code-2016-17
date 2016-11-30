@@ -5,30 +5,19 @@ import wpilib.command as command
 
 class MyRobot(wpilib.IterativeRobot):
     '''Main robot class'''
-    
+
     def robotInit(self):
         '''Robot-wide initialization code should go here'''
         # Left-hand stick Y controls left side motor
         self.lstick = wpilib.Joystick(0)
         # Left-hand stick Z controls right side motor
         self.rstick = wpilib.Joystick(1)
-        # self.l_motor = wpilib.Jaguar(1)
-        # self.r_motor = wpilib.Jaguar(2)
-
-        # Position gets automatically updated as robot moves
-        # self.gyro = wpilib.AnalogGyro(1)
-
-        # self.robot_drive = wpilib.RobotDrive(self.l_motor, self.r_motor)
         self.driveline_subsystem = Driveline(self)
-        # self.motor = wpilib.Jaguar(4)
 
         self.limit1 = wpilib.DigitalInput(1)
         self.limit2 = wpilib.DigitalInput(2)
 
         self.position = wpilib.AnalogInput(2)
-
-        # timer to time things
-        self.timer = wpilib.Timer()
 
         self.autonomous_command = NavigateMaze(self)
 
@@ -42,32 +31,7 @@ class MyRobot(wpilib.IterativeRobot):
 
     def autonomousPeriodic(self):
         command.Scheduler.getInstance().run()
-        # t = self.timer.get()
-        # g = self.gyro.getAngle()
-        # print("Gyro is {0}".format(g))
-        # if g > -90.0:
-        #     self.robot_drive.tankDrive(1.0, -1.0) # turn left
-        # elif t < 3.0:
-        #     self.robot_drive.tankDrive(-1.0, -1.0) # go straight
-        # elif g < 0:
-        #     self.robot_drive.tankDrive(-1.0, 1.0) # go right
-        # elif t < 4.0:
-        #     self.robot_drive.tankDrive(-1.0, -1.0) # go right            
-        # elif g < 90:
-        #     self.robot_drive.tankDrive(-1.0, 1.0) # go right            
-        # elif t < 7.0:
-        #     self.robot_drive.tankDrive(-1.0, -1.0) # go right                        
-        # else:
-        #     self.robot_drive.arcadeDrive(0,0) # stop            
 
-        # pass
-        # if timer.get() < 2.0:
-        # else:
-        #     self.robot_drive.arcadeDrive(0, 0)
-        # wpilib.Timer.delay(0.01)
-        # self.robot_drive.arcadeDrive(-1.0, -.3)
-
-        
     def teleopInit(self):
         pass
 
@@ -75,25 +39,9 @@ class MyRobot(wpilib.IterativeRobot):
         '''Called when operation control mode is enabled'''
         self.driveline_subsystem.drive(self.lstick, self.rstick)
 
-        # Move a motor with a Joystick
-        # left_y = self.rstick.getY()
-        # right_y = self.lstick.getY()
-
-        # stop movement backwards when 1 is on
-        # if self.limit1.get():
-        #     left_y = max(0, left_y)
-        #     right_y = max(0, right_y)
-
-        # stop movement forwards when 2 is on
-        # if self.limit2.get():
-        #     left_y = min(0, left_y)
-        #     right_y = min(0, right_y)
-        # self.l_motor.set(left_y)
-        # self.l_motor.set(right_y)
-#        self.motor.set(y)
-
 class NavigateMaze(command.CommandGroup):
-    '''Navigate the maze'''
+    '''Command group to navigate the maze'''
+
     def __init__(self, robot, name=None):
         super().__init__(name=name)
         self.requires(robot.driveline_subsystem)
@@ -111,10 +59,10 @@ class NavigateMaze(command.CommandGroup):
 
     def end(self):
         print("ENDING")
-        self.robot.driveline_subsystem.stop()        
+        self.robot.driveline_subsystem.stop()
 
 class TurnCommand(command.Command):
-    '''Make the robot turn'''
+    '''Makes the robot turn'''
     def __init__(self, robot, name=None, timeout=None, amount=90.0):
         super(TurnCommand, self).__init__(name=name, timeout=timeout)
         self.robot = robot
@@ -139,14 +87,14 @@ class TurnCommand(command.Command):
             self.robot.driveline_subsystem.turn_right()
 
 class GoStraightCommand(command.Command):
-    '''Go Straight ahead'''
+    '''Makes the robot go Straight ahead for a certain number of seconds'''
     def __init__(self, robot, name=None, timeout=None, time=4.0):
         super().__init__(name=name, timeout=timeout)
         self.timer = wpilib.Timer()
         self.duration = time
         self.startTime = 0
         self.robot = robot
-    
+
     def initialize(self):
         print("Going Straight")
         self.timer.start()
@@ -159,7 +107,7 @@ class GoStraightCommand(command.Command):
         return (self.timer.get() - self.startTime) >= self.duration
 
 class Driveline(command.Subsystem):
-    '''Driveline subsystem'''
+    '''Driveline subsystem controls the motors and has the Gyro for heading'''
     def __init__(self, robot, name=None):
         '''Initialize'''
         super().__init__(name=name)
@@ -169,16 +117,11 @@ class Driveline(command.Subsystem):
         self.right_motor = wpilib.Jaguar(2)
         self.robot_drive = wpilib.RobotDrive(self.left_motor, self.right_motor)
 
-    def initialize(self, robot):
-        """Docstring"""
-        pass
-
     def getHeading(self):
         return self.gyro.getAngle()
 
     def drive(self, l, r):
         self.robot_drive.tankDrive(l, r)        
-
     def turn_left(self):
         self.drive(0.5, -0.5)
 
@@ -193,6 +136,7 @@ class Driveline(command.Subsystem):
         self.drive(0,0)
         self.robot_drive.stopMotor()
     
+# If this file is called as a script, this runs the robot using wpilib
 if __name__ == '__main__':
     wpilib.run(MyRobot, physics_enabled=True)
 
