@@ -46,16 +46,16 @@ class NavigateMaze(command.CommandGroup):
         super().__init__(name=name)
         self.requires(robot.driveline_subsystem)
         self.robot = robot
-        self.addSequential(TurnCommand(robot, amount=-90.0))
-        self.addSequential(GoStraightCommand(robot, time=2.5))
-        self.addSequential(TurnCommand(robot, amount=90.0))
-        self.addSequential(GoStraightCommand(robot, time=2.5))
-        self.addSequential(TurnCommand(robot, amount=90.0))
-        self.addSequential(GoStraightCommand(robot, time=2.5))
-        self.addSequential(TurnCommand(robot, amount=-90.0))
-        self.addSequential(GoStraightCommand(robot, time=2.0))
-        self.addSequential(TurnCommand(robot, amount=-90.0))
-        self.addSequential(GoStraightCommand(robot, time=2.0))
+        # self.addSequential(TurnCommand(robot, amount=-90.0))
+        # self.addSequential(GoStraightCommand(robot, time=2.5))
+        # self.addSequential(TurnCommand(robot, amount=90.0))
+        # self.addSequential(GoStraightCommand(robot, time=2.5))
+        # self.addSequential(TurnCommand(robot, amount=90.0))
+        # self.addSequential(GoStraightCommand(robot, time=2.5))
+        # self.addSequential(TurnCommand(robot, amount=-90.0))
+        # self.addSequential(GoStraightCommand(robot, time=2.0))
+        # self.addSequential(TurnCommand(robot, amount=-90.0))
+        # self.addSequential(GoStraightCommand(robot, time=2.0))
 
     def end(self):
         print("ENDING")
@@ -124,14 +124,14 @@ class Driveline(command.Subsystem):
         self.robot_drive.tankDrive(l, r)
 
     def turn_left(self):
-        self.drive(0.5, -0.5)
+        self.drive(0.3, -0.3)
 
     def turn_right(self):
-        self.drive(-0.5, 0.5)
+        self.drive(-0.3, 0.3)
 
     def drive_forward(self):
         '''Drive the robot forward for a time'''
-        self.drive(-1,-1)
+        self.drive(-0.3,-0.3)
     
     def stop(self):
         self.drive(0,0)
