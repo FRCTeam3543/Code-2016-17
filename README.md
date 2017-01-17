@@ -19,9 +19,8 @@ Here is a list of software you need to install (the usual windows way, please ac
 
 * [GitHub Desktop](https://desktop.github.com/) allows you to interact with GitHub where we store and collaborate on the code.  Also make sure you have a GitHub user account and you have been added to FRCTeam3543.
 * [Visual Studio Code](https://code.visualstudio.com/download) - this is your code editor for writing RobotPy code
-* [Python for windows](https://www.python.org/downloads/release/python-352/) - this is the python programming languages.  **Important** when you install python make sure "Add Python 3.5 to PATH" is checked.  It is not checked by default.
+* [Python for windows](https://www.python.org/downloads/release/python-352/) - this is the python programming languages.  On the linked page you need to scroll down to the "Files" section and download the version appropriate for your computer.  "Windows x86-64 executable installer" is probably the one you want for most newer Windows computers.  Netbooks may require "Windows x86 executable installer".  **Important** when you install python make sure "Add Python 3.5 to PATH" is checked.  It is not checked by default.  Note that when python is installed, it simply associates the `.py` file extension with the python language interpreter - you won't see a new desktop icon or program entry created.
 * [Slack](https://slack.com/downloads) is for team chat.  You can also run it in a web browser.  You should have received an invitation to our slack group, if not talk to Mr. Cudmore.
-
 
 ### Setting up Windows to work with your GitHub account
 
@@ -68,7 +67,7 @@ Next, find this text in the file and complete the following:
 (In the editor, everyone type their first name or initials below this line in the README as an exercise)
 MK was here 
 Ronan
-
+Mr C Present
 ```
 
 Now, save the file using File > Save or Ctrl+S.  In Visual Studio Code, you will notice your changes are tracked with a little notification on the git icon in the left sidebar (3rd icon from the top).  Click it and you will get a git menu.  Hover over the README.md file and click the "+" button to tell git you want to commit your change.  Now type a short message about your changes (e.g: "added my name to the list") and click the _checkmark_ icon to commit your changes.  
