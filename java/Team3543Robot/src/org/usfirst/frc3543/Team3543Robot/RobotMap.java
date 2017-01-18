@@ -59,6 +59,8 @@ public class RobotMap {
         driveLineRobotDrive.setMaxOutput(1.0);
         driveLineRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
         driveLineRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+        driveLineRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+        driveLineRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         driveLineAnalogGyro1 = new AnalogGyro(1);
         LiveWindow.addSensor("DriveLine", "AnalogGyro 1", driveLineAnalogGyro1);
         driveLineAnalogGyro1.setSensitivity(0.007);
