@@ -58,8 +58,8 @@ public class GripPipeline implements VisionPipeline {
 
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = blurOutput;
-		double[] hsvThresholdHue = {0.0, 180.0};
-		double[] hsvThresholdSaturation = {0.0, 255.0};
+		double[] hsvThresholdHue = {0.3710927673396842, 124.31048670673368};
+		double[] hsvThresholdSaturation = {0.0, 162.7020202020202};
 		double[] hsvThresholdValue = {137.58992805755395, 255.0};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
@@ -79,7 +79,7 @@ public class GripPipeline implements VisionPipeline {
 
 		// Step Find_Blobs0:
 		Mat findBlobsInput = maskOutput;
-		double findBlobsMinArea = 50.0;
+		double findBlobsMinArea = 100.0;
 		double[] findBlobsCircularity = {0.30081607954752637, 0.7895622895622896};
 		boolean findBlobsDarkBlobs = false;
 		findBlobs(findBlobsInput, findBlobsMinArea, findBlobsCircularity, findBlobsDarkBlobs, findBlobsOutput);

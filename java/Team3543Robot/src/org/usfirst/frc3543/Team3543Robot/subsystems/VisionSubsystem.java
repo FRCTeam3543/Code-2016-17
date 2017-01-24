@@ -35,6 +35,11 @@ public class VisionSubsystem extends Subsystem {
 	public static final double TARGET_ANGLE = 5/180 * Math.PI;
 	public static final double TARGET_SIZE_DIFF = 0.9; // 90% same size
 	public static final double TARGET_RELATIVE_DISTANCE = 2; // distance between centers as percentage of average diameter
+	
+	// image pipline - width/height
+	public static final int IMAGE_WIDTH = 160;
+	public static final int IMAGE_HEIGHT = 100;
+	
 	VisionThread visionThread;
 	// The object to synchronize on to make sure the vision thread doesn't
     // write to variables the main thread is using.
@@ -45,19 +50,40 @@ public class VisionSubsystem extends Subsystem {
     private GearDrop foundGearDrop = null;
     
     public static class GearDrop {
-    	public KeyPoint left;
+    	public KeyPoint left;						
     	public KeyPoint right;
-    	public double angleToGround;
-    	public double sizeDiff;
-    	public double ratioOfDistanceToDiameter;
     	
+    	public double angleToGround;				// angle of the line from center-a to center-b
+    	public double sizeDiff;						// ratio of smallest to largest circle
+    	public double leftRightSizeDiff;			// ratio of size of leftmost blob to rightmost
+    	public double ratioOfDistanceToDiameter;	// ratio of distance between centers to average diameter
+    	public double averageDiameter;				// average circle diameter
+		public long offset[] = {0,0};						// how far left or right 
+		public long[] gearDropPoint = {0,0};			// point where gear drop is
+		
     	GearDrop(KeyPoint a, KeyPoint b) {
-    		left = a;
-    		right = b;
-    		
-    		angleToGround = computeAngleToGround(a, b);
-    		sizeDiff = computeSizeDiff(a, b);
-    		ratioOfDistanceToDiameter = computeRatioOfDistanceToDiameter(a, b);
+    		// leftmost one is the one with the leftmost x
+    		if (a.pt.x < b.pt.x) {
+        		left = a;
+        		right = b;    			
+    		}
+    		else {
+    			left = b;
+    			right = a;
+    		}
+    		recompute();
+    	}
+
+    	public void recompute() {
+    		angleToGround = computeAngleToGround(left, right);
+    		sizeDiff = computeSizeDiff(left, right);
+    		averageDiameter = (left.size + right.size) / 2;
+    		leftRightSizeDiff = computeLeftRightSizeDiff(left, right);
+    		ratioOfDistanceToDiameter = computeRatioOfDistanceToDiameter(left, right);
+    		gearDropPoint[0] = Math.round(right.pt.x + left.pt.x)/2;
+    		gearDropPoint[1] = Math.round(right.pt.y + left.pt.y)/2;
+    		offset[0] = gearDropPoint[0] - (IMAGE_WIDTH/2);
+    		offset[1] = gearDropPoint[1] - (IMAGE_HEIGHT/2);
     	}
     	
     	/**
@@ -92,6 +118,17 @@ public class VisionSubsystem extends Subsystem {
     			return b.size / a.size;
     		}
     	}
+    	
+    	
+    	/**
+    	 * 
+    	 * @param a
+    	 * @param b
+    	 * @return
+    	 */
+    	public static double computeLeftRightSizeDiff(KeyPoint a, KeyPoint b) {    		
+			return a.size / b.size;    		
+    	}    	
     	
     	public static double computeRatioOfDistanceToDiameter(KeyPoint a, KeyPoint b) {
     		double avg_diameter = (a.size + b.size) / 2;
@@ -142,9 +179,10 @@ public class VisionSubsystem extends Subsystem {
 			// go thru each item.  Look at the items after it.  See if you find two blobs in a straight horizontal line
 			for (i = 0; i<arr.length; i++) {
 				for (j=i+1; j<arr.length; j++) {
-					double angleToGround = GearDrop.computeAngleToGround(arr[i], arr[j]);
-					double sizeDiff = GearDrop.computeSizeDiff(arr[i], arr[j]);
 					
+//					double angleToGround = GearDrop.computeAngleToGround(arr[i], arr[j]);
+//					double sizeDiff = GearDrop.computeSizeDiff(arr[i], arr[j]);
+					// this is more efficient - when things don't match only the first equation will eval
 					if (	Math.abs(GearDrop.computeAngleToGround(arr[i], arr[j])) <= TARGET_ANGLE  	// relatively flat
 							&& GearDrop.computeSizeDiff(arr[i], arr[j]) >= TARGET_SIZE_DIFF				// same size blobs
 							&& isApproximately(GearDrop.computeRatioOfDistanceToDiameter(arr[i], arr[j]), TARGET_RELATIVE_DISTANCE, 0.1)	// relative distance +/- percent
