@@ -8,18 +8,18 @@ If you do not read this and follow the steps in detail, the computer genie will 
 
 ## Other Documentation
 
-* There is new, [JAVA-specific documentation](java/README.md).
-* We moved the [python README](python/README.md).  We are working in Java for now b/c the 2017 changes have not been ported to python yet.  
+* [Sensor inventory](sensor_inventory.md)
+* [OLD README](OLD_README.md) is the original, more complicated README that shows you how to install the Linux VM use it if you don't want to work in Windows 
 
 ## Getting started
 
 ### Install the software 
 
-Here is a list of software you need to install for Java development (the usual windows way, please accept all the defaults):
+Here is a list of software you need to install (the usual windows way, please accept all the defaults):
 
 * [GitHub Desktop](https://desktop.github.com/) allows you to interact with GitHub where we store and collaborate on the code.  Also make sure you have a GitHub user account and you have been added to FRCTeam3543.
-* [Visual Studio Code](https://code.visualstudio.com/download) - this is a great code editor for editing some types of files
-* [Tools for FRC Java Programming](http://wpilib.screenstepslive.com/s/4485/m/13809) - this is your IDE for writing Java code
+* [Visual Studio Code](https://code.visualstudio.com/download) - this is your code editor for writing RobotPy code
+* [Python for windows](https://www.python.org/downloads/release/python-352/) - this is the python programming languages.  On the linked page you need to scroll down to the "Files" section and download the version appropriate for your computer.  "Windows x86-64 executable installer" is probably the one you want for most newer Windows computers.  Netbooks may require "Windows x86 executable installer".  **Important** when you install python make sure "Add Python 3.5 to PATH" is checked.  It is not checked by default.  Note that when python is installed, it simply associates the `.py` file extension with the python language interpreter - you won't see a new desktop icon or program entry created.
 * [Slack](https://slack.com/downloads) is for team chat.  You can also run it in a web browser.  You should have received an invitation to our slack group, if not talk to Mr. Cudmore.
 
 ### Setting up Windows to work with your GitHub account
@@ -35,7 +35,17 @@ Here is a list of software you need to install for Java development (the usual w
 
 1.  Open your file manager and browser to the folder where Code-2016-17 was cloned in the previous steps (the "Clone path").
 1.  Right click the Code-2016-17 folder and select "Open with Code".  This launches the project in Visual Studio Code.
-1.  See specific language instructions in the [python](python/) and [java](java/) folders.
+1.  Make sure all the `RobotPy` and `pyfrc` libraries are installed.  Without these you won't be able to run your code.  Right click the `setup.bat` file and select "Open in Command Prompt".  A command prompt will open.  Type `setup` and hit *Enter*.  Watch for errors in the output.  You can close this window once it is finished.
+
+### Running your code
+
+The default repository contains a very basic experiment `robotpy` script using to navigate a simulated maze.  To run it, do the following:
+
+1.  In Visual Studio Code, open the `experiments` folder using the file browser on the left.
+1.  Right-click the `robot.py` file or the `experiments` folder and select "Open in command prompt"
+1.  At the prompt, type `python robot.py sim`.  The robot simulator GUI should appear.  Click "Automonous" and watch it navigate the maze!
+
+You can run your code in the simulator using a similar technique.
 
 ### Making changes to code
 
@@ -57,7 +67,6 @@ Next, find this text in the file and complete the following:
 (In the editor, everyone type their first name or initials below this line in the README as an exercise)
 MK was here 
 Ronan
-MichaelC
 Mr C Present
 ```
 
@@ -91,4 +100,6 @@ Did you get this far?  Go on #general in slack and type WOOHOO!!  Or, if you got
 ## More tools and resources
 
 *  `git` will be your best friend and is a key tool nearly all professional programmers use (alas, some are forced to use crappier competitor's tools).  Here are some more resources describing all the cool things it can do: [git - the simple guide](http://rogerdudler.github.io/git-guide/) and [Git Beginners Guide for Dummies](https://backlogtool.com/git-guide/en/).
-* [2017 FRC Control System](http://wpilib.screenstepslive.com/s/4485) is the official guide for getting going
+*  [Learn Python](http://www.learnpython.org/) has a great, hands-on tutorial for learning the Python programming language.  You type your code in a window in the browser and it checks your work.  Do it!
+*  [RobotPy Documentation](https://robotpy.github.io/)
+*  [pyfrc Documentation](http://pyfrc.readthedocs.io/en/stable/)
