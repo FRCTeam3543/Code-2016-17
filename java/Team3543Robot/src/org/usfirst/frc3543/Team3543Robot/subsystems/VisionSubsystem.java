@@ -35,6 +35,7 @@ public class VisionSubsystem extends Subsystem {
 	public static final double TARGET_ANGLE = 5/180 * Math.PI;
 	public static final double TARGET_SIZE_DIFF = 0.9; // 90% same size
 	public static final double TARGET_RELATIVE_DISTANCE = 2; // distance between centers as percentage of average diameter
+	public static final long TARGET_CENTER_SPAN = 90; // TODO pixels, move to RobotMap or some vision constants file
 	
 	// image pipline - width/height
 	public static final int IMAGE_WIDTH = 160;
@@ -59,6 +60,7 @@ public class VisionSubsystem extends Subsystem {
     	public double ratioOfDistanceToDiameter;	// ratio of distance between centers to average diameter
     	public double averageDiameter;				// average circle diameter
 		public long offset[] = {0,0};						// how far left or right 
+		public long centerSpanInPixels = 0;
 		public long[] gearDropPoint = {0,0};			// point where gear drop is
 		
     	GearDrop(KeyPoint a, KeyPoint b) {
@@ -82,6 +84,7 @@ public class VisionSubsystem extends Subsystem {
     		ratioOfDistanceToDiameter = computeRatioOfDistanceToDiameter(left, right);
     		gearDropPoint[0] = Math.round(right.pt.x + left.pt.x)/2;
     		gearDropPoint[1] = Math.round(right.pt.y + left.pt.y)/2;
+    		centerSpanInPixels = Math.round(Math.sqrt(Math.pow(right.pt.x-left.pt.x,2)+Math.pow(right.pt.y-left.pt.y, 2)));
     		offset[0] = gearDropPoint[0] - (IMAGE_WIDTH/2);
     		offset[1] = gearDropPoint[1] - (IMAGE_HEIGHT/2);
     	}

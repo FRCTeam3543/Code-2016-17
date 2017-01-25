@@ -11,7 +11,11 @@
 
 package org.usfirst.frc3543.Team3543Robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.omg.CORBA.portable.ValueInputStream;
 import org.usfirst.frc3543.Team3543Robot.Robot;
+import org.usfirst.frc3543.Team3543Robot.RobotMap;
+import org.usfirst.frc3543.Team3543Robot.subsystems.VisionSubsystem;
 import org.usfirst.frc3543.Team3543Robot.subsystems.VisionSubsystem.GearDrop;
 
 /**
@@ -71,7 +75,8 @@ public class ApproachGearDropCommand extends Command {
     
     private void searchForGearDrop() {
 		// TODO Auto-generated method stub
-		
+		// how do we search?  turn around until we see it?  how fast can we turn?
+    	Robot.driveLine.turnInPlace(RobotMap.GEAR_SEARCH_GAIN);
 	}
 
 	private void abandonSearch() {
@@ -83,6 +88,27 @@ public class ApproachGearDropCommand extends Command {
 		// TODO - figure this out
 		// if we are rotated away from it, rotate towards it
 		// if we are offset, turn towards it, drive towards it		
+		double speed = 0;
+		double curve = 0;
+		
+		// are we too close?  back up		
+		// are we too far? drive towards it
+		// i.e. base speed is proportional to the difference between the target size of the line separating the centers of the two blobs
+		// (smaller is forward, larger is back up)
+		// as a percentage
+		speed =  (VisionSubsystem.TARGET_CENTER_SPAN - gearDrop.centerSpanInPixels) / VisionSubsystem.TARGET_CENTER_SPAN;
+		
+		// is it offset left? turn CCW meaning increase right speed and decrease left		
+		// is it offset right? turn CW meaning increase left speed and decrease right		
+		// max turn speed at 1/4 width
+		curve += Math.max(1, Math.min(-1, - gearDrop.offset[0] / (VisionSubsystem.IMAGE_WIDTH/4) ));
+		
+		// is left side smaller?  turn CW if leftRightSizeDiff < 1
+		// is right side smaller?  turn CCW if leftRightSizeDiff > 1
+		// max turn speed at +/-25%
+		curve += Math.max(1, Math.min(-1, (1 - gearDrop.leftRightSizeDiff) * 4));
+		
+		Robot.driveLine.drive(speed * RobotMap.GEAR_APPROACH_SPEED_GAIN, curve);
 	}
 
 	public void setMaxSearchTime(long time) {
