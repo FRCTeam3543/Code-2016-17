@@ -79,7 +79,16 @@ public class DriveLine extends Subsystem {
     }
     
     
-    public void stop() {
+    public void arcadeDrive(Joystick stick) {
+    	robotDrive.arcadeDrive(stick);
     }
+    
+    public void stop() {
+    	robotDrive.stopMotor();
+    }
+
+	public void init() {
+		robotDrive.setSafetyEnabled(false);
+	}
 }
 

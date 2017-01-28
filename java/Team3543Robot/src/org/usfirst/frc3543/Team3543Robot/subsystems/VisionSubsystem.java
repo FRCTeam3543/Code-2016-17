@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import org.opencv.core.KeyPoint;
 import org.opencv.core.MatOfKeyPoint;
+import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import org.usfirst.frc3543.Team3543Robot.commands.*;
 
@@ -27,14 +28,16 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 import ttfft.vision.*;
 
 /**
- *
+ *  0.8 -1.5  
+ *  0.5
+ *  1.8
  */
 public class VisionSubsystem extends Subsystem {
 	public static final Logger LOGGER = Logger.getLogger(VisionSubsystem.class.getSimpleName());
 	
-	public static final double TARGET_ANGLE = 5/180 * Math.PI;
-	public static final double TARGET_SIZE_DIFF = 0.9; // 90% same size
-	public static final double TARGET_RELATIVE_DISTANCE = 2; // distance between centers as percentage of average diameter
+	public static final double TARGET_ANGLE = 0.17; //10/180 * Math.PI;
+	public static final double TARGET_SIZE_DIFF = 0.7; // 90% same size
+	public static final double TARGET_RELATIVE_DISTANCE = 1.75; // distance between centers as percentage of average diameter
 	public static final long TARGET_CENTER_SPAN = 90; // TODO pixels, move to RobotMap or some vision constants file
 	
 	// image pipline - width/height
@@ -99,11 +102,13 @@ public class VisionSubsystem extends Subsystem {
     		// angle = atan(y2 -  y1)/ (x2 - x1)
     		double xdiff = b.pt.x - a.pt.x;
     		double ydiff = b.pt.y - a.pt.y;
-    		if (xdiff < 0.00000001) {
+    		Robot.log(String.format("[%.3f, %.3f] and [%.3f, %.3f]", a.pt.x, a.pt.y, b.pt.x, b.pt.y));    		
+    		Robot.log("xdiff = "+xdiff+" ydiff = "+ydiff);
+    		if (Math.abs(xdiff) < 0.00000001) {
     			return Math.PI / 2;
     		}
     		else {
-    			return Math.atan(ydiff / xdiff);
+    			return Math.atan(-ydiff / xdiff);
     		}
     	}
     	
@@ -153,12 +158,20 @@ public class VisionSubsystem extends Subsystem {
 			
 			// thread safety
 			synchronized (visionLock) {
+				Robot.log("VISION SUBSYSTEM - pipeline ran");
 				pipelineRan = true;
 				// detect the tape from the Mat
 				MatOfKeyPoint points = pipeline.findBlobsOutput();
 				foundGearDrop = detectGearDrop(points);
 			}
+			try {
+				Thread.sleep(3000);  //TODO take this out
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		});
+		visionThread.start();
 	}
 	
 	public boolean isGearDropDetected() {
@@ -171,9 +184,11 @@ public class VisionSubsystem extends Subsystem {
 	
 	protected GearDrop detectGearDrop(MatOfKeyPoint points) {
 		KeyPoint[] arr = points.toArray();
+		Robot.log("DETECT GEAR DROP have "+arr.length+" blobs");
+		
 		// if there are more than four blobs or less than 2, we don't see anything
 		if (arr.length > 4 || arr.length < 2) {
-			LOGGER.fine("No detection, blobs = "+arr.length);
+			//Robot.log("VISION: No detection, blobs = "+arr.length);
 			return null;
 		}
 		else {
@@ -183,17 +198,25 @@ public class VisionSubsystem extends Subsystem {
 			for (i = 0; i<arr.length; i++) {
 				for (j=i+1; j<arr.length; j++) {
 					
-//					double angleToGround = GearDrop.computeAngleToGround(arr[i], arr[j]);
-//					double sizeDiff = GearDrop.computeSizeDiff(arr[i], arr[j]);
+					// -2.9/-91
+					
+					double angleToGround = GearDrop.computeAngleToGround(arr[i], arr[j]);
+					double sizeDiff = GearDrop.computeSizeDiff(arr[i], arr[j]);
+					double d2d = GearDrop.computeRatioOfDistanceToDiameter(arr[i], arr[j]);
+					boolean approx = isApproximately(d2d, TARGET_SIZE_DIFF, 0.25);
+					
+					Robot.log("Angle to ground "+angleToGround+" sizeDiff "+sizeDiff+" D2D = "+d2d+" -- "+approx);
 					// this is more efficient - when things don't match only the first equation will eval
 					if (	Math.abs(GearDrop.computeAngleToGround(arr[i], arr[j])) <= TARGET_ANGLE  	// relatively flat
 							&& GearDrop.computeSizeDiff(arr[i], arr[j]) >= TARGET_SIZE_DIFF				// same size blobs
 							&& isApproximately(GearDrop.computeRatioOfDistanceToDiameter(arr[i], arr[j]), TARGET_RELATIVE_DISTANCE, 0.1)	// relative distance +/- percent
 							) {					
+						Robot.log("!!!!!!!!!!!!!!!!!!! FOUND THE GEAR DROP !!!!!!!!!!!!!!!!!!!!!!!");
 						return new GearDrop(arr[i], arr[j]);					
 					}
 				}
 			}			
+			Robot.log("NOPE.  No gear drop");
 		}
 		return null;
 	}
@@ -205,8 +228,8 @@ public class VisionSubsystem extends Subsystem {
 
 	
 	public void init() {
-		CameraServer cs = CameraServer.getInstance();
-		cs.startAutomaticCapture(RobotMap.USB_CAMERA_PORT);
+//		CameraServer cs = CameraServer.getInstance();
+//		cs.startAutomaticCapture(RobotMap.USB_CAMERA_PORT);
 	}
 	
 	/**

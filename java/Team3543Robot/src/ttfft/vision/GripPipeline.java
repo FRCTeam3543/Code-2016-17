@@ -45,8 +45,8 @@ public class GripPipeline implements VisionPipeline {
 	@Override	public void process(Mat source0) {
 		// Step Resize_Image0:
 		Mat resizeImageInput = source0;
-		double resizeImageWidth = 160.0;
-		double resizeImageHeight = 100.0;
+		double resizeImageWidth = 320.0;
+		double resizeImageHeight = 200.0;
 		int resizeImageInterpolation = Imgproc.INTER_CUBIC;
 		resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
@@ -58,8 +58,8 @@ public class GripPipeline implements VisionPipeline {
 
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = blurOutput;
-		double[] hsvThresholdHue = {0.3710927673396842, 124.31048670673368};
-		double[] hsvThresholdSaturation = {0.0, 162.7020202020202};
+		double[] hsvThresholdHue = {0.3710927673396842, 180.0};
+		double[] hsvThresholdSaturation = {0.0, 156.26262626262627};
 		double[] hsvThresholdValue = {137.58992805755395, 255.0};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
@@ -80,7 +80,7 @@ public class GripPipeline implements VisionPipeline {
 		// Step Find_Blobs0:
 		Mat findBlobsInput = maskOutput;
 		double findBlobsMinArea = 100.0;
-		double[] findBlobsCircularity = {0.30081607954752637, 0.7895622895622896};
+		double[] findBlobsCircularity = {0.2158273381294964, 0.7895622895622896};
 		boolean findBlobsDarkBlobs = false;
 		findBlobs(findBlobsInput, findBlobsMinArea, findBlobsCircularity, findBlobsDarkBlobs, findBlobsOutput);
 

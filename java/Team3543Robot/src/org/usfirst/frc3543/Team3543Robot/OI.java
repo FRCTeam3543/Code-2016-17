@@ -71,6 +71,7 @@ public class OI {
 
 
         // SmartDashboard Buttons
+        SmartDashboard.putData("ArcadeDriveWithJoystick", new ArcadeDriveWithJoystick());
         SmartDashboard.putData("Pickup Gear Command Group", new PickupGearCommandGroup());
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("Place Gear Command Group", new PlaceGearCommandGroup());
