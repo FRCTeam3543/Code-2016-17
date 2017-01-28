@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import org.opencv.core.KeyPoint;
 import org.opencv.core.MatOfKeyPoint;
+import org.usfirst.frc3543.Team3543Robot.OI;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import org.usfirst.frc3543.Team3543Robot.commands.*;
@@ -22,6 +23,7 @@ import org.usfirst.frc3543.Team3543Robot.commands.*;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
@@ -185,7 +187,8 @@ public class VisionSubsystem extends Subsystem {
 	protected GearDrop detectGearDrop(MatOfKeyPoint points) {
 		KeyPoint[] arr = points.toArray();
 		Robot.log("DETECT GEAR DROP have "+arr.length+" blobs");
-		
+		SmartDashboard.putNumber(OI.GEARFINDER_BLOB_COUNT, arr.length);
+
 		// if there are more than four blobs or less than 2, we don't see anything
 		if (arr.length > 4 || arr.length < 2) {
 			//Robot.log("VISION: No detection, blobs = "+arr.length);
@@ -195,6 +198,8 @@ public class VisionSubsystem extends Subsystem {
 			// look for two points, n% up in the display
 			int i, j;
 			// go thru each item.  Look at the items after it.  See if you find two blobs in a straight horizontal line
+			SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, false);
+			
 			for (i = 0; i<arr.length; i++) {
 				for (j=i+1; j<arr.length; j++) {
 					
@@ -205,13 +210,14 @@ public class VisionSubsystem extends Subsystem {
 					double d2d = GearDrop.computeRatioOfDistanceToDiameter(arr[i], arr[j]);
 					boolean approx = isApproximately(d2d, TARGET_SIZE_DIFF, 0.25);
 					
-					Robot.log("Angle to ground "+angleToGround+" sizeDiff "+sizeDiff+" D2D = "+d2d+" -- "+approx);
+//					Robot.log("Angle to ground "+angleToGround+" sizeDiff "+sizeDiff+" D2D = "+d2d+" -- "+approx);
 					// this is more efficient - when things don't match only the first equation will eval
 					if (	Math.abs(GearDrop.computeAngleToGround(arr[i], arr[j])) <= TARGET_ANGLE  	// relatively flat
 							&& GearDrop.computeSizeDiff(arr[i], arr[j]) >= TARGET_SIZE_DIFF				// same size blobs
 							&& isApproximately(GearDrop.computeRatioOfDistanceToDiameter(arr[i], arr[j]), TARGET_RELATIVE_DISTANCE, 0.1)	// relative distance +/- percent
 							) {					
 						Robot.log("!!!!!!!!!!!!!!!!!!! FOUND THE GEAR DROP !!!!!!!!!!!!!!!!!!!!!!!");
+						SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, true);
 						return new GearDrop(arr[i], arr[j]);					
 					}
 				}

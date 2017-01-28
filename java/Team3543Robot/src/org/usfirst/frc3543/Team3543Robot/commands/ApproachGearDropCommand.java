@@ -11,10 +11,12 @@
 
 package org.usfirst.frc3543.Team3543Robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.logging.Logger;
 
 import org.omg.CORBA.portable.ValueInputStream;
+import org.usfirst.frc3543.Team3543Robot.OI;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import org.usfirst.frc3543.Team3543Robot.subsystems.VisionSubsystem;
@@ -72,16 +74,17 @@ public class ApproachGearDropCommand extends Command {
     	else if (Robot.visionSubsystem.isGearDropDetected()) {
         	// if so, approach it
         	Robot.log("FOUND approach gear");
+    		SmartDashboard.putString(OI.GEARFINDER_MODE, "FOUND GEAR");    		
 
     		approachGearDrop(Robot.visionSubsystem.getGearDrop());
     	}
     	else if (System.currentTimeMillis() - searchStartTime > maxSearchTime) {
         	Robot.log("TIMEOUT approach gear");
-    		
         	// if our search fails, quit
     		abandonSearch();
     	}
     	else {
+    		SmartDashboard.putString(OI.GEARFINDER_MODE, "searching");    		
         	// otherwise we search for it    		
         	System.out.println("SEARCH approach gear");
 
@@ -139,6 +142,7 @@ public class ApproachGearDropCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+		SmartDashboard.putString(OI.GEARFINDER_MODE, "off");
     	LOGGER.info("STOP ApproachGearCommand");
     	System.out.println("STOP approach gear");
     	Robot.driveLine.stop();
