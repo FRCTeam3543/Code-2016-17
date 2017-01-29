@@ -13,6 +13,7 @@ package org.usfirst.frc3543.Team3543Robot;
 
 import org.usfirst.frc3543.Team3543Robot.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -31,6 +32,7 @@ public class OI {
 	public static final String GEARFINDER_MODE = "GearFinderMode";
 	public static final String GEARFINDER_FOUND_GEAR = "GearFinderStatus";
 	public static final String GEARFINDER_BLOB_COUNT = "GearFinderBlobCount";
+	public static final String GEARFINDER_LOCATION = "GearFinderLocation";
 	
 	
     //// CREATING BUTTONS
@@ -97,6 +99,7 @@ public class OI {
         SmartDashboard.putString(GEARFINDER_MODE, "off");
         SmartDashboard.putBoolean(GEARFINDER_FOUND_GEAR, false);
         SmartDashboard.putNumber(GEARFINDER_BLOB_COUNT, 0);
+        SmartDashboard.putString(GEARFINDER_LOCATION, "NONE");
         
     }
 

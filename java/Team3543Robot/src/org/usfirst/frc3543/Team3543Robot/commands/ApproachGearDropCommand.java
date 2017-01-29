@@ -10,17 +10,16 @@
 
 
 package org.usfirst.frc3543.Team3543Robot.commands;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import java.util.logging.Logger;
 
-import org.omg.CORBA.portable.ValueInputStream;
 import org.usfirst.frc3543.Team3543Robot.OI;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import org.usfirst.frc3543.Team3543Robot.subsystems.VisionSubsystem;
-import org.usfirst.frc3543.Team3543Robot.subsystems.VisionSubsystem.GearDrop;
+
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import ttfft.vision.GearDrop;
 
 /**
  *

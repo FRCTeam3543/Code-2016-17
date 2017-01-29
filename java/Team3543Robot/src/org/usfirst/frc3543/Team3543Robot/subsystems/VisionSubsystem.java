@@ -14,20 +14,21 @@ package org.usfirst.frc3543.Team3543Robot.subsystems;
 import java.util.logging.Logger;
 
 import org.opencv.core.KeyPoint;
+import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
-import org.usfirst.frc3543.Team3543Robot.OI;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
-import org.usfirst.frc3543.Team3543Robot.commands.*;
 
-import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.AxisCamera;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.VisionPipeline;
-import edu.wpi.first.wpilibj.vision.VisionRunner;
-import edu.wpi.first.wpilibj.vision.VisionThread;
-import ttfft.vision.*;
+import ttfft.vision.GearDrop;
+import ttfft.vision.GearDropPipeline;
 
 /**
  *  0.8 -1.5  
@@ -37,7 +38,7 @@ import ttfft.vision.*;
 public class VisionSubsystem extends Subsystem {
 	public static final Logger LOGGER = Logger.getLogger(VisionSubsystem.class.getSimpleName());
 	
-	public static final double TARGET_ANGLE = 0.17; //10/180 * Math.PI;
+	public static final double TARGET_ANGLE = 10/180 * Math.PI;
 	public static final double TARGET_SIZE_DIFF = 0.7; // 90% same size
 	public static final double TARGET_RELATIVE_DISTANCE = 1.75; // distance between centers as percentage of average diameter
 	public static final long TARGET_CENTER_SPAN = 90; // TODO pixels, move to RobotMap or some vision constants file
@@ -46,134 +47,22 @@ public class VisionSubsystem extends Subsystem {
 	public static final int IMAGE_WIDTH = 160;
 	public static final int IMAGE_HEIGHT = 100;
 	
-	VisionThread visionThread;
+	Thread visionThread;
 	// The object to synchronize on to make sure the vision thread doesn't
     // write to variables the main thread is using.
     private final Object visionLock = new Object();
 
     // The pipeline outputs we want
-    private boolean pipelineRan = false; // lets us know when the pipeline has actually run
+    private boolean _running = true; // lets us know when the pipeline has actually run
     private GearDrop foundGearDrop = null;
+   
     
-    public static class GearDrop {
-    	public KeyPoint left;						
-    	public KeyPoint right;
-    	
-    	public double angleToGround;				// angle of the line from center-a to center-b
-    	public double sizeDiff;						// ratio of smallest to largest circle
-    	public double leftRightSizeDiff;			// ratio of size of leftmost blob to rightmost
-    	public double ratioOfDistanceToDiameter;	// ratio of distance between centers to average diameter
-    	public double averageDiameter;				// average circle diameter
-		public long offset[] = {0,0};						// how far left or right 
-		public long centerSpanInPixels = 0;
-		public long[] gearDropPoint = {0,0};			// point where gear drop is
-		
-    	GearDrop(KeyPoint a, KeyPoint b) {
-    		// leftmost one is the one with the leftmost x
-    		if (a.pt.x < b.pt.x) {
-        		left = a;
-        		right = b;    			
-    		}
-    		else {
-    			left = b;
-    			right = a;
-    		}
-    		recompute();
-    	}
-
-    	public void recompute() {
-    		angleToGround = computeAngleToGround(left, right);
-    		sizeDiff = computeSizeDiff(left, right);
-    		averageDiameter = (left.size + right.size) / 2;
-    		leftRightSizeDiff = computeLeftRightSizeDiff(left, right);
-    		ratioOfDistanceToDiameter = computeRatioOfDistanceToDiameter(left, right);
-    		gearDropPoint[0] = Math.round(right.pt.x + left.pt.x)/2;
-    		gearDropPoint[1] = Math.round(right.pt.y + left.pt.y)/2;
-    		centerSpanInPixels = Math.round(Math.sqrt(Math.pow(right.pt.x-left.pt.x,2)+Math.pow(right.pt.y-left.pt.y, 2)));
-    		offset[0] = gearDropPoint[0] - (IMAGE_WIDTH/2);
-    		offset[1] = gearDropPoint[1] - (IMAGE_HEIGHT/2);
-    	}
-    	
-    	/**
-    	 * Compute the horizontal angle (to the ground) from a to b
-    	 * @param a
-    	 * @param b
-    	 * @return
-    	 */
-    	public static double computeAngleToGround(KeyPoint a, KeyPoint b) {
-    		// angle = atan(y2 -  y1)/ (x2 - x1)
-    		double xdiff = b.pt.x - a.pt.x;
-    		double ydiff = b.pt.y - a.pt.y;
-    		Robot.log(String.format("[%.3f, %.3f] and [%.3f, %.3f]", a.pt.x, a.pt.y, b.pt.x, b.pt.y));    		
-    		Robot.log("xdiff = "+xdiff+" ydiff = "+ydiff);
-    		if (Math.abs(xdiff) < 0.00000001) {
-    			return Math.PI / 2;
-    		}
-    		else {
-    			return Math.atan(-ydiff / xdiff);
-    		}
-    	}
-    	
-    	/**
-    	 * 
-    	 * @param a
-    	 * @param b
-    	 * @return
-    	 */
-    	public static double computeSizeDiff(KeyPoint a, KeyPoint b) {
-    		if (a.size < b.size) {
-    			return a.size / b.size;
-    		}
-    		else {
-    			return b.size / a.size;
-    		}
-    	}
-    	
-    	
-    	/**
-    	 * 
-    	 * @param a
-    	 * @param b
-    	 * @return
-    	 */
-    	public static double computeLeftRightSizeDiff(KeyPoint a, KeyPoint b) {    		
-			return a.size / b.size;    		
-    	}    	
-    	
-    	public static double computeRatioOfDistanceToDiameter(KeyPoint a, KeyPoint b) {
-    		double avg_diameter = (a.size + b.size) / 2;
-    		if (avg_diameter < 0.00001) { // too small
-    			return (double)Integer.MAX_VALUE; // really big number
-    		}
-    		double rel_dist = Math.sqrt(Math.pow(a.pt.x - b.pt.x, 2) + Math.pow(a.pt.y - b.pt.y, 2));
-    		return rel_dist / avg_diameter;
-    	}
+    public boolean isRunning() {
+    	return _running;
     }
     
 	public VisionSubsystem() {
 		super();
-		
-		// adapted from https://wpilib.screenstepslive.com/s/4485/m/24194/l/674733-using-generated-code-in-a-robot-program
-		// (which didn't really work)
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(RobotMap.USB_CAMERA_PORT);
-		visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
-			
-			// thread safety
-			synchronized (visionLock) {
-				Robot.log("VISION SUBSYSTEM - pipeline ran");
-				pipelineRan = true;
-				// detect the tape from the Mat
-				MatOfKeyPoint points = pipeline.findBlobsOutput();
-				foundGearDrop = detectGearDrop(points);
-			}
-			try {
-				Thread.sleep(3000);  //TODO take this out
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
-		visionThread.start();
 	}
 	
 	public boolean isGearDropDetected() {
@@ -184,58 +73,70 @@ public class VisionSubsystem extends Subsystem {
 		return foundGearDrop;
 	}
 	
-	protected GearDrop detectGearDrop(MatOfKeyPoint points) {
-		KeyPoint[] arr = points.toArray();
-		Robot.log("DETECT GEAR DROP have "+arr.length+" blobs");
-		SmartDashboard.putNumber(OI.GEARFINDER_BLOB_COUNT, arr.length);
-
-		// if there are more than four blobs or less than 2, we don't see anything
-		if (arr.length > 4 || arr.length < 2) {
-			//Robot.log("VISION: No detection, blobs = "+arr.length);
-			return null;
-		}
-		else {
-			// look for two points, n% up in the display
-			int i, j;
-			// go thru each item.  Look at the items after it.  See if you find two blobs in a straight horizontal line
-			SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, false);
-			
-			for (i = 0; i<arr.length; i++) {
-				for (j=i+1; j<arr.length; j++) {
-					
-					// -2.9/-91
-					
-					double angleToGround = GearDrop.computeAngleToGround(arr[i], arr[j]);
-					double sizeDiff = GearDrop.computeSizeDiff(arr[i], arr[j]);
-					double d2d = GearDrop.computeRatioOfDistanceToDiameter(arr[i], arr[j]);
-					boolean approx = isApproximately(d2d, TARGET_SIZE_DIFF, 0.25);
-					
-//					Robot.log("Angle to ground "+angleToGround+" sizeDiff "+sizeDiff+" D2D = "+d2d+" -- "+approx);
-					// this is more efficient - when things don't match only the first equation will eval
-					if (	Math.abs(GearDrop.computeAngleToGround(arr[i], arr[j])) <= TARGET_ANGLE  	// relatively flat
-							&& GearDrop.computeSizeDiff(arr[i], arr[j]) >= TARGET_SIZE_DIFF				// same size blobs
-							&& isApproximately(GearDrop.computeRatioOfDistanceToDiameter(arr[i], arr[j]), TARGET_RELATIVE_DISTANCE, 0.1)	// relative distance +/- percent
-							) {					
-						Robot.log("!!!!!!!!!!!!!!!!!!! FOUND THE GEAR DROP !!!!!!!!!!!!!!!!!!!!!!!");
-						SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, true);
-						return new GearDrop(arr[i], arr[j]);					
-					}
-				}
-			}			
-			Robot.log("NOPE.  No gear drop");
-		}
-		return null;
-	}
-	
-	protected boolean isApproximately(double value, double target, double percentError) {
-		return value >= (target * (1 - percentError)) && value <= (target * (1+percentError));
-	}
-	
-
-	
 	public void init() {
-//		CameraServer cs = CameraServer.getInstance();
-//		cs.startAutomaticCapture(RobotMap.USB_CAMERA_PORT);
+		// adapted from https://wpilib.screenstepslive.com/s/4485/m/24194/l/674733-using-generated-code-in-a-robot-program
+		// (which didn't really work)
+		
+		AxisCamera camera = CameraServer.getInstance().addAxisCamera(RobotMap.AXIS_CAMERA_HOST);
+		
+//		AxisCamera camera = CameraServer.getInstance().st
+//		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(RobotMap.USB_CAMERA_PORT);
+//		camera.setBrightness(35);				
+		camera.setResolution(640, 480);
+		CvSink sink = CameraServer.getInstance().getVideo();
+		CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
+		
+		GearDropPipeline gp = new GearDropPipeline();		
+				
+		visionThread = new Thread(() -> {
+			while (isRunning()) {
+				Robot.log("THREAD RUN");
+				synchronized(visionLock) {
+					Robot.log("Grabbing an image");
+					Mat image = new Mat();
+					if (sink.grabFrame(image) == 0) { // 640 by 480
+						Robot.log(sink.getError());
+					}
+					gp.process(image);		
+					MatOfKeyPoint points = gp.findBlobsOutput();
+					for (KeyPoint point: points.toList()) {
+						// original image is twice as big as the processed one
+						Imgproc.circle(image, new Point(point.pt.x * 2, point.pt.y * 2), Math.round(point.size * 2), new Scalar(255,255,200));
+					}
+					outputStream.putFrame(image);
+					foundGearDrop = gp.detectGearDropOutput();			
+				}
+				try {
+					Thread.sleep(3000);  //TODO take this out
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}
+			
+		});
+		
+//		visionThread = new VisionThread((VideoSource)camera, new GripPipeline(), pipeline -> {
+//			
+//			// thread safety
+//			synchronized (visionLock) {
+//				Robot.log("VISION SUBSYSTEM - pipeline ran");
+//				pipelineRan = true;
+//				// detect the tape from the Mat				
+//				MatOfKeyPoint points = pipeline.findBlobsOutput();
+//				foundGearDrop = detectGearDrop(points);
+//			}
+//			try {
+//				Thread.sleep(3000);  //TODO take this out
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		});
+		_running = true;
+		visionThread.setDaemon(true);
+		visionThread.start();
+		Robot.log("THREAD STARTED");
 	}
 	
 	/**
@@ -266,5 +167,6 @@ public class VisionSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
+        
 }
 

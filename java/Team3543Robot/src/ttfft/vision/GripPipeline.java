@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.HashMap;
 
-import edu.wpi.first.wpilibj.vision.VisionPipeline;
-
 import org.opencv.core.*;
 import org.opencv.core.Core.*;
 import org.opencv.features2d.FeatureDetector;
@@ -25,7 +23,7 @@ import org.opencv.objdetect.*;
 *
 * @author GRIP
 */
-public class GripPipeline implements VisionPipeline {
+public class GripPipeline {
 
 	//Outputs
 	private Mat resizeImageOutput = new Mat();
@@ -42,7 +40,7 @@ public class GripPipeline implements VisionPipeline {
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
-	@Override	public void process(Mat source0) {
+	public void process(Mat source0) {
 		// Step Resize_Image0:
 		Mat resizeImageInput = source0;
 		double resizeImageWidth = 320.0;
@@ -53,12 +51,12 @@ public class GripPipeline implements VisionPipeline {
 		// Step Blur0:
 		Mat blurInput = resizeImageOutput;
 		BlurType blurType = BlurType.get("Box Blur");
-		double blurRadius = 4.504504504504505;
+		double blurRadius = 5.405405405405405;
 		blur(blurInput, blurType, blurRadius, blurOutput);
 
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = blurOutput;
-		double[] hsvThresholdHue = {0.3710927673396842, 180.0};
+		double[] hsvThresholdHue = {0.0, 180.0};
 		double[] hsvThresholdSaturation = {0.0, 156.26262626262627};
 		double[] hsvThresholdValue = {137.58992805755395, 255.0};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
@@ -79,8 +77,8 @@ public class GripPipeline implements VisionPipeline {
 
 		// Step Find_Blobs0:
 		Mat findBlobsInput = maskOutput;
-		double findBlobsMinArea = 100.0;
-		double[] findBlobsCircularity = {0.2158273381294964, 0.7895622895622896};
+		double findBlobsMinArea = 30.0;
+		double[] findBlobsCircularity = {0.09892086330935251, 0.9831649831649831};
 		boolean findBlobsDarkBlobs = false;
 		findBlobs(findBlobsInput, findBlobsMinArea, findBlobsCircularity, findBlobsDarkBlobs, findBlobsOutput);
 
@@ -275,7 +273,7 @@ public class GripPipeline implements VisionPipeline {
 	 */
 	private void findBlobs(Mat input, double minArea, double[] circularity,
 		Boolean darkBlobs, MatOfKeyPoint blobList) {
-		FeatureDetector blobDet = FeatureDetector.create(FeatureDetector.SIMPLEBLOB);
+		FeatureDetector blobDet = FeatureDetector.create(FeatureDetector.DYNAMIC_SIMPLEBLOB);
 		try {
 			File tempFile = File.createTempFile("config", ".xml");
 
@@ -296,6 +294,7 @@ public class GripPipeline implements VisionPipeline {
 			config.append("<minArea>");
 			config.append(minArea);
 			config.append("</minArea>\n");
+//			config.append("<maxArea>5000</maxArea>\n");
 			config.append("<maxArea>");
 			config.append(Integer.MAX_VALUE);
 			config.append("</maxArea>\n");
@@ -306,8 +305,18 @@ public class GripPipeline implements VisionPipeline {
 			config.append("<maxCircularity>");
 			config.append(circularity[1]);
 			config.append("</maxCircularity>\n");
-			config.append("<filterByInertia>0</filterByInertia>\n");
-			config.append("<filterByConvexity>0</filterByConvexity>\n");
+//			config.append("<filterByInertia>0</filterByInertia>\n");
+			
+			config.append("<filterByInertia>1</filterByInertia>\n");
+			config.append("<minInertiaRatio>0.1</minInertiaRatio>\n");
+			config.append("<maxInertiaRatio>" + Integer.MAX_VALUE + "</maxInertiaRatio>\n");
+			
+//			config.append("<filterByConvexity>0</filterByConvexity>\n");
+			
+			config.append("<filterByConvexity>1</filterByConvexity>\n");
+			config.append("<minConvexity>0.95</minConvexity>\n");
+			config.append("<maxConvexity>" + Integer.MAX_VALUE + "</maxConvexity>\n");
+			
 			config.append("</opencv_storage>\n");
 			FileWriter writer;
 			writer = new FileWriter(tempFile, false);
