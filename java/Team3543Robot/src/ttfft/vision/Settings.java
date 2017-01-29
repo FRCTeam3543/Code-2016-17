@@ -40,4 +40,6 @@ public class Settings implements Cloneable {
 	 * TODO - measure this using camera capture
 	 */
 	public static final double TARGET_CENTER_SPAN_IN_PERCENT = 0.5;	
+
+
 }

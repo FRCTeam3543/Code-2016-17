@@ -16,13 +16,13 @@ public class GearDrop {
 	public double leftRightSizeDiff;			// ratio of size of leftmost blob to rightmost
 	public double ratioOfDistanceToDiameter;	// ratio of distance between centers to average diameter
 	public double averageDiameter;				// average circle diameter
+
 	public long offset[] = {0,0};				// how far left or right 
 	public double offsetAsPercentage[] = {0.0,0.0};	// offset as percentage of width
 	public long centerSpanInPixels = 0;
 	public long[] gearDropPoint = {0,0};			// point where gear drop is
 	public double distanceFromTarget = 0.0;
-	
-	
+		
 	private Settings settings;				// settings for the image transform
 	
 	GearDrop(KeyPoint a, KeyPoint b, Settings settings) {
@@ -55,6 +55,7 @@ public class GearDrop {
 		centerSpanInPixels = Math.round(Math.sqrt(Math.pow(right.pt.x-left.pt.x,2)+Math.pow(right.pt.y-left.pt.y, 2)));
 		offset[0] = gearDropPoint[0] - (settings.outputImageWidth/2);
 		offset[1] = gearDropPoint[1] - (settings.outputImageHeight/2);
+
 		offsetAsPercentage[0] = (double)offset[0]/settings.outputImageWidth;
 		offsetAsPercentage[1] = (double)offset[1]/settings.outputImageHeight;
 		
@@ -74,7 +75,6 @@ public class GearDrop {
 		double wt = Settings.CENTER_SPAN_IN_M / 2;
 		LOGGER.info(String.format("theta = %.2f rho = %.2f wt = %.2f (%s, %s)", theta, rho, wt, centerSpanInPixels, settings.outputImageWidth));
 		distanceFromTarget = wt / (rho * Math.tan(theta));
-		
 	}
 	
 	/**
