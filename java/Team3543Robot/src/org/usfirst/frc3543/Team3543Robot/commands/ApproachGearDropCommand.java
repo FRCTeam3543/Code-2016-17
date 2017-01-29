@@ -20,6 +20,7 @@ import org.usfirst.frc3543.Team3543Robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import ttfft.vision.GearDrop;
+import ttfft.vision.Settings;
 
 /**
  *
@@ -29,7 +30,8 @@ public class ApproachGearDropCommand extends Command {
 	public static final Logger LOGGER = Logger.getLogger(ApproachGearDropCommand.class.getSimpleName());
 	
 	public static final long DEFAULT_MAX_SEARCH_TIME = 15000;	// 15 seconds
-
+	public static final double MAX_SPEED = RobotMap.MAX_SPEED;
+	
 	boolean giveUp = false;
 	long searchStartTime = System.currentTimeMillis();
 	long maxSearchTime = DEFAULT_MAX_SEARCH_TIME;
@@ -115,19 +117,21 @@ public class ApproachGearDropCommand extends Command {
 		// i.e. base speed is proportional to the difference between the target size of the line separating the centers of the two blobs
 		// (smaller is forward, larger is back up)
 		// as a percentage
-		speed =  (VisionSubsystem.TARGET_CENTER_SPAN - gearDrop.centerSpanInPixels) / VisionSubsystem.TARGET_CENTER_SPAN;
+		speed =  Math.max(- MAX_SPEED, 
+					Math.min(MAX_SPEED, (gearDrop.distanceFromTarget - Settings.TARGET_DISTANCE_IN_M) * RobotMap.GEAR_APPROACH_SPEED_GAIN)
+				);
 		
 		// is it offset left? turn CCW meaning increase right speed and decrease left		
 		// is it offset right? turn CW meaning increase left speed and decrease right		
 		// max turn speed at 1/4 width
-		curve += Math.max(1, Math.min(-1, - gearDrop.offset[0] / (VisionSubsystem.IMAGE_WIDTH/4) ));
+		curve += Math.max(1, Math.min(-1, - gearDrop.offsetAsPercentage[0] ));
 		
 		// is left side smaller?  turn CW if leftRightSizeDiff < 1
 		// is right side smaller?  turn CCW if leftRightSizeDiff > 1
 		// max turn speed at +/-25%
 		curve += Math.max(1, Math.min(-1, (1 - gearDrop.leftRightSizeDiff) * 4));
 		
-		Robot.driveLine.drive(speed * RobotMap.GEAR_APPROACH_SPEED_GAIN, curve);
+		Robot.driveLine.drive(speed, curve);
 	}
 
 	public void setMaxSearchTime(long time) {

@@ -34,7 +34,7 @@ public class GearDropPipelineTest {
 		Imgcodecs.imwrite(maskOut, pipeline.maskOutput());
 		Imgcodecs.imwrite(thresholdOut, pipeline.hsvThresholdOutput());
 		if (drop != null) {
-			System.out.println(String.format("FOUND IT AT: [%d, %d]", drop.gearDropPoint[0], drop.gearDropPoint[1]));
+			System.out.println(String.format("FOUND IT AT: [%d, %d] distance = %.1fm", drop.gearDropPoint[0], drop.gearDropPoint[1], drop.distanceFromTarget));
 		}
 		else {
 			System.out.println("No blobs found");
