@@ -58,7 +58,37 @@ public class DriveLine extends Subsystem {
     	robotDrive.tankDrive(left, right); // 
     }
     
-    public void stop() {
+    public void drive(double magnitude, double curve) {
+    	robotDrive.drive(magnitude, curve);
     }
+    
+    public void drive(double speed) {
+    	drive(speed, 0);
+    }
+    
+    public void turnInPlace(double speed) {
+    	tankDrive(speed, -speed);
+    }
+    
+    public void tankDrive(double lspeed, double rspeed) {
+    	robotDrive.tankDrive(lspeed, rspeed);
+    }
+    
+    public void tankDrive(double speed) {
+    	tankDrive(speed, speed);
+    }
+    
+    
+    public void arcadeDrive(Joystick stick) {
+    	robotDrive.arcadeDrive(stick);
+    }
+    
+    public void stop() {
+    	robotDrive.stopMotor();
+    }
+
+	public void init() {
+		robotDrive.setSafetyEnabled(false);
+	}
 }
 
