@@ -69,7 +69,7 @@ public class ApproachGearDropCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	Robot.log("EXECUTE approach gear");
+    	Robot.log("\n---------\nEXECUTE approach gear\n----------\n");
 
     	// check the vision system to see if we "see" the gear drop
     	if (giveUp) {
