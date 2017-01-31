@@ -84,7 +84,7 @@ public class VisionSubsystem extends Subsystem {
 //		camera.setBrightness(35);				
 		camera.setResolution(640, 480);
 		CvSink sink = CameraServer.getInstance().getVideo();
-		CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
+//		CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
 		
 		GearDropPipeline gp = new GearDropPipeline();		
 				
@@ -103,7 +103,7 @@ public class VisionSubsystem extends Subsystem {
 						// original image is twice as big as the processed one
 						Imgproc.circle(image, new Point(point.pt.x * 2, point.pt.y * 2), Math.round(point.size * 2), new Scalar(255,255,200));
 					}
-					outputStream.putFrame(image);
+//					outputStream.putFrame(image);
 					foundGearDrop = gp.detectGearDropOutput();			
 				}
 				try {
