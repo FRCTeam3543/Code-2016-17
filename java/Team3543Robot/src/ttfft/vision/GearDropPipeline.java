@@ -103,8 +103,9 @@ public class GearDropPipeline extends GripPipeline {
 							&& Math.abs(GearDrop.computeSizeDiff(arr[i], arr[j])) >= settings.targetSizeDiff				// same size blobs
 							&& Utils.isApproximately(GearDrop.computeRatioOfDistanceToDiameter(arr[i], arr[j]), settings.targetRelativeDistance, 0.1)	// relative distance +/- percent
 							) {					
-						LOGGER.info("!!!!!!!!!!!!!!!!!!! FOUND THE GEAR DROP !!!!!!!!!!!!!!!!!!!!!!!");
 						ret = new GearDrop(arr[i], arr[j], getSettings());					
+						LOGGER.info(String.format("!!!!!!!!!!!!!!!!!!! FOUND THE GEAR DROP (%.2f m) !!!!!!!!!!!!!!!!!!!!!!!",ret.distanceFromTarget));
+						
 						break;
 					}
 				}
