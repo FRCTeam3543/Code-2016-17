@@ -7,7 +7,7 @@ public class Settings implements Cloneable {
 	public int inputImageWidth = 640;
 	public int inputImageHeight = 480;
 
-	public double targetAngle = 10.0/180 * Math.PI;
+	public double targetAngle = 15.0/180 * Math.PI;
 	public double targetSizeDiff = 0.8; // 80% same size
 	public double targetRelativeDistance = 1.9; // distance between centers as percentage of average diameter
 	public long targetCenterSpan = 90; // TODO pixels, move to RobotMap or some vision constants file
@@ -27,7 +27,7 @@ public class Settings implements Cloneable {
 	/**
 	 * Field of view angle, in radians (estimated as 37.5 degrees)
 	 */
-	public static final double FOV_ANGLE = 37.4 * Math.PI/180;
+	public static final double FOV_ANGLE = 30.75 * Math.PI/180; // CALIBRATED
 				
 	/**
 	 * Target distance from the gear drop face

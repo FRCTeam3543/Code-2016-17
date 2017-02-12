@@ -41,7 +41,7 @@ public class GearDropPipeline extends GripPipeline {
 		foundGearDrop = null;
 		this.getSettings().inputImageWidth = image.cols();
 		this.getSettings().inputImageHeight = image.rows();
-		LOGGER.info(String.format("Image is %d x %d", this.getSettings().inputImageWidth, this.getSettings().inputImageHeight));
+//		LOGGER.info(String.format("Image is %d x %d", this.getSettings().inputImageWidth, this.getSettings().inputImageHeight));
 		super.process(image);
 		MatOfKeyPoint points = this.findBlobsOutput();
 		float r = this.getSettings().inputImageWidth / this.getSettings().outputImageWidth;
@@ -75,7 +75,7 @@ public class GearDropPipeline extends GripPipeline {
 				}
 			}			
 		});
-		LOGGER.info("\n----\nDETECT GEAR DROP have "+list.size()+" blobs\n----");
+//		LOGGER.info("\n----\nDETECT GEAR DROP have "+list.size()+" blobs\n----");
 		
 //		SmartDashboard.putNumber(OI.GEARFINDER_BLOB_COUNT, list.size());
 		GearDrop ret = null;
@@ -97,14 +97,14 @@ public class GearDropPipeline extends GripPipeline {
 					double d2d = GearDrop.computeRatioOfDistanceToDiameter(arr[i], arr[j]);
 					boolean approx = Utils.isApproximately(d2d, settings.targetRelativeDistance, 0.25);
 					
-					LOGGER.info(String.format("(%d, %d) Angle to ground %.1f (%.1f) sizeDiff %.1f (%.1f) D2D %.1f (%.1f) approx %s",i,j,angleToGround, settings.targetAngle, sizeDiff, settings.targetSizeDiff, d2d, settings.targetRelativeDistance, approx));
+//					LOGGER.info(String.format("(%d, %d) Angle to ground %.1f (%.1f) sizeDiff %.1f (%.1f) D2D %.1f (%.1f) approx %s",i,j,angleToGround, settings.targetAngle, sizeDiff, settings.targetSizeDiff, d2d, settings.targetRelativeDistance, approx));
 					// this is more efficient - when things don't match only the first equation will eval
 					if (	Math.abs(GearDrop.computeAngleToGround(arr[i], arr[j])) <= settings.targetAngle  	// relatively flat
 							&& Math.abs(GearDrop.computeSizeDiff(arr[i], arr[j])) >= settings.targetSizeDiff				// same size blobs
 							&& Utils.isApproximately(GearDrop.computeRatioOfDistanceToDiameter(arr[i], arr[j]), settings.targetRelativeDistance, 0.1)	// relative distance +/- percent
 							) {					
 						ret = new GearDrop(arr[i], arr[j], getSettings());					
-						LOGGER.info(String.format("!!!!!!!!!!!!!!!!!!! FOUND THE GEAR DROP (%.2f m) !!!!!!!!!!!!!!!!!!!!!!!",ret.distanceFromTarget));
+//						LOGGER.info(String.format("!!!!!!!!!!!!!!!!!!! FOUND THE GEAR DROP (%.2f in) !!!!!!!!!!!!!!!!!!!!!!!",ret.distanceFromTarget * 100 / 2.54));
 						
 						break;
 					}

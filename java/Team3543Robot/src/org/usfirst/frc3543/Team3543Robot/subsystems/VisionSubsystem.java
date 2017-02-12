@@ -19,6 +19,7 @@ import org.opencv.core.MatOfKeyPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc3543.Team3543Robot.OI;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 
@@ -27,6 +28,7 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import ttfft.vision.GearDrop;
 import ttfft.vision.GearDropPipeline;
 
@@ -50,12 +52,13 @@ public class VisionSubsystem extends Subsystem {
 	Thread visionThread;
 	// The object to synchronize on to make sure the vision thread doesn't
     // write to variables the main thread is using.
-    private final Object visionLock = new Object();
+    public final Object visionLock = new Object();
 
     // The pipeline outputs we want
     private boolean _running = true; // lets us know when the pipeline has actually run
     private GearDrop foundGearDrop = null;
    
+    private int undetectedCount = 0;
     
     public boolean isRunning() {
     	return _running;
@@ -66,11 +69,15 @@ public class VisionSubsystem extends Subsystem {
 	}
 	
 	public boolean isGearDropDetected() {
-		return foundGearDrop != null;
+		synchronized (visionLock) {
+			return foundGearDrop != null;			
+		}
 	}
 	
 	public GearDrop getGearDrop() {
-		return foundGearDrop;
+		synchronized (visionLock) {
+			return foundGearDrop;			
+		}
 	}
 	
 	public void init() {
@@ -90,9 +97,9 @@ public class VisionSubsystem extends Subsystem {
 				
 		visionThread = new Thread(() -> {
 			while (isRunning()) {
-				Robot.log("THREAD RUN");
+//				Robot.log("THREAD RUN");
 				synchronized(visionLock) {
-					Robot.log("Grabbing an image");
+//					Robot.log("Grabbing an image");
 					Mat image = new Mat();
 					if (sink.grabFrame(image) == 0) { // 640 by 480
 						Robot.log(sink.getError());
@@ -104,10 +111,24 @@ public class VisionSubsystem extends Subsystem {
 						Imgproc.circle(image, new Point(point.pt.x * 2, point.pt.y * 2), Math.round(point.size * 2), new Scalar(255,255,200));
 					}
 //					outputStream.putFrame(image);
-					foundGearDrop = gp.detectGearDropOutput();			
+					GearDrop gd = gp.detectGearDropOutput();
+
+					if (gd != null) {
+						foundGearDrop = gd;				
+						SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, true);
+						SmartDashboard.putString(OI.GEARFINDER_LOCATION, gd != null ? String.format("%.1f m", gd.distanceFromTarget) : "NONE");						
+						undetectedCount = 0;
+					}
+					else {
+						if (undetectedCount++ > 5) {
+							SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, false);
+							SmartDashboard.putString(OI.GEARFINDER_LOCATION, gd != null ? String.format("%.1f m", gd.distanceFromTarget) : "NOPE");													
+							foundGearDrop = null;
+						}
+					}
 				}
 				try {
-					Thread.sleep(3000);  //TODO take this out
+					Thread.sleep(500);  //TODO take this out
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

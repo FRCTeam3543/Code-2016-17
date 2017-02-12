@@ -73,7 +73,7 @@ public class GearDrop {
 		double theta = Settings.FOV_ANGLE;
 		double rho = (double)centerSpanInPixels / settings.outputImageWidth;
 		double wt = Settings.CENTER_SPAN_IN_M / 2;
-		LOGGER.info(String.format("theta = %.2f rho = %.2f wt = %.2f (%s, %s)", theta, rho, wt, centerSpanInPixels, settings.outputImageWidth));
+//		LOGGER.info(String.format("theta = %.2f rho = %.2f wt = %.2f (%s, %s)", theta, rho, wt, centerSpanInPixels, settings.outputImageWidth));
 		distanceFromTarget = wt / (rho * Math.tan(theta));
 	}
 	
@@ -87,7 +87,7 @@ public class GearDrop {
 		// angle = atan(y2 -  y1)/ (x2 - x1)
 		double xdiff = b.pt.x - a.pt.x;
 		double ydiff = b.pt.y - a.pt.y;
-		LOGGER.info(String.format("[%.3f, %.3f] and [%.3f, %.3f]", a.pt.x, a.pt.y, b.pt.x, b.pt.y));   
+//		LOGGER.info(String.format("[%.3f, %.3f] and [%.3f, %.3f]", a.pt.x, a.pt.y, b.pt.x, b.pt.y));   
 		double ret;
 		if (Math.abs(xdiff) < 0.00000001) {
 			ret = Math.PI / 2;
@@ -95,7 +95,7 @@ public class GearDrop {
 		else {
 			ret = Math.atan(-ydiff / xdiff);
 		}
-		LOGGER.info(String.format("xdiff = %.2f ydiff = %.2f angle = %.1f", xdiff, ydiff, ret * 180 / Math.PI));
+//		LOGGER.info(String.format("xdiff = %.2f ydiff = %.2f angle = %.1f", xdiff, ydiff, ret * 180 / Math.PI));
 		return ret;
 	}
 	
@@ -131,7 +131,7 @@ public class GearDrop {
 			return (double)Integer.MAX_VALUE; // really big number
 		}
 		double rel_dist = Math.sqrt(Math.pow(a.pt.x - b.pt.x, 2) + Math.pow(a.pt.y - b.pt.y, 2));
-		LOGGER.info(String.format("Distance %.1f Diameter %.1f", rel_dist, avg_diameter));
+//		LOGGER.info(String.format("Distance %.1f Diameter %.1f", rel_dist, avg_diameter));
 		
 		return rel_dist / avg_diameter;
 	}

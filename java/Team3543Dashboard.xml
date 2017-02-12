@@ -1,5 +1,20 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="GearFinderSpeedGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="896" y="325"/>
+	</widget>
+	<widget field="GearFinderCurveGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="636" y="324"/>
+	</widget>
+	<widget field="LiftRobotCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="291" y="27"/>
+	</widget>
+	<widget field="RaiseBallChuteCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="311" y="135"/>
+	</widget>
+	<widget field="LowerBallChuteCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="297" y="79"/>
+	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
 		<location x="273" y="499"/>
 		<width>330</width>

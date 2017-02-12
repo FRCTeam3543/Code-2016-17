@@ -57,15 +57,15 @@ public class GripPipeline {
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = blurOutput;
 		double[] hsvThresholdHue = {0.0, 180.0};
-		double[] hsvThresholdSaturation = {0.0, 156.26262626262627};
-		double[] hsvThresholdValue = {137.58992805755395, 255.0};
+		double[] hsvThresholdSaturation = {0.0, 141.0};
+		double[] hsvThresholdValue = {117.0,218.0};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step CV_erode0:
 		Mat cvErodeSrc = hsvThresholdOutput;
 		Mat cvErodeKernel = new Mat();
 		Point cvErodeAnchor = new Point(-1, -1);
-		double cvErodeIterations = 1.0;
+		double cvErodeIterations = 0.0;
 		int cvErodeBordertype = Core.BORDER_CONSTANT;
 		Scalar cvErodeBordervalue = new Scalar(-1);
 		cvErode(cvErodeSrc, cvErodeKernel, cvErodeAnchor, cvErodeIterations, cvErodeBordertype, cvErodeBordervalue, cvErodeOutput);
@@ -77,8 +77,8 @@ public class GripPipeline {
 
 		// Step Find_Blobs0:
 		Mat findBlobsInput = maskOutput;
-		double findBlobsMinArea = 30.0;
-		double[] findBlobsCircularity = {0.09892086330935251, 0.9831649831649831};
+		double findBlobsMinArea = 8.0;
+		double[] findBlobsCircularity = {0.0, 1.0};
 		boolean findBlobsDarkBlobs = false;
 		findBlobs(findBlobsInput, findBlobsMinArea, findBlobsCircularity, findBlobsDarkBlobs, findBlobsOutput);
 
