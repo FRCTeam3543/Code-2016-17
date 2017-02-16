@@ -1,5 +1,8 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="LocateGearDropUsingVisionCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="64" y="213"/>
+	</widget>
 	<widget field="GearFinderSpeedGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="896" y="325"/>
 	</widget>
@@ -15,16 +18,10 @@
 	<widget field="LowerBallChuteCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="297" y="79"/>
 	</widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="273" y="499"/>
-		<width>330</width>
-		<height>187</height>
-		<property name="Camera Choice" value="Rectangle"/>
-	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.MjpgStreamViewerImpl">
-		<location x="655" y="497"/>
-		<width>312</width>
-		<height>192</height>
+		<location x="650" y="452"/>
+		<width>707</width>
+		<height>401</height>
 		<property name="MJPG Server URL" value="http://10.35.43.77/mjpg/video.mjpg"/>
 	</static-widget>
 	<widget field="GearFinderLocation" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
@@ -64,12 +61,6 @@
 		<width>45</width>
 		<property name="Text" value="Camera"/>
 	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="639" y="88"/>
-		<width>335</width>
-		<height>210</height>
-		<property name="Camera Choice" value="Axis Camera"/>
-	</static-widget>
 	<widget field="Auto Selector" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="15" y="10"/>
 	</widget>
@@ -93,6 +84,9 @@
 	</widget>
 	<widget field="BallPickupCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="21" y="426"/>
+	</widget>
+	<widget field="ApproachGearDropCommandGroup" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="24" y="177"/>
 	</widget>
 </dashboard>
 <live-window>

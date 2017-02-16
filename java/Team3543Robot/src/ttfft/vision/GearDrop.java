@@ -22,6 +22,8 @@ public class GearDrop {
 	public long centerSpanInPixels = 0;
 	public long[] gearDropPoint = {0,0};			// point where gear drop is
 	public double distanceFromTarget = 0.0;
+	
+	public double offsetFromCenter = 0.0;			// offset from center
 		
 	private Settings settings;				// settings for the image transform
 	
@@ -75,6 +77,8 @@ public class GearDrop {
 		double wt = Settings.CENTER_SPAN_IN_M / 2;
 //		LOGGER.info(String.format("theta = %.2f rho = %.2f wt = %.2f (%s, %s)", theta, rho, wt, centerSpanInPixels, settings.outputImageWidth));
 		distanceFromTarget = wt / (rho * Math.tan(theta));
+		double width = distanceFromTarget * Math.tan(theta);
+		offsetFromCenter = (double)offset[0] / (double)settings.outputImageWidth * width;
 	}
 	
 	/**

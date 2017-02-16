@@ -26,11 +26,14 @@ import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import edu.wpi.cscore.AxisCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 import ttfft.vision.GearDrop;
 import ttfft.vision.GearDropPipeline;
+import ttfft.vision.GripPipeline;
 
 /**
  *  0.8 -1.5  
@@ -58,6 +61,10 @@ public class VisionSubsystem extends Subsystem {
     private boolean _running = true; // lets us know when the pipeline has actually run
     private GearDrop foundGearDrop = null;
    
+    private AxisCamera camera;
+    private CvSink sink;
+    private GearDropPipeline gearDropPipeline;
+    
     private int undetectedCount = 0;
     
     public boolean isRunning() {
@@ -80,51 +87,53 @@ public class VisionSubsystem extends Subsystem {
 		}
 	}
 	
+	public GearDrop detectGearDrop() {
+		synchronized(visionLock) {
+//			Robot.log("Grabbing an image");
+			Mat image = new Mat();
+			if (sink.grabFrame(image) == 0) { // 640 by 480
+				Robot.log(sink.getError());
+			}
+			gearDropPipeline.process(image);		
+			MatOfKeyPoint points = gearDropPipeline.findBlobsOutput();
+			for (KeyPoint point: points.toList()) {
+				// original image is twice as big as the processed one
+				Imgproc.circle(image, new Point(point.pt.x * 2, point.pt.y * 2), Math.round(point.size * 2), new Scalar(255,255,200));
+			}
+//			outputStream.putFrame(image);
+			GearDrop gd = gearDropPipeline.detectGearDropOutput();
+
+
+			return gd;
+		}
+	}
+	
 	public void init() {
 		// adapted from https://wpilib.screenstepslive.com/s/4485/m/24194/l/674733-using-generated-code-in-a-robot-program
 		// (which didn't really work)
 		
-		AxisCamera camera = CameraServer.getInstance().addAxisCamera(RobotMap.AXIS_CAMERA_HOST);
-		
-//		AxisCamera camera = CameraServer.getInstance().st
-//		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(RobotMap.USB_CAMERA_PORT);
-//		camera.setBrightness(35);				
+		camera = CameraServer.getInstance().addAxisCamera(RobotMap.AXIS_CAMERA_HOST);		
 		camera.setResolution(640, 480);
-		CvSink sink = CameraServer.getInstance().getVideo();
+		
+		sink = CameraServer.getInstance().getVideo();
 //		CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
 		
-		GearDropPipeline gp = new GearDropPipeline();		
+		gearDropPipeline = new GearDropPipeline();		
 				
 		visionThread = new Thread(() -> {
 			while (isRunning()) {
-//				Robot.log("THREAD RUN");
-				synchronized(visionLock) {
-//					Robot.log("Grabbing an image");
-					Mat image = new Mat();
-					if (sink.grabFrame(image) == 0) { // 640 by 480
-						Robot.log(sink.getError());
-					}
-					gp.process(image);		
-					MatOfKeyPoint points = gp.findBlobsOutput();
-					for (KeyPoint point: points.toList()) {
-						// original image is twice as big as the processed one
-						Imgproc.circle(image, new Point(point.pt.x * 2, point.pt.y * 2), Math.round(point.size * 2), new Scalar(255,255,200));
-					}
-//					outputStream.putFrame(image);
-					GearDrop gd = gp.detectGearDropOutput();
-
-					if (gd != null) {
-						foundGearDrop = gd;				
-						SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, true);
-						SmartDashboard.putString(OI.GEARFINDER_LOCATION, gd != null ? String.format("%.1f m", gd.distanceFromTarget) : "NONE");						
-						undetectedCount = 0;
-					}
-					else {
-						if (undetectedCount++ > 5) {
-							SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, false);
-							SmartDashboard.putString(OI.GEARFINDER_LOCATION, gd != null ? String.format("%.1f m", gd.distanceFromTarget) : "NOPE");													
-							foundGearDrop = null;
-						}
+				GearDrop gd = detectGearDrop();
+				if (gd != null) {
+					foundGearDrop = gd;				
+					SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, true);
+					SmartDashboard.putString(OI.GEARFINDER_LOCATION, gd != null ? String.format("%.1f m", gd.distanceFromTarget) : "NONE");						
+					undetectedCount = 0;
+				}
+				else {
+					if (undetectedCount++ > 5) {
+						SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, false);
+						SmartDashboard.putString(OI.GEARFINDER_LOCATION, gd != null ? String.format("%.1f m", gd.distanceFromTarget) : "NOPE");													
+						foundGearDrop = null;
 					}
 				}
 				try {
@@ -154,10 +163,11 @@ public class VisionSubsystem extends Subsystem {
 //				e.printStackTrace();
 //			}
 //		});
+		
 		_running = true;
-		visionThread.setDaemon(true);
-		visionThread.start();
-		Robot.log("THREAD STARTED");
+//		visionThread.setDaemon(true);
+//		visionThread.start();
+//		Robot.log("THREAD STARTED");
 	}
 	
 	/**

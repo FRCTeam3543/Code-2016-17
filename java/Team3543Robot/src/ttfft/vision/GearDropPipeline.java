@@ -104,7 +104,7 @@ public class GearDropPipeline extends GripPipeline {
 							&& Utils.isApproximately(GearDrop.computeRatioOfDistanceToDiameter(arr[i], arr[j]), settings.targetRelativeDistance, 0.1)	// relative distance +/- percent
 							) {					
 						ret = new GearDrop(arr[i], arr[j], getSettings());					
-//						LOGGER.info(String.format("!!!!!!!!!!!!!!!!!!! FOUND THE GEAR DROP (%.2f in) !!!!!!!!!!!!!!!!!!!!!!!",ret.distanceFromTarget * 100 / 2.54));
+						LOGGER.info(String.format("!!!!!!!!!!!!!!!!!!! FOUND THE GEAR DROP (%.2f in) !!!!!!!!!!!!!!!!!!!!!!!",ret.distanceFromTarget * 100 / 2.54));
 						
 						break;
 					}

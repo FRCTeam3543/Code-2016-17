@@ -13,7 +13,12 @@ package org.usfirst.frc3543.Team3543Robot.subsystems;
 
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import org.usfirst.frc3543.Team3543Robot.commands.*;
+import org.usfirst.frc3543.Team3543Robot.util.MotionProfile;
+import org.usfirst.frc3543.Team3543Robot.util.MotionProfilePlanGenerator.MotionProfilePlan;
+
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
@@ -105,6 +110,54 @@ public class DriveLine extends Subsystem {
 
 	public void init() {
 		robotDrive.setSafetyEnabled(false);
+	}
+
+	public MotionProfileController followMotionProfileController(MotionProfilePlan plan) {
+		MotionProfileController controller = new MotionProfileController(this, plan);
+		
+		return controller;
+	}
+	
+	public static class MotionProfileController {
+		MotionProfile leftProfile;
+		MotionProfile rightProfile;
+		boolean started = false;
+		
+		MotionProfileController(DriveLine driveLine, MotionProfilePlan plan) {
+			leftProfile = new MotionProfile(driveLine.cANTalon1, plan.leftSide);
+			rightProfile = new MotionProfile(driveLine.cANTalon3, plan.rightSide);
+		}
+		
+		public void reset() {
+			leftProfile.reset();
+			rightProfile.reset();
+			started = false;
+		}
+		
+		public void control() {
+			leftProfile.control();
+			rightProfile.control();
+			
+			leftProfile.updateTalonOutputValue();
+			rightProfile.updateTalonOutputValue();
+		}
+		
+		public boolean isFinished() {
+			return this.leftProfile.isDone() && this.rightProfile.isDone();
+		}
+		
+		public boolean isStarted() {
+			return started;
+		}
+		
+		public void start() {			
+			started = true;			
+			leftProfile.updateTalonOutputValue();
+			rightProfile.updateTalonOutputValue();
+
+			leftProfile.startMotionProfile();
+			rightProfile.startMotionProfile();
+		}
 	}
 }
 
