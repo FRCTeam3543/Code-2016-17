@@ -74,5 +74,13 @@ public class LiftSubsystem extends Subsystem {
     public void stop() {
     	liftSubsystemDrive.stopMotor();
     }
+    
+    public void lift(double mag) {
+    	liftSubsystemDrive.drive(-mag, 0);
+    }
+    
+    public void lift() {
+    	lift(RobotMap.DEFAULT_LIFT_GAIN);
+    }
 }
 

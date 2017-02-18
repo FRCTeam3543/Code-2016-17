@@ -40,6 +40,7 @@ public class OI {
 	public static final String DEFAULT_LINEAR_GAIN = "DefaultLinearGain";
 	public static final String DEFAULT_ROTATION_GAIN = "DefaultRotationGain";
 	public static final String GYRO = "Gyro";
+	public static final String LIFT_GAIN = "Lift Gain";
 	
     //// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
@@ -86,6 +87,13 @@ public class OI {
         speedControlButton = new JoystickButton(leftJoystick, 1);
         speedControlButton.whileHeld(new BallPickupCommand());
 
+        speedControlButton = new JoystickButton(rightJoystick, 6);
+        speedControlButton.whileHeld(new LiftRobotCommand());
+
+        speedControlButton = new JoystickButton(rightJoystick, 7);
+        speedControlButton.whileHeld(new LowerRobotCommand());
+        
+        FeedbackApproachGearDropCommand feedbackApproach = new FeedbackApproachGearDropCommand();
 
         // SmartDashboard Buttons
         SmartDashboard.putData("LowerBallChuteCommand", new LowerBallChuteCommand());
@@ -96,7 +104,7 @@ public class OI {
         SmartDashboard.putData("Place Gear Command Group", new PlaceGearCommandGroup());
         SmartDashboard.putData("TankDriveWithJoysticks", new TankDriveWithJoysticks());
         SmartDashboard.putData("BallPickupCommand", new BallPickupCommand());
-        SmartDashboard.putData("ApproachGearDropCommand", new ApproachGearDropCommand());
+//        SmartDashboard.putData("ApproachGearDropCommand", new ApproachGearDropCommand());
         
         SmartDashboard.putData("LiftRobotCommand", new LiftRobotCommand());
 
@@ -105,7 +113,7 @@ public class OI {
         SmartDashboard.putData("DriveForwardByDistanceCommand-12in", new DriveForwardByDistanceCommand(12, 0.3));       
         SmartDashboard.putData("RotateByAngleCommand-ninety", new RotateByAngleCommand(Math.toRadians(90), 0.3));       
         SmartDashboard.putData("AlignToGearDropCommand-right-fwd-left", new AlignToGearDropCommand(Math.toRadians(15), 24));       
-        SmartDashboard.putData("FeedbackApproach", new FeedbackApproachGearDropCommand());       
+        SmartDashboard.putData("FeedbackApproach", feedbackApproach);       
         SmartDashboard.putData("FeedbackApproachRight", new GearApproachRightCommandGroup());    
         
     	// Buttons for subsystems
@@ -124,9 +132,10 @@ public class OI {
         SmartDashboard.putNumber(GYRO, 0);
         SmartDashboard.putNumber(DEFAULT_LINEAR_GAIN, RobotMap.DEFAULT_LINEAR_GAIN);
         SmartDashboard.putNumber(DEFAULT_ROTATION_GAIN, RobotMap.DEFAULT_ROTATION_GAIN);   
+        SmartDashboard.putNumber(LIFT_GAIN, RobotMap.DEFAULT_LIFT_GAIN);   
         
-        SmartDashboard.putNumber("GearApproachDist", 72);
-        SmartDashboard.putNumber("GearApproachAngle", -60);
+        SmartDashboard.putNumber("GearApproachDist", 220);
+        SmartDashboard.putNumber("GearApproachAngle", -56);
         
     }
 

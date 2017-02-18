@@ -315,7 +315,7 @@ Children:
             default: '2'
             name: CAN ID
             validators: *id002
-            value: '0'
+            value: '5'
         Base: CAN Talon
         Name: CAN Talon 5
       - Children: []
@@ -325,12 +325,12 @@ Children:
             default: '2'
             name: CAN ID
             validators: *id002
-            value: '5'
+            value: '6'
         Base: CAN Talon
         Name: CAN Talon 6
       Properties:
         Left Motor Inverted: !!robotbuilder.data.properties.BooleanProperty {default: false,
-          name: Left Motor Inverted, validators: null, value: false}
+          name: Left Motor Inverted, validators: null, value: true}
         Right Motor Inverted: !!robotbuilder.data.properties.BooleanProperty {default: false,
           name: Right Motor Inverted, validators: null, value: false}
         Sensitivity: !!robotbuilder.data.properties.DoubleProperty {default: 0.5,

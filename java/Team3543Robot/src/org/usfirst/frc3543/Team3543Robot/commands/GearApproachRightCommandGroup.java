@@ -18,8 +18,8 @@ public class GearApproachRightCommandGroup extends CommandGroup {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		driveForward.setTargetDistance(SmartDashboard.getNumber("GearApproachDist", 72));
-		rotate.setRotationAngle(Math.toRadians(SmartDashboard.getNumber("GearApproachAngle", -60)));
+		driveForward.setTargetDistance(SmartDashboard.getNumber("GearApproachDist", 220));
+		rotate.setRotationAngle(Math.toRadians(SmartDashboard.getNumber("GearApproachAngle", -56)));
 		
 	}
 }
