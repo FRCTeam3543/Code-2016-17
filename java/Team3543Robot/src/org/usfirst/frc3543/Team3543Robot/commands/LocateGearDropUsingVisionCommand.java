@@ -2,6 +2,7 @@ package org.usfirst.frc3543.Team3543Robot.commands;
 
 import org.usfirst.frc3543.Team3543Robot.OI;
 import org.usfirst.frc3543.Team3543Robot.Robot;
+import org.usfirst.frc3543.Team3543Robot.util.GearDropConsumer;
 import org.usfirst.frc3543.Team3543Robot.util.GearDropProvider;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -13,22 +14,27 @@ public class LocateGearDropUsingVisionCommand extends Command implements GearDro
 
 	private GearDrop gearDrop = null;
 		
-	private double recheckInterval;
 	private int maxRechecks;
-	private Timer recheckTimer = new Timer();
-	private int recheckCount = 0;
+	private boolean finished = false;
+	private GearDropConsumer consumer = null;
 	
-	public LocateGearDropUsingVisionCommand(double recheckInterval, int maxRechecks) {
+	public LocateGearDropUsingVisionCommand(int maxRechecks, GearDropConsumer consumer) {
 		super();
-		this.recheckInterval = recheckInterval;
 		this.maxRechecks = maxRechecks;
-	}	
+		this.consumer = consumer;
+	}
+	
+	public LocateGearDropUsingVisionCommand() {
+		this(5);
+	}
+	
+	public LocateGearDropUsingVisionCommand(int maxRechecks) {
+		this(maxRechecks, null);
+	}
 
 	public void reset() {	
 		gearDrop = null;
-		recheckCount = 0;
-		recheckTimer.reset();
-		recheckTimer.start();
+		finished = false;
 	}
 	
 	@Override
@@ -37,34 +43,42 @@ public class LocateGearDropUsingVisionCommand extends Command implements GearDro
 		reset();
 	}
 
-
 	@Override
 	protected void execute() {
 		// see if we can see a gear drop. Should be on first try, but we'll look a couple
 		// of times just in case
-		if (recheckTimer.hasPeriodPassed(recheckInterval)) {
-			recheckCount++;			
+		for (int i=0; i< maxRechecks; i++) {
 			gearDrop = Robot.visionSubsystem.detectGearDrop();
 			if (gearDrop != null) {
 				SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("FOUND IT %.1f m", gearDrop.distanceFromTarget));
+				break; // we got it!
+			}	
+			else {
+				SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("Finding Nothing ..."));				
 			}
-			recheckTimer.reset();
+			Timer.delay(0.05);
+		}
+		finished = true;
+		if (gearDrop != null) {
+			SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("FOUND IT %.1f m", gearDrop.distanceFromTarget));
 		}
 		else {
-			// do nothing, wait...
-			SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("Nothing ...(%d)", recheckCount));
+			SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("NOT FOUND"));				
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return (gearDrop != null) || (recheckCount >= maxRechecks);
+		if (consumer != null) {
+			consumer.setGearDrop(gearDrop);
+		}
+		return finished;
 	}
 	
 	@Override
 	protected void end() {
 		super.end();
-		recheckTimer.stop();
+		finished = true;
 	}
 
 

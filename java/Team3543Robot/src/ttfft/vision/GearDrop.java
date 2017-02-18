@@ -10,6 +10,8 @@ public class GearDrop {
 	
 	public KeyPoint left;						
 	public KeyPoint right;
+	
+	public long timestamp;
 
 	public double angleToGround;				// angle of the line from center-a to center-b
 	public double sizeDiff;						// ratio of smallest to largest circle
@@ -29,6 +31,7 @@ public class GearDrop {
 	
 	GearDrop(KeyPoint a, KeyPoint b, Settings settings) {
 		// leftmost one is the one with the leftmost x
+		timestamp = System.currentTimeMillis();
 		this.settings = settings;
 		if (a.pt.x < b.pt.x) {
     		left = a;
@@ -74,7 +77,7 @@ public class GearDrop {
 		 */
 		double theta = Settings.FOV_ANGLE;
 		double rho = (double)centerSpanInPixels / settings.outputImageWidth;
-		double wt = Settings.CENTER_SPAN_IN_M / 2;
+		double wt = Settings.CENTER_SPAN_IN_INCHES / 2;
 //		LOGGER.info(String.format("theta = %.2f rho = %.2f wt = %.2f (%s, %s)", theta, rho, wt, centerSpanInPixels, settings.outputImageWidth));
 		distanceFromTarget = wt / (rho * Math.tan(theta));
 		double width = distanceFromTarget * Math.tan(theta);

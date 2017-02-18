@@ -110,9 +110,9 @@ Children:
           default: '0'
           name: Channel A Channel (Digital)
           validators: &id004 [DigitalChannel]
-          value: '1'
+          value: '0'
         Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
-          name: Distance Per Pulse, validators: null, value: 1.0}
+          name: Distance Per Pulse, validators: null, value: 0.044}
         PID Source: !!robotbuilder.data.properties.ChoicesProperty
           choices: &id005 [kDisplacement, kRate]
           default: kRate
@@ -134,7 +134,7 @@ Children:
           default: '0'
           name: Channel B Channel (Digital)
           validators: &id008 [DigitalChannel]
-          value: '2'
+          value: '1'
       Base: Quadrature Encoder
       Name: QuadratureEncoderLeft
     - Children: []
@@ -144,9 +144,9 @@ Children:
           default: '0'
           name: Channel A Channel (Digital)
           validators: *id004
-          value: '3'
+          value: '2'
         Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
-          name: Distance Per Pulse, validators: null, value: 1.0}
+          name: Distance Per Pulse, validators: null, value: 0.011}
         PID Source: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id005
           default: kRate
@@ -166,7 +166,7 @@ Children:
           default: '0'
           name: Channel B Channel (Digital)
           validators: *id008
-          value: '4'
+          value: '3'
       Base: Quadrature Encoder
       Name: QuadratureEncoderRight
     Properties:

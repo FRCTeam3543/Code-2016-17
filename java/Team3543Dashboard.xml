@@ -1,5 +1,29 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Gyro" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="623"/>
+	</widget>
+	<widget field="DistancePerPulse" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="557"/>
+	</widget>
+	<widget field="Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="498"/>
+	</widget>
+	<widget field="LeftEncoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="154"/>
+	</widget>
+	<widget field="DriveForwardByDistanceCommand-12in" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="462"/>
+	</widget>
+	<widget field="RotateByAngleCommand-ninety" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="33" y="521"/>
+	</widget>
+	<widget field="DriveForwardByDistanceCommand-36in" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="47" y="650"/>
+	</widget>
+	<widget field="AlignToGearDropCommand-right-fwd-left" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="33" y="587"/>
+	</widget>
 	<widget field="LocateGearDropUsingVisionCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="64" y="213"/>
 	</widget>

@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -62,7 +63,9 @@ public class DriveLine extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
 //    	robotDrive.setSafetyEnabled(false);
-    	analogGyro1.setSensitivity(gyroSensitivity);    	
+    	
+    	analogGyro1.setSensitivity(RobotMap.GYRO_SENSITIVITY);    
+		this.analogGyro1.calibrate();
     }
     
     public void tankDrive(Joystick left, Joystick right) {
@@ -94,8 +97,7 @@ public class DriveLine extends Subsystem {
     public void tankDrive(double speed) {
     	tankDrive(speed, speed);
     }
-    
-    
+        
     public void arcadeDrive(Joystick stick) {
     	robotDrive.arcadeDrive(stick);
     }
@@ -106,6 +108,10 @@ public class DriveLine extends Subsystem {
     
     public double getGyroAngle() {
     	return analogGyro1.getAngle();
+    }
+    
+    public double getGyroAngleRadians() {
+    	return Math.toRadians(getGyroAngle());
     }
 
 	public void init() {
@@ -159,5 +165,28 @@ public class DriveLine extends Subsystem {
 			rightProfile.startMotionProfile();
 		}
 	}
+
+	public void resetEncoders() {
+		double dpp = SmartDashboard.getNumber("DistancePerPulse", RobotMap.DEFAULT_DISTANCE_PER_PULSE);
+
+		this.quadratureEncoderLeft.reset();
+		this.quadratureEncoderLeft.setDistancePerPulse(dpp);
+		this.quadratureEncoderRight.reset();
+		this.quadratureEncoderRight.setDistancePerPulse(dpp);
+	}
+	
+	public void resetGyro() {
+		this.analogGyro1.reset();
+	}
+	
+	public double getLeftEncoderValue() {
+		
+		return this.quadratureEncoderLeft.getDistance();
+	}
+	
+	public double getRightEncoderValue() {
+		return this.quadratureEncoderRight.getDistance();
+	}
+	
 }
 

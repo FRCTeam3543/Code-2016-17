@@ -97,8 +97,9 @@ public class MotionProfile {
 		 * since our MP is 10ms per point, set the control frame rate and the
 		 * notifer to half that
 		 */
-		_talon.changeMotionControlFramePeriod(5);
-		_notifer.startPeriodic(0.005);
+		// Team3543 - ours is 0.05s so half is 25ms
+		_talon.changeMotionControlFramePeriod(25);
+		_notifer.startPeriodic(0.025);
 	}
 
 	/**

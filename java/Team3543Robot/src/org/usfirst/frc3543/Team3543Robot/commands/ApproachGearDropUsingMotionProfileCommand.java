@@ -49,9 +49,10 @@ public class ApproachGearDropUsingMotionProfileCommand extends Command {
 	}
 	
 	protected MotionProfilePlan computeMotionProfiles() {
-		Waypoint from = new Waypoint(0,0,0);
+		double[] from = new double[] { 0, 0 }; //Waypoint(0,0,0);
 		// TODO - should not be zero?
-		Waypoint to = new Waypoint(gearDrop.offsetFromCenter, gearDrop.distanceFromTarget, 0);
+//		Waypoint to = new Waypoint(gearDrop.offsetFromCenter, gearDrop.distanceFromTarget, 0);
+		double[] to = new double[] { gearDrop.offsetFromCenter, gearDrop.distanceFromTarget };
 		
 		MotionProfilePlan plan = (new MotionProfilePlanGenerator()).generate(from, to);
 		return plan;
