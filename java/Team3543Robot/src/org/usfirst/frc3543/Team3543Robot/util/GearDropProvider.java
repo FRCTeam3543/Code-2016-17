@@ -5,4 +5,5 @@ import ttfft.vision.GearDrop;
 public interface GearDropProvider {
 
 	public GearDrop getGearDrop();
+	public void setGearDropConsumer(GearDropConsumer c);
 }

@@ -1,6 +1,8 @@
 package org.usfirst.frc3543.Team3543Robot.commands;
 
+import org.usfirst.frc3543.Team3543Robot.OI;
 import org.usfirst.frc3543.Team3543Robot.Robot;
+import org.usfirst.frc3543.Team3543Robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,29 +14,34 @@ public class RotateByAngleCommand extends Command {
 	protected double sensitivity = 0.01;
 	protected double targetRotation = 0;
 	public static final double SENSITIVITY = 0.01;// Radians
-	protected double gain = 0.4;
+	protected double gain = RobotMap.DEFAULT_ROTATION_GAIN;
 	
 	public RotateByAngleCommand(double angleInRadians) {
-		this(angleInRadians, 0.4);
+		this(angleInRadians, RobotMap.DEFAULT_ROTATION_GAIN);
 	}
 	
 	public RotateByAngleCommand(double angleInRadians, double gain) {
 		requires(Robot.driveLine);
-		this.gain = gain;
-//		if (Math.abs(angleInRadians) > Math.PI) {
-//			// rotate the other way instead
-//			if (angleInRadians > 0) {
-//				angleInRadians = angleInRadians - Math.PI * 2;
-//			}
-//			else {
-//				angleInRadians = Math.PI * 2 - angleInRadians;
-//			}
-//		}
+		this.setGain(gain);
+		this.setRotationAngle(angleInRadians);
+		setSensitivity(Math.toRadians(1));
+	}
+	
+	public void setRotationAngle(double angleInRadians) {
 		this.rotateBy = angleInRadians;
+	}
+	
+	public void setSensitivity(double radians) {
+		this.sensitivity = radians;
+	}
+	
+	public void setGain(double gain) {
+		this.gain = gain;
 	}
 	
 	@Override 
 	protected void initialize() {		
+		Robot.LOGGER.info("ROTATE BY " +rotateBy);
 		Robot.driveLine.resetGyro();
 		this.startingAngle = Robot.driveLine.getGyroAngleRadians();
 		this.targetAngle = startingAngle + rotateBy;
@@ -46,23 +53,35 @@ public class RotateByAngleCommand extends Command {
 		double diff = Robot.driveLine.getGyroAngleRadians() - targetAngle;		
 		// if diff > 0, rotate CW.  Two magnitudes, depending on abs angle
 		double mag = 1;
-		if (Math.abs(diff) < Math.toRadians(5)) {
-			mag = 0.2;
-		}
+		double absdiff = Math.abs(diff);
+		// ease in
+//		if (absdiff < Math.toRadians(5)) {
+//			mag = mag * absdiff / 5;
+//		}		
+		// set a minimum, so we get there
+		mag = Math.max(mag, 0.12);
+		
 		if (diff > 0) { // go CW
-			Robot.driveLine.drive(-mag * gain, -1);
+			Robot.driveLine.rotateClockwise(mag * gain);
 		}
 		else { // go CCW
-			Robot.driveLine.drive(-mag * gain, 1);			
+			Robot.driveLine.rotateCounterClockwise(mag * gain);			
 		}		
 	}
 
 	@Override
 	protected boolean isFinished() {
 		double angle = Robot.driveLine.getGyroAngleRadians();
-        SmartDashboard.putNumber("Gyro", Math.toDegrees(angle));
+        SmartDashboard.putNumber(OI.GYRO, Math.toDegrees(angle));
 
-		return Math.abs(angle - targetAngle) < sensitivity;
+		boolean done = Math.abs(angle - targetAngle) < sensitivity;
+		if (done) {
+			Robot.LOGGER.info("ROTATE DONE");
+		}
+		else {
+//			Robot.LOGGER.info(String.format("ROTATE NOT DONE target %.2f angle %.2f sens %.2f diff %.2f", targetAngle, angle, sensitivity, Math.abs(angle - targetAngle)) );
+		}
+		return done;
 	}
 	
 	@Override

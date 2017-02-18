@@ -37,7 +37,9 @@ public class OI {
 	public static final String GEARFINDER_LOCATION = "GearFinderLocation";
 	public static final String GEARFINDER_CURVE_GAIN = "GearFinderCurveGain";
 	public static final String GEARFINDER_SPEED_GAIN = "GearFinderSpeedGain";
-	
+	public static final String DEFAULT_LINEAR_GAIN = "DefaultLinearGain";
+	public static final String DEFAULT_ROTATION_GAIN = "DefaultRotationGain";
+	public static final String GYRO = "Gyro";
 	
     //// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
@@ -103,6 +105,8 @@ public class OI {
         SmartDashboard.putData("DriveForwardByDistanceCommand-12in", new DriveForwardByDistanceCommand(12, 0.3));       
         SmartDashboard.putData("RotateByAngleCommand-ninety", new RotateByAngleCommand(Math.toRadians(90), 0.3));       
         SmartDashboard.putData("AlignToGearDropCommand-right-fwd-left", new AlignToGearDropCommand(Math.toRadians(15), 24));       
+        SmartDashboard.putData("FeedbackApproach", new FeedbackApproachGearDropCommand());       
+        SmartDashboard.putData("FeedbackApproachRight", new GearApproachRightCommandGroup());    
         
     	// Buttons for subsystems
 //        SmartDashboard.putNumber(GEARFINDER_ANGLE_KEY, 0);
@@ -117,7 +121,12 @@ public class OI {
         SmartDashboard.putNumber("LeftEncoder", 0);
         SmartDashboard.putNumber("Distance", 0);
         SmartDashboard.putNumber("DistancePerPulse", RobotMap.DEFAULT_DISTANCE_PER_PULSE);
-        SmartDashboard.putNumber("Gyro", 0);
+        SmartDashboard.putNumber(GYRO, 0);
+        SmartDashboard.putNumber(DEFAULT_LINEAR_GAIN, RobotMap.DEFAULT_LINEAR_GAIN);
+        SmartDashboard.putNumber(DEFAULT_ROTATION_GAIN, RobotMap.DEFAULT_ROTATION_GAIN);   
+        
+        SmartDashboard.putNumber("GearApproachDist", 72);
+        SmartDashboard.putNumber("GearApproachAngle", -60);
         
     }
 

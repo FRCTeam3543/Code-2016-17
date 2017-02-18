@@ -13,6 +13,7 @@ public class GearDrop {
 	
 	public long timestamp;
 
+	public double skewAngle;					// angle to stright-on of the gear drop
 	public double angleToGround;				// angle of the line from center-a to center-b
 	public double sizeDiff;						// ratio of smallest to largest circle
 	public double leftRightSizeDiff;			// ratio of size of leftmost blob to rightmost
@@ -51,6 +52,9 @@ public class GearDrop {
 
 	public void recompute() {
 		angleToGround = computeAngleToGround(left, right);
+		// FIXME - compute
+		skewAngle = 0;
+
 		sizeDiff = computeSizeDiff(left, right);
 		averageDiameter = (left.size + right.size) / 2;
 		leftRightSizeDiff = computeLeftRightSizeDiff(left, right);

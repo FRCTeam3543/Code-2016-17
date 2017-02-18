@@ -124,6 +124,6 @@ public class Robot extends IterativeRobot {
     }
     
     public static void log(String message) {
-    	System.out.println(message);
+    	LOGGER.info(message);
     }
 }

@@ -1,5 +1,23 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="GearApproachAngle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="827"/>
+	</widget>
+	<widget field="GearApproachDist" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="804"/>
+	</widget>
+	<widget field="FeedbackApproachRight" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="768"/>
+	</widget>
+	<widget field="FeedbackApproach" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="732"/>
+	</widget>
+	<widget field="DefaultLinearGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="709"/>
+	</widget>
+	<widget field="DefaultRotationGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="686"/>
+	</widget>
 	<widget field="Gyro" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="623"/>
 	</widget>

@@ -17,11 +17,12 @@ public class LocateGearDropUsingVisionCommand extends Command implements GearDro
 	private int maxRechecks;
 	private boolean finished = false;
 	private GearDropConsumer consumer = null;
+	private int recheckCounter = 0;
 	
 	public LocateGearDropUsingVisionCommand(int maxRechecks, GearDropConsumer consumer) {
 		super();
-		this.maxRechecks = maxRechecks;
-		this.consumer = consumer;
+		this.setMaxRechecks(maxRechecks);
+		this.setGearDropConsumer(consumer);
 	}
 	
 	public LocateGearDropUsingVisionCommand() {
@@ -32,9 +33,17 @@ public class LocateGearDropUsingVisionCommand extends Command implements GearDro
 		this(maxRechecks, null);
 	}
 
+	public void setGearDropConsumer(GearDropConsumer c) {
+		this.consumer = c;
+	}
+	
+	public void setMaxRechecks(int m) {
+		this.maxRechecks = m;
+	}
 	public void reset() {	
 		gearDrop = null;
 		finished = false;
+		recheckCounter = 0;
 	}
 	
 	@Override
@@ -47,31 +56,31 @@ public class LocateGearDropUsingVisionCommand extends Command implements GearDro
 	protected void execute() {
 		// see if we can see a gear drop. Should be on first try, but we'll look a couple
 		// of times just in case
-		for (int i=0; i< maxRechecks; i++) {
+		if (recheckCounter++ < maxRechecks) {			
 			gearDrop = Robot.visionSubsystem.detectGearDrop();
 			if (gearDrop != null) {
-				SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("FOUND IT %.1f m", gearDrop.distanceFromTarget));
-				break; // we got it!
+				SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("FOUND IT %.1f in", gearDrop.distanceFromTarget));
+				finished = true;
 			}	
 			else {
 				SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("Finding Nothing ..."));				
 			}
-			Timer.delay(0.05);
-		}
-		finished = true;
-		if (gearDrop != null) {
-			SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("FOUND IT %.1f m", gearDrop.distanceFromTarget));
+			if (consumer != null) {
+				consumer.setGearDrop(gearDrop);
+			}
+//			Timer.delay(0.05);
 		}
 		else {
-			SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("NOT FOUND"));				
+			if (consumer != null) {
+				consumer.setGearDrop(null);				
+			}
+			finished = true;
 		}
+		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if (consumer != null) {
-			consumer.setGearDrop(gearDrop);
-		}
 		return finished;
 	}
 	

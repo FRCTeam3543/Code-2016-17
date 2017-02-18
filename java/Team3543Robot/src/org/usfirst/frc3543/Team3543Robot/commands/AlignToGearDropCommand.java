@@ -4,37 +4,26 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AlignToGearDropCommand extends CommandGroup {
 	
+	RotateByAngleCommand firstRotation;
+	DriveForwardByDistanceCommand goForward;
+	RotateByAngleCommand rotateBack;
+	
 	public AlignToGearDropCommand(double angle, double distance) {		
-		addSequential(new RotateByAngleCommand(angle));
-		addSequential(new DriveForwardByDistanceCommand(distance));
-		addSequential(new RotateByAngleCommand(-angle));		
+		firstRotation = new RotateByAngleCommand(angle);
+		rotateBack = new RotateByAngleCommand(-angle);
+		goForward = new DriveForwardByDistanceCommand(distance);
+		addSequential(firstRotation);
+		addSequential(goForward);
+		addSequential(rotateBack);
 	}
 	
+	public void setAngle(double angle) {
+		firstRotation.setRotationAngle(angle);
+		rotateBack.setRotationAngle(-angle);
+	}
 	
-	
-//	@Override
-//	protected boolean isFinished() {
-//		return super.isFinished();
-//	}
-//
-//	@Override
-//	protected void initialize() {
-//		super.initialize();
-//	}
-//
-//	@Override
-//	protected void execute() {
-//		super.execute();
-//	}
-//
-//	@Override
-//	protected void end() {
-//		super.end();
-//	}
-//
-//	@Override
-//	protected void interrupted() {
-//		super.interrupted();
-//	}
+	public void setDistance(double distance) {
+		goForward.setTargetDistance(distance);
+	}
 
 }

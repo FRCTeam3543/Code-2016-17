@@ -1,6 +1,7 @@
 package org.usfirst.frc3543.Team3543Robot.commands;
 
 import org.usfirst.frc3543.Team3543Robot.Robot;
+import org.usfirst.frc3543.Team3543Robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,12 +19,20 @@ public class DriveForwardByDistanceCommand extends Command {
 	
 	public DriveForwardByDistanceCommand(double distanceInInches, double powerGain) {
 		requires(Robot.driveLine);
-		this.targetDistance = distanceInInches;
-		this.powerGain = powerGain;
+		this.setTargetDistance(distanceInInches);
+		this.setPowerGain(powerGain);
 	}
 	
 	public DriveForwardByDistanceCommand(double distanceInInches) {
-		this(distanceInInches, 0.5);
+		this(distanceInInches, RobotMap.DEFAULT_ROTATION_GAIN);
+	}
+	
+	public void setTargetDistance(double distanceInInches) {
+		this.targetDistance = distanceInInches;
+	}
+	
+	public void setPowerGain(double powerGain) {
+		this.powerGain = powerGain;
 	}
 	
 	@Override 
@@ -46,8 +55,7 @@ public class DriveForwardByDistanceCommand extends Command {
 			mag *= (percentTraveled - END_TRAPEZOID_POINT) / START_TRAPEZOID_POINT;
 		}
 		mag = Math.max(MIN_MAGNITUDE, mag);
-		// -mag because backwards!
-		Robot.driveLine.drive(-mag * this.powerGain, 0);
+		Robot.driveLine.drive(mag * this.powerGain);
 	}
 
 	@Override
