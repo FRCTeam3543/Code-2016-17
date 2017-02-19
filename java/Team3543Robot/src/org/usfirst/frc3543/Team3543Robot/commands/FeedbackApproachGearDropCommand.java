@@ -4,6 +4,8 @@ import org.usfirst.frc3543.Team3543Robot.OI;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import org.usfirst.frc3543.Team3543Robot.World;
+import org.usfirst.frc3543.Team3543Robot.util.NumberProvider;
+import org.usfirst.frc3543.Team3543Robot.util.SmartDashboardNumberProvider;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -13,10 +15,21 @@ import ttfft.vision.GearDrop;
 public class FeedbackApproachGearDropCommand extends Command {
 	GearDrop gearDrop = null;
 	public static final double MIN_DETECT_DISTANCE = 33; // inches
-	public FeedbackApproachGearDropCommand() {
+	NumberProvider rotationGainProvider;
+	NumberProvider linearGainProvider;
 	
+	public FeedbackApproachGearDropCommand(NumberProvider linearGainProvider, NumberProvider rotationGainProvider) {	
 		requires(Robot.driveLine);
 		requires(Robot.visionSubsystem);
+		this.linearGainProvider = linearGainProvider;
+		this.rotationGainProvider = rotationGainProvider;
+	}
+	
+	public FeedbackApproachGearDropCommand() {
+		this(
+				new SmartDashboardNumberProvider(OI.DEFAULT_LINEAR_GAIN, RobotMap.DEFAULT_LINEAR_GAIN),
+				new SmartDashboardNumberProvider(OI.DEFAULT_ROTATION_GAIN, RobotMap.DEFAULT_ROTATION_GAIN)
+				);
 	}
 	
 	@Override
@@ -33,20 +46,19 @@ public class FeedbackApproachGearDropCommand extends Command {
 		if (gearDrop != null) {
 
 			double distance = gearDrop.distanceFromTarget - World.GEAR_DROP_POST + 5; // just on
-			SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("Gear drop at %.1f in", distance));
+			OI.dashboard.putGearfinderLocation(String.format("Gear drop at %.1f in", distance));
 
-			double gain = SmartDashboard.getNumber(OI.DEFAULT_LINEAR_GAIN, RobotMap.DEFAULT_LINEAR_GAIN);
+			double gain = linearGainProvider.getValue();
 			
 			boolean closeIn = gearDrop.distanceFromTarget <= MIN_DETECT_DISTANCE;
 			if (closeIn) {
 				// do nothing
-				SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("Closing %.1f in", distance));
+				OI.dashboard.putGearfinderLocation(String.format("Closing %.1f in", distance));
 				Robot.driveLine.stop();
 				Scheduler.getInstance().add(new DriveForwardByDistanceCommand(distance, gain));
 			}
 			else {
-				double rotationGain = SmartDashboard.getNumber(OI.DEFAULT_ROTATION_GAIN, RobotMap.DEFAULT_ROTATION_GAIN);
-				
+				double rotationGain = rotationGainProvider.getValue();				
 				double offset = gearDrop.offsetFromCenter;
 				double angle = computeAngleToGearDropPerpendicular(gearDrop);
 				// use 10 degrees = -1 angle
@@ -54,13 +66,12 @@ public class FeedbackApproachGearDropCommand extends Command {
 				double curveGain = Math.max(-1, Math.min(1, angle/limit));
 				//Robot.driveLine.drive(gain, (angle < 0 ? -1 : 1) * curveGain * rotationGain);
 				Robot.driveLine.drive(gain, (angle < 0 ? -1 : 1) * rotationGain);
-
 			}
 		}
 		else {
 			Robot.LOGGER.info("Oops, lots visibility");
 			Robot.driveLine.stop();
-			SmartDashboard.putString(OI.GEARFINDER_LOCATION, "No gear drop");
+			OI.dashboard.putGearfinderLocation("No gear drop");
 		}		
 	}
 	

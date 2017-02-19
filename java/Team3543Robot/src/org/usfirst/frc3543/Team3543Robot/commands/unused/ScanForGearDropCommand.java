@@ -1,6 +1,8 @@
-package org.usfirst.frc3543.Team3543Robot.commands;
+package org.usfirst.frc3543.Team3543Robot.commands.unused;
 
 import org.usfirst.frc3543.Team3543Robot.Robot;
+import org.usfirst.frc3543.Team3543Robot.commands.LocateGearDropUsingVisionCommand;
+import org.usfirst.frc3543.Team3543Robot.commands.RotateByAngleCommand;
 import org.usfirst.frc3543.Team3543Robot.util.GearDropConsumer;
 import org.usfirst.frc3543.Team3543Robot.util.GearDropProvider;
 

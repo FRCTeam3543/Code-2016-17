@@ -11,10 +11,12 @@
 
 package org.usfirst.frc3543.Team3543Robot.subsystems;
 
+import org.usfirst.frc3543.Team3543Robot.OI;
+import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import org.usfirst.frc3543.Team3543Robot.commands.*;
-import org.usfirst.frc3543.Team3543Robot.util.MotionProfile;
-import org.usfirst.frc3543.Team3543Robot.util.MotionProfilePlanGenerator.MotionProfilePlan;
+import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfile;
+import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfilePlanGenerator.MotionProfilePlan;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
@@ -180,16 +182,19 @@ public class DriveLine extends Subsystem {
 	}
 
 	public void resetEncoders() {
-		double dpp = SmartDashboard.getNumber("DistancePerPulse", RobotMap.DEFAULT_DISTANCE_PER_PULSE);
+		double dpp = OI.dashboard.getWheelEncoderDistancePerPulse();
 
 		this.quadratureEncoderLeft.reset();
 		this.quadratureEncoderLeft.setDistancePerPulse(dpp);
 		this.quadratureEncoderRight.reset();
 		this.quadratureEncoderRight.setDistancePerPulse(dpp);
+		this.updateDashboard();
+
 	}
 	
 	public void resetGyro() {
 		this.analogGyro1.reset();
+		this.updateDashboard();
 	}
 	
 	public double getLeftEncoderValue() {
@@ -199,6 +204,11 @@ public class DriveLine extends Subsystem {
 	
 	public double getRightEncoderValue() {
 		return this.quadratureEncoderRight.getDistance();
+	}
+
+	public void updateDashboard() {
+        OI.dashboard.putDrivelineEncoders(getLeftEncoderValue(), getRightEncoderValue());
+        OI.dashboard.putDrivelineGyro(getGyroAngle());
 	}
 	
 }

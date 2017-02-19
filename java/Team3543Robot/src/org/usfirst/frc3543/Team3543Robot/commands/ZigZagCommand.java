@@ -2,13 +2,20 @@ package org.usfirst.frc3543.Team3543Robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AlignToGearDropCommand extends CommandGroup {
+/**
+ * Command to "zig zag" the robot.  Rotate, drive forward, then rotate back. 
+ * 
+ * Rotates toward a line, drives forward and rotates back again.
+ * @author MK
+ *
+ */
+public class ZigZagCommand extends CommandGroup {
 	
 	RotateByAngleCommand firstRotation;
 	DriveForwardByDistanceCommand goForward;
 	RotateByAngleCommand rotateBack;
 	
-	public AlignToGearDropCommand(double angle, double distance) {		
+	public ZigZagCommand(double angle, double distance) {		
 		firstRotation = new RotateByAngleCommand(angle);
 		rotateBack = new RotateByAngleCommand(-angle);
 		goForward = new DriveForwardByDistanceCommand(distance);

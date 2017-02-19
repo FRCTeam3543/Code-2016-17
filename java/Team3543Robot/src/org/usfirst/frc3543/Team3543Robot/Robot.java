@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import org.usfirst.frc3543.Team3543Robot.commands.*;
 import org.usfirst.frc3543.Team3543Robot.subsystems.*;
+import org.usfirst.frc3543.Team3543Robot.subsystems.unused.RangeFinderSubSystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the

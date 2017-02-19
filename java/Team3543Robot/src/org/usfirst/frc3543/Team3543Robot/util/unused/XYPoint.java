@@ -1,4 +1,4 @@
-package org.usfirst.frc3543.Team3543Robot.util;
+package org.usfirst.frc3543.Team3543Robot.util.unused;
 
 public class XYPoint {
 	public double x = 0.0;

@@ -1,5 +1,15 @@
-package org.usfirst.frc3543.Team3543Robot.util;
+package org.usfirst.frc3543.Team3543Robot.util.unused;
 
+/**
+ * Tool for calculating a Cubic Bezier
+ * 
+ * Useful for motion planning, except that it doesn't include orientations
+ * 
+ * Adapted from http://devmag.org.za/2011/04/05/bzier-curves-a-tutorial/
+ * 
+ * @author MK
+ *
+ */
 public class CubicBezierPathCalculator extends PathCalculator {
 
 	XYPoint point1;
@@ -16,7 +26,7 @@ public class CubicBezierPathCalculator extends PathCalculator {
 	}
 	
 	/**
-	 * Adapted from http://devmag.org.za/2011/04/05/bzier-curves-a-tutorial/
+	 * 
 	 * @param t
 	 * @param p0 - first point
 	 * @param p1 - first control point

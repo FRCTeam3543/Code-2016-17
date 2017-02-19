@@ -1,4 +1,4 @@
-package org.usfirst.frc3543.Team3543Robot.commands;
+package org.usfirst.frc3543.Team3543Robot.commands.unused;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;

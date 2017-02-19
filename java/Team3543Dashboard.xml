@@ -1,19 +1,23 @@
 <xml version="1.0">
 <dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="677" y="34"/>
+		<property name="Text" value="Gear DropSettings"/>
+	</static-widget>
 	<widget field="Lift Gain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="850"/>
 	</widget>
 	<widget field="GearApproachAngle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="827"/>
+		<location x="977" y="86"/>
 	</widget>
 	<widget field="GearApproachDist" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="804"/>
+		<location x="978" y="57"/>
 	</widget>
 	<widget field="FeedbackApproachRight" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="768"/>
+		<location x="983" y="128"/>
 	</widget>
 	<widget field="FeedbackApproach" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="732"/>
+		<location x="990" y="174"/>
 	</widget>
 	<widget field="DefaultLinearGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="709"/>
@@ -49,10 +53,10 @@
 		<location x="64" y="213"/>
 	</widget>
 	<widget field="GearFinderSpeedGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="896" y="325"/>
+		<location x="678" y="133"/>
 	</widget>
 	<widget field="GearFinderCurveGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="636" y="324"/>
+		<location x="677" y="97"/>
 	</widget>
 	<widget field="LiftRobotCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="291" y="27"/>
@@ -70,28 +74,28 @@
 		<property name="MJPG Server URL" value="http://10.35.43.77/mjpg/video.mjpg"/>
 	</static-widget>
 	<widget field="GearFinderLocation" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="636" y="421"/>
+		<location x="677" y="177"/>
 	</widget>
 	<widget field="GearFinderBlobCount" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="736" y="58"/>
+		<location x="678" y="59"/>
 	</widget>
 	<widget field="GearFinderMode" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="759" y="358"/>
+		<location x="1080" y="278"/>
 	</widget>
 	<widget field="GearFinderStatus" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="753" y="388"/>
+		<location x="1083" y="331"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="641" y="389"/>
+		<location x="960" y="331"/>
 		<property name="Text" value="Found Gear Drop:"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="642" y="364"/>
+		<location x="961" y="284"/>
 		<height>16</height>
 		<property name="Text" value="Search Mode:"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
-		<location x="948" y="5"/>
+		<location x="1341" y="5"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
 		<location x="22" y="230"/>
@@ -102,7 +106,7 @@
 		<property name="Text" value="Teleop Drives"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="640" y="64"/>
+		<location x="1305" y="428"/>
 		<width>45</width>
 		<property name="Text" value="Camera"/>
 	</static-widget>

@@ -18,7 +18,7 @@ import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 
 /**
- *
+ * Arcade drive command
  */
 public class ArcadeDriveWithJoystick extends Command {
 
@@ -47,7 +47,7 @@ public class ArcadeDriveWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.driveLine.arcadeDrive(Robot.oi.getRightJoystick());
-        SmartDashboard.putNumber("LeftEncoder", Robot.driveLine.getLeftEncoderValue());
+    	Robot.driveLine.updateDashboard();
     	Timer.delay(RobotMap.DRIVELINE_TIMER_DELAY);
     }
 

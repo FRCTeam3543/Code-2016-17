@@ -64,9 +64,7 @@ public class VisionSubsystem extends Subsystem {
     private AxisCamera camera;
     private CvSink sink;
     private GearDropPipeline gearDropPipeline;
-    
-    private int undetectedCount = 0;
-    
+        
     public boolean isRunning() {
     	return _running;
     }
@@ -119,32 +117,31 @@ public class VisionSubsystem extends Subsystem {
 //		CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
 		
 		gearDropPipeline = new GearDropPipeline();		
-				
-		visionThread = new Thread(() -> {
-			while (isRunning()) {
-				GearDrop gd = detectGearDrop();
-				if (gd != null) {
-					foundGearDrop = gd;				
-					SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, true);
-					SmartDashboard.putString(OI.GEARFINDER_LOCATION, gd != null ? String.format("%.1f m", gd.distanceFromTarget) : "NONE");						
-					undetectedCount = 0;
-				}
-				else {
-					if (undetectedCount++ > 5) {
-						SmartDashboard.putBoolean(OI.GEARFINDER_FOUND_GEAR, false);
-						SmartDashboard.putString(OI.GEARFINDER_LOCATION, gd != null ? String.format("%.1f m", gd.distanceFromTarget) : "NOPE");													
-						foundGearDrop = null;
-					}
-				}
-				try {
-					Thread.sleep(500);  //TODO take this out
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}				
-			}
-			
-		});
+
+		// We're not using a separate thread now, don't need it
+//		visionThread = new Thread(() -> {
+//			while (isRunning()) {
+//				GearDrop gd = detectGearDrop();
+//				if (gd != null) {
+//					foundGearDrop = gd;				
+//					OI.dashboard.putGearfinderLocation( gd != null ? String.format("%.1f m", gd.distanceFromTarget) : "NONE");						
+//					undetectedCount = 0;
+//				}
+//				else {
+//					if (undetectedCount++ > 5) {
+//						OI.dashboard.putGearfinderLocation(gd != null ? String.format("%.1f m", gd.distanceFromTarget) : "NOPE");													
+//						foundGearDrop = null;
+//					}
+//				}
+//				try {
+//					Thread.sleep(500);  //TODO take this out
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}				
+//			}
+//			
+//		});
 		
 //		visionThread = new VisionThread((VideoSource)camera, new GripPipeline(), pipeline -> {
 //			

@@ -1,8 +1,8 @@
-package org.usfirst.frc3543.Team3543Robot.util;
+package org.usfirst.frc3543.Team3543Robot.util.unused;
 
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotGeometry;
-import org.usfirst.frc3543.Team3543Robot.util.MotionProfile.PVTPoint;
+import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfile.PVTPoint;
 
 import com.ctre.CANTalon;
 //import com.team254.lib.trajectory.Path;

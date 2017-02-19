@@ -3,10 +3,17 @@ package org.usfirst.frc3543.Team3543Robot.commands;
 import org.usfirst.frc3543.Team3543Robot.OI;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
+import org.usfirst.frc3543.Team3543Robot.util.DegreesToRadiansNumberProvider;
+import org.usfirst.frc3543.Team3543Robot.util.NumberProvider;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Rotate the robot by a given angle
+ * 
+ * @author MK
+ */
 public class RotateByAngleCommand extends Command {
 	protected double targetAngle = 0;
 	protected double rotateBy = 0;
@@ -16,17 +23,35 @@ public class RotateByAngleCommand extends Command {
 	public static final double SENSITIVITY = 0.01;// Radians
 	protected double gain = RobotMap.DEFAULT_ROTATION_GAIN;
 	
+	public static final double DEFAULT_SENSITIVITY_DEGREES = 1;
+	
+	NumberProvider angleInRadiansProvider;
+	NumberProvider gainProvider;
+	NumberProvider sensitivityProvider;
+	
 	public RotateByAngleCommand(double angleInRadians) {
 		this(angleInRadians, RobotMap.DEFAULT_ROTATION_GAIN);
 	}
 	
-	public RotateByAngleCommand(double angleInRadians, double gain) {
-		requires(Robot.driveLine);
-		this.setGain(gain);
-		this.setRotationAngle(angleInRadians);
-		setSensitivity(Math.toRadians(1));
+	public RotateByAngleCommand(NumberProvider angleInRadiansProvider, NumberProvider gainProvider, NumberProvider sensitivityProvider) {
+		this.gainProvider = gainProvider;
+		this.angleInRadiansProvider = angleInRadiansProvider;
+		this.sensitivityProvider = sensitivityProvider;
+		requires(Robot.driveLine);		
 	}
 	
+	public RotateByAngleCommand(double angleInRadians, double gain) {
+		this(NumberProvider.fixedValue(angleInRadians), NumberProvider.fixedValue(gain));
+	}
+	
+	public RotateByAngleCommand(NumberProvider angle, NumberProvider gain) {
+		this(angle, gain, new DegreesToRadiansNumberProvider(NumberProvider.fixedValue(DEFAULT_SENSITIVITY_DEGREES)));
+	}
+
+	public RotateByAngleCommand(NumberProvider angleInRadiansProvider) {
+		this(angleInRadiansProvider, NumberProvider.fixedValue(RobotMap.DEFAULT_ROTATION_GAIN));
+	}
+
 	public void setRotationAngle(double angleInRadians) {
 		this.rotateBy = angleInRadians;
 	}
@@ -43,6 +68,10 @@ public class RotateByAngleCommand extends Command {
 	protected void initialize() {		
 		Robot.LOGGER.info("ROTATE BY " +rotateBy);
 		Robot.driveLine.resetGyro();
+		this.setGain(gainProvider.getValue());
+		this.setRotationAngle(angleInRadiansProvider.getValue());
+		setSensitivity(sensitivityProvider.getValue());
+
 		this.startingAngle = Robot.driveLine.getGyroAngleRadians();
 		this.targetAngle = startingAngle + rotateBy;
 		this.sensitivity = Robot.driveLine.gyroSensitivity * 2;		
@@ -72,7 +101,7 @@ public class RotateByAngleCommand extends Command {
 	@Override
 	protected boolean isFinished() {
 		double angle = Robot.driveLine.getGyroAngleRadians();
-        SmartDashboard.putNumber(OI.GYRO, Math.toDegrees(angle));
+        SmartDashboard.putNumber(OI.DRIVELINE_GYRO, Math.toDegrees(angle));
 
 		boolean done = Math.abs(angle - targetAngle) < sensitivity;
 		if (done) {

@@ -59,11 +59,11 @@ public class LocateGearDropUsingVisionCommand extends Command implements GearDro
 		if (recheckCounter++ < maxRechecks) {			
 			gearDrop = Robot.visionSubsystem.detectGearDrop();
 			if (gearDrop != null) {
-				SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("FOUND IT %.1f in", gearDrop.distanceFromTarget));
+				OI.dashboard.putGearfinderLocation(String.format("FOUND IT %.1f in", gearDrop.distanceFromTarget));
 				finished = true;
 			}	
 			else {
-				SmartDashboard.putString(OI.GEARFINDER_LOCATION, String.format("Finding Nothing ..."));				
+				OI.dashboard.putGearfinderLocation("Finding Nothing ...");
 			}
 			if (consumer != null) {
 				consumer.setGearDrop(gearDrop);

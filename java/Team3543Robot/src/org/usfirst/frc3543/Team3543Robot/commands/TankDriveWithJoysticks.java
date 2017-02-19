@@ -16,7 +16,7 @@ import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 
 /**
- *
+ * Tank drive command
  */
 public class TankDriveWithJoysticks extends Command {
 

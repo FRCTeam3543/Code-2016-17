@@ -9,7 +9,7 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc3543.Team3543Robot.subsystems;
+package org.usfirst.frc3543.Team3543Robot.subsystems.unused;
 
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import org.usfirst.frc3543.Team3543Robot.commands.*;
