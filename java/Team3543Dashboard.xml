@@ -1,143 +1,139 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Lower Robot" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="77" y="443"/>
+	</widget>
+	<widget field="Lift Robot" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="92" y="414"/>
+	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="677" y="34"/>
-		<property name="Text" value="Gear DropSettings"/>
+		<location x="26" y="684"/>
+		<property name="Text" value="Misc. Test Commands"/>
 	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="20" y="52"/>
+		<property name="Text" value="Calibration"/>
+	</static-widget>
+	<widget field="Gear Finder Location" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="567" y="270"/>
+		<width>385</width>
+	</widget>
+	<widget field="Gear Finder Speed Gain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="61" y="192"/>
+	</widget>
+	<widget field="Gear Finder Curve Gain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="62" y="154"/>
+	</widget>
+	<widget field="Default Rotation Gain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="73" y="116"/>
+	</widget>
+	<widget field="Default Linear Gain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="84" y="82"/>
+	</widget>
+	<widget field="GearDrop inital static angle (deg)" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="513" y="124"/>
+	</widget>
+	<widget field="Rotate 90 degrees" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="23" y="706"/>
+	</widget>
+	<widget field="Autonomous Mode" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="593" y="52"/>
+	</widget>
+	<widget field="Zig Zag" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="86" y="742"/>
+	</widget>
+	<widget field="Right Encoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="916" y="310"/>
+		<width>170</width>
+	</widget>
+	<widget field="Drive Forward 12in" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="21" y="776"/>
+	</widget>
+	<widget field="Position and Approach Gear Drop" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="18" y="507"/>
+	</widget>
+	<widget field="GearDrop inital static distance (in)" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="507" y="87"/>
+		<height>25</height>
+	</widget>
+	<widget field="Wheel encoder distance per pulse" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="5" y="230"/>
+	</widget>
+	<widget field="Distance Remaining" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="590" y="159"/>
+	</widget>
+	<widget field="Approach Gear Drop" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="294" y="537"/>
+	</widget>
+	<widget field="Left Encoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="719" y="310"/>
+		<height>24</height>
+	</widget>
+	<widget field="Locate Gear Drop" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="308" y="504"/>
+	</widget>
+	<widget field="OpenGearHolderCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="225" y="706"/>
+	</widget>
 	<widget field="Lift Gain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="850"/>
-	</widget>
-	<widget field="GearApproachAngle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="977" y="86"/>
-	</widget>
-	<widget field="GearApproachDist" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="978" y="57"/>
-	</widget>
-	<widget field="FeedbackApproachRight" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="983" y="128"/>
-	</widget>
-	<widget field="FeedbackApproach" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="990" y="174"/>
-	</widget>
-	<widget field="DefaultLinearGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="709"/>
-	</widget>
-	<widget field="DefaultRotationGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="686"/>
+		<location x="155" y="269"/>
 	</widget>
 	<widget field="Gyro" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="623"/>
-	</widget>
-	<widget field="DistancePerPulse" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="557"/>
-	</widget>
-	<widget field="Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="498"/>
-	</widget>
-	<widget field="LeftEncoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="154"/>
-	</widget>
-	<widget field="DriveForwardByDistanceCommand-12in" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="462"/>
-	</widget>
-	<widget field="RotateByAngleCommand-ninety" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="33" y="521"/>
-	</widget>
-	<widget field="DriveForwardByDistanceCommand-36in" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="47" y="650"/>
-	</widget>
-	<widget field="AlignToGearDropCommand-right-fwd-left" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="33" y="587"/>
-	</widget>
-	<widget field="LocateGearDropUsingVisionCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="64" y="213"/>
-	</widget>
-	<widget field="GearFinderSpeedGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="678" y="133"/>
-	</widget>
-	<widget field="GearFinderCurveGain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="677" y="97"/>
-	</widget>
-	<widget field="LiftRobotCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="291" y="27"/>
+		<location x="567" y="311"/>
 	</widget>
 	<widget field="RaiseBallChuteCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="311" y="135"/>
+		<location x="260" y="333"/>
 	</widget>
 	<widget field="LowerBallChuteCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="297" y="79"/>
+		<location x="258" y="364"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.MjpgStreamViewerImpl">
-		<location x="650" y="452"/>
+		<location x="524" y="350"/>
 		<width>707</width>
 		<height>401</height>
 		<property name="MJPG Server URL" value="http://10.35.43.77/mjpg/video.mjpg"/>
 	</static-widget>
-	<widget field="GearFinderLocation" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="677" y="177"/>
-	</widget>
-	<widget field="GearFinderBlobCount" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="678" y="59"/>
-	</widget>
-	<widget field="GearFinderMode" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1080" y="278"/>
-	</widget>
-	<widget field="GearFinderStatus" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1083" y="331"/>
-	</widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="960" y="331"/>
-		<property name="Text" value="Found Gear Drop:"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="961" y="284"/>
-		<height>16</height>
-		<property name="Text" value="Search Mode:"/>
-	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
-		<location x="1341" y="5"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="22" y="230"/>
-		<property name="Text" value="Actions"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="16" y="45"/>
-		<property name="Text" value="Teleop Drives"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="1305" y="428"/>
-		<width>45</width>
-		<property name="Text" value="Camera"/>
+		<location x="225" y="8"/>
 	</static-widget>
 	<widget field="Auto Selector" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="15" y="10"/>
 	</widget>
 	<widget field="TankDriveWithJoysticks" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="17" y="118"/>
-	</widget>
-	<widget field="Place Gear Command Group" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="19" y="345"/>
+		<location x="15" y="360"/>
 	</widget>
 	<widget field="ArcadeDriveWithJoystick" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="11" y="70"/>
-	</widget>
-	<widget field="Autonomous Command" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="22" y="304"/>
-	</widget>
-	<widget field="ApproachGearDropCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="21" y="264"/>
-	</widget>
-	<widget field="Pickup Gear Command Group" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="18" y="386"/>
-	</widget>
-	<widget field="BallPickupCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="21" y="426"/>
-	</widget>
-	<widget field="ApproachGearDropCommandGroup" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="24" y="177"/>
+		<location x="9" y="328"/>
 	</widget>
 </dashboard>
 <live-window>
 </live-window>
+	<hidden field="FeedbackApproachRight"/>
+	<hidden field="AlignToGearDropCommand-right-fwd-left"/>
+	<hidden field="LiftRobotCommand"/>
+	<hidden field="GearFinderCurveGain"/>
+	<hidden field="GearApproachAngle"/>
+	<hidden field="GearFinderSpeedGain"/>
+	<hidden field="GearFinderMode"/>
+	<hidden field="DefaultRotationGain"/>
+	<hidden field="Place Gear Command Group"/>
+	<hidden field="DriveForwardByDistanceCommand-36in"/>
+	<hidden field="LocateGearDropUsingVisionCommand"/>
+	<hidden field="GearFinderLocation"/>
+	<hidden field="BallPickupCommand"/>
+	<hidden field="Distance"/>
+	<hidden field="LeftEncoder"/>
+	<hidden field="FeedbackApproach"/>
+	<hidden field="DistancePerPulse"/>
+	<hidden field="ApproachGearDropCommandGroup"/>
+	<hidden field="GearFinderStatus"/>
+	<hidden field="GearApproachDist"/>
+	<hidden field="RotateByAngleCommand-ninety"/>
+	<hidden field="ApproachGearDropCommand"/>
+	<hidden field="DriveForwardByDistanceCommand-12in"/>
+	<hidden field="Pickup Gear Command Group"/>
+	<hidden field="GearDrop inital static distance (deg)"/>
+	<hidden field="GearFinderBlobCount"/>
+	<hidden field="DefaultLinearGain"/>
+	<hidden field="Autonomous Command"/>
 </xml>

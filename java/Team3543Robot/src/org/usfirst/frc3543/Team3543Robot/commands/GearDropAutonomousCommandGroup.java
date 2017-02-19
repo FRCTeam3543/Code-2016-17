@@ -30,5 +30,6 @@ public class GearDropAutonomousCommandGroup extends CommandGroup {
 	@Override
 	protected void initialize() {
 		super.initialize();
+		
 	}
 }

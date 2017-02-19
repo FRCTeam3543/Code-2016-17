@@ -27,6 +27,8 @@ public class DriveForwardByDistanceCommand extends Command {
 	
 	public DriveForwardByDistanceCommand(NumberProvider distanceProvider, NumberProvider gainProvider) {
 		requires(Robot.driveLine);
+		this.distanceProvider = distanceProvider;
+		this.gainProvider = gainProvider;
 	}
 	
 	public DriveForwardByDistanceCommand(double distanceInInches) {
