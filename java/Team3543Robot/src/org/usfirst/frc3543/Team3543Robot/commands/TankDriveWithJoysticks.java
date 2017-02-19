@@ -10,11 +10,13 @@
 
 
 package org.usfirst.frc3543.Team3543Robot.commands;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc3543.Team3543Robot.Robot;
+import org.usfirst.frc3543.Team3543Robot.RobotMap;
 
 /**
- *
+ * Tank drive command
  */
 public class TankDriveWithJoysticks extends Command {
 
@@ -42,6 +44,7 @@ public class TankDriveWithJoysticks extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.driveLine.tankDrive(Robot.oi.getLeftJoystick(), Robot.oi.getRightJoystick());
+    	Timer.delay(RobotMap.DRIVELINE_TIMER_DELAY);
     }
 
     // Make this return true when this Command no longer needs to run execute()

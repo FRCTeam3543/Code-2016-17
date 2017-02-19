@@ -10,11 +10,15 @@
 
 
 package org.usfirst.frc3543.Team3543Robot.commands;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc3543.Team3543Robot.Robot;
+import org.usfirst.frc3543.Team3543Robot.RobotMap;
 
 /**
- *
+ * Arcade drive command
  */
 public class ArcadeDriveWithJoystick extends Command {
 
@@ -37,12 +41,14 @@ public class ArcadeDriveWithJoystick extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.driveLine.resetEncoders();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.driveLine.arcadeDrive(Robot.oi.getRightJoystick());
-
+    	Robot.driveLine.updateDashboard();
+    	Timer.delay(RobotMap.DRIVELINE_TIMER_DELAY);
     }
 
     // Make this return true when this Command no longer needs to run execute()

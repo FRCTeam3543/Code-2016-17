@@ -4,13 +4,17 @@ import java.util.logging.Logger;
 
 import org.opencv.core.KeyPoint;
 import org.usfirst.frc3543.Team3543Robot.Robot;
+import org.usfirst.frc3543.Team3543Robot.World;
 
 public class GearDrop {
 	public static final Logger LOGGER = Logger.getLogger(GearDrop.class.getName());
 	
 	public KeyPoint left;						
 	public KeyPoint right;
+	
+	public long timestamp;
 
+	public double skewAngle;					// angle to stright-on of the gear drop
 	public double angleToGround;				// angle of the line from center-a to center-b
 	public double sizeDiff;						// ratio of smallest to largest circle
 	public double leftRightSizeDiff;			// ratio of size of leftmost blob to rightmost
@@ -22,11 +26,14 @@ public class GearDrop {
 	public long centerSpanInPixels = 0;
 	public long[] gearDropPoint = {0,0};			// point where gear drop is
 	public double distanceFromTarget = 0.0;
+	
+	public double offsetFromCenter = 0.0;			// offset from center
 		
 	private Settings settings;				// settings for the image transform
 	
 	GearDrop(KeyPoint a, KeyPoint b, Settings settings) {
 		// leftmost one is the one with the leftmost x
+		timestamp = System.currentTimeMillis();
 		this.settings = settings;
 		if (a.pt.x < b.pt.x) {
     		left = a;
@@ -46,6 +53,9 @@ public class GearDrop {
 
 	public void recompute() {
 		angleToGround = computeAngleToGround(left, right);
+		// FIXME - compute
+		skewAngle = 0;
+
 		sizeDiff = computeSizeDiff(left, right);
 		averageDiameter = (left.size + right.size) / 2;
 		leftRightSizeDiff = computeLeftRightSizeDiff(left, right);
@@ -72,9 +82,11 @@ public class GearDrop {
 		 */
 		double theta = Settings.FOV_ANGLE;
 		double rho = (double)centerSpanInPixels / settings.outputImageWidth;
-		double wt = Settings.CENTER_SPAN_IN_M / 2;
-		LOGGER.info(String.format("theta = %.2f rho = %.2f wt = %.2f (%s, %s)", theta, rho, wt, centerSpanInPixels, settings.outputImageWidth));
-		distanceFromTarget = wt / (rho * Math.tan(theta));
+		double wt = Settings.CENTER_SPAN_IN_INCHES / 2;
+//		LOGGER.info(String.format("theta = %.2f rho = %.2f wt = %.2f (%s, %s)", theta, rho, wt, centerSpanInPixels, settings.outputImageWidth));
+		distanceFromTarget = wt / (rho * Math.tan(theta)) - World.GEAR_DROP_POST + World.GEAR_DROP_POST_TARGET;
+		double width = distanceFromTarget * Math.tan(theta);
+		offsetFromCenter = (double)offset[0] / (double)settings.outputImageWidth * width;
 	}
 	
 	/**
@@ -87,7 +99,7 @@ public class GearDrop {
 		// angle = atan(y2 -  y1)/ (x2 - x1)
 		double xdiff = b.pt.x - a.pt.x;
 		double ydiff = b.pt.y - a.pt.y;
-		LOGGER.info(String.format("[%.3f, %.3f] and [%.3f, %.3f]", a.pt.x, a.pt.y, b.pt.x, b.pt.y));   
+//		LOGGER.info(String.format("[%.3f, %.3f] and [%.3f, %.3f]", a.pt.x, a.pt.y, b.pt.x, b.pt.y));   
 		double ret;
 		if (Math.abs(xdiff) < 0.00000001) {
 			ret = Math.PI / 2;
@@ -95,7 +107,7 @@ public class GearDrop {
 		else {
 			ret = Math.atan(-ydiff / xdiff);
 		}
-		LOGGER.info(String.format("xdiff = %.2f ydiff = %.2f angle = %.1f", xdiff, ydiff, ret * 180 / Math.PI));
+//		LOGGER.info(String.format("xdiff = %.2f ydiff = %.2f angle = %.1f", xdiff, ydiff, ret * 180 / Math.PI));
 		return ret;
 	}
 	
@@ -131,7 +143,7 @@ public class GearDrop {
 			return (double)Integer.MAX_VALUE; // really big number
 		}
 		double rel_dist = Math.sqrt(Math.pow(a.pt.x - b.pt.x, 2) + Math.pow(a.pt.y - b.pt.y, 2));
-		LOGGER.info(String.format("Distance %.1f Diameter %.1f", rel_dist, avg_diameter));
+//		LOGGER.info(String.format("Distance %.1f Diameter %.1f", rel_dist, avg_diameter));
 		
 		return rel_dist / avg_diameter;
 	}
