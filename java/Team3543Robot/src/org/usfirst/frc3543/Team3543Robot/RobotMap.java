@@ -49,8 +49,8 @@ public class RobotMap {
     public static AnalogGyro driveLineAnalogGyro1;
     public static Encoder driveLineQuadratureEncoderLeft;
     public static Encoder driveLineQuadratureEncoderRight;
-    public static Servo ballPickupSubsystemServo1;
-    public static Servo ballPickupSubsystemServo2;
+    public static Servo ballPickupSubsystemBallDumpServo1;
+    public static Servo ballPickupSubsystemBallDumpServo2;
     public static SpeedController ballPickupSubsystemVictorSpeedController;
     public static CANTalon liftSubsystemCANTalon5;
     public static CANTalon liftSubsystemCANTalon6;
@@ -71,16 +71,16 @@ public class RobotMap {
 	public static final double MAX_SPEED = 0.25;
 	public static final double MIN_SPEED = 0.12;	
     public static final double DRIVELINE_TIMER_DELAY = 0.01;	// delay passed to Timer.delay() on driveline calls
-    public static final double DEFAULT_DISTANCE_PER_PULSE = 0.052;
+    public static final double DEFAULT_DISTANCE_PER_PULSE = 0.05;
     public static final double GYRO_SENSITIVITY = 0.0019;	// volts per degree per second
-    public static final double DEFAULT_LINEAR_GAIN = 0.28;
-    public static final double DEFAULT_ROTATION_GAIN = 0.30;
+    public static final double DEFAULT_LINEAR_GAIN = 0.25;
+    public static final double DEFAULT_ROTATION_GAIN = 0.27;
     public static final double DEFAULT_LIFT_GAIN = 0.9;
     
-    public static final double DEFAULT_AUTONOMOUS_LEFT_DISTANCE = 210;
+    public static final double DEFAULT_AUTONOMOUS_LEFT_DISTANCE = 240;
     public static final double DEFAULT_AUTONOMOUS_LEFT_ANGLE = 55;
 
-    public static final double DEFAULT_AUTONOMOUS_RIGHT_DISTANCE = DEFAULT_AUTONOMOUS_LEFT_DISTANCE;
+    public static final double DEFAULT_AUTONOMOUS_RIGHT_DISTANCE = 200;
     public static final double DEFAULT_AUTONOMOUS_RIGHT_ANGLE = -DEFAULT_AUTONOMOUS_LEFT_ANGLE;
 
     public static final double DEFAULT_AUTONOMOUS_MIDDLE_DISTANCE = 45;
@@ -115,17 +115,17 @@ public class RobotMap {
         driveLineAnalogGyro1.setSensitivity(0.007);
         driveLineQuadratureEncoderLeft = new Encoder(0, 1, false, EncodingType.k4X);
         LiveWindow.addSensor("DriveLine", "QuadratureEncoderLeft", driveLineQuadratureEncoderLeft);
-        driveLineQuadratureEncoderLeft.setDistancePerPulse(0.044);
+        driveLineQuadratureEncoderLeft.setDistancePerPulse(0.05);
         driveLineQuadratureEncoderLeft.setPIDSourceType(PIDSourceType.kRate);
         driveLineQuadratureEncoderRight = new Encoder(2, 3, false, EncodingType.k4X);
         LiveWindow.addSensor("DriveLine", "QuadratureEncoderRight", driveLineQuadratureEncoderRight);
-        driveLineQuadratureEncoderRight.setDistancePerPulse(0.011);
+        driveLineQuadratureEncoderRight.setDistancePerPulse(0.05);
         driveLineQuadratureEncoderRight.setPIDSourceType(PIDSourceType.kRate);
-        ballPickupSubsystemServo1 = new Servo(1);
-        LiveWindow.addActuator("BallPickupSubsystem", "Servo 1", ballPickupSubsystemServo1);
+        ballPickupSubsystemBallDumpServo1 = new Servo(1);
+        LiveWindow.addActuator("BallPickupSubsystem", "BallDumpServo1", ballPickupSubsystemBallDumpServo1);
         
-        ballPickupSubsystemServo2 = new Servo(2);
-        LiveWindow.addActuator("BallPickupSubsystem", "Servo 2", ballPickupSubsystemServo2);
+        ballPickupSubsystemBallDumpServo2 = new Servo(2);
+        LiveWindow.addActuator("BallPickupSubsystem", "BallDumpServo2", ballPickupSubsystemBallDumpServo2);
         
         ballPickupSubsystemVictorSpeedController = new Victor(0);
         LiveWindow.addActuator("BallPickupSubsystem", "VictorSpeedController", (Victor) ballPickupSubsystemVictorSpeedController);

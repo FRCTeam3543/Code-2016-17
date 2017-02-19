@@ -4,6 +4,7 @@ import org.usfirst.frc3543.Team3543Robot.OI;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import org.usfirst.frc3543.Team3543Robot.util.NumberProvider;
+import org.usfirst.frc3543.Team3543Robot.util.SmartDashboardNumberProvider;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,8 +32,12 @@ public class DriveForwardByDistanceCommand extends Command {
 		this.gainProvider = gainProvider;
 	}
 	
+	public DriveForwardByDistanceCommand(NumberProvider distanceProvider) {
+		this(distanceProvider,  new SmartDashboardNumberProvider(OI.DEFAULT_LINEAR_GAIN, RobotMap.DEFAULT_LINEAR_GAIN));
+	}
+	
 	public DriveForwardByDistanceCommand(double distanceInInches) {
-		this(distanceInInches, RobotMap.DEFAULT_ROTATION_GAIN);
+		this(NumberProvider.fixedValue(distanceInInches));
 	}
 	
 	public void setTargetDistance(double distanceInInches) {
@@ -56,13 +61,13 @@ public class DriveForwardByDistanceCommand extends Command {
 		// trapezoid func for velocity for smooth drive.		
 		Robot.driveLine.updateDashboard();
 		double dist =  Math.max(this.targetDistance, Robot.driveLine.getLeftEncoderValue());
-		double percentTraveled = (dist - this.targetDistance) / this.targetDistance;
+		double percentTraveled = (this.targetDistance - dist) / this.targetDistance;
 		double mag = 1;
 		if (percentTraveled < START_TRAPEZOID_POINT) {
 			mag *= (START_TRAPEZOID_POINT - percentTraveled) / START_TRAPEZOID_POINT;
 		}
 		else if (percentTraveled > END_TRAPEZOID_POINT) {
-			mag *= (percentTraveled - END_TRAPEZOID_POINT) / START_TRAPEZOID_POINT;
+			mag *= (1 - (percentTraveled - END_TRAPEZOID_POINT)) / START_TRAPEZOID_POINT;
 		}
 		mag = Math.max(MIN_MAGNITUDE, mag);
 		Robot.driveLine.drive(mag * this.powerGain);

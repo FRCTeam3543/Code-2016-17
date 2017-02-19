@@ -1,5 +1,34 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Close Gear Holder" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="341" y="655"/>
+	</widget>
+	<widget field="Open Gear Holder" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="344" y="689"/>
+	</widget>
+	<widget field="Drive Forward 12in" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="638"/>
+	</widget>
+	<widget field="BallPickupCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="579"/>
+	</widget>
+	<widget field="Gear holder servo open angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="242" y="735"/>
+		<height>22</height>
+	</widget>
+	<widget field="Drive Forward" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="226" y="774"/>
+	</widget>
+	<widget field="Drive Forward Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="28" y="783"/>
+		<width>178</width>
+	</widget>
+	<widget field="Gear Drop Right Initial Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="857" y="120"/>
+	</widget>
+	<widget field="Gear Drop Left Initial Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="863" y="90"/>
+	</widget>
 	<widget field="Lower Robot" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="77" y="443"/>
 	</widget>
@@ -46,9 +75,6 @@
 		<location x="916" y="310"/>
 		<width>170</width>
 	</widget>
-	<widget field="Drive Forward 12in" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="21" y="776"/>
-	</widget>
 	<widget field="Position and Approach Gear Drop" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="18" y="507"/>
 	</widget>
@@ -72,9 +98,6 @@
 	<widget field="Locate Gear Drop" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="308" y="504"/>
 	</widget>
-	<widget field="OpenGearHolderCommand" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="225" y="706"/>
-	</widget>
 	<widget field="Lift Gain" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="155" y="269"/>
 	</widget>
@@ -97,43 +120,15 @@
 		<location x="225" y="8"/>
 	</static-widget>
 	<widget field="Auto Selector" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="15" y="10"/>
+		<location x="22" y="14"/>
 	</widget>
 	<widget field="TankDriveWithJoysticks" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="15" y="360"/>
 	</widget>
 	<widget field="ArcadeDriveWithJoystick" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="9" y="328"/>
+		<location x="7" y="328"/>
 	</widget>
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="FeedbackApproachRight"/>
-	<hidden field="AlignToGearDropCommand-right-fwd-left"/>
-	<hidden field="LiftRobotCommand"/>
-	<hidden field="GearFinderCurveGain"/>
-	<hidden field="GearApproachAngle"/>
-	<hidden field="GearFinderSpeedGain"/>
-	<hidden field="GearFinderMode"/>
-	<hidden field="DefaultRotationGain"/>
-	<hidden field="Place Gear Command Group"/>
-	<hidden field="DriveForwardByDistanceCommand-36in"/>
-	<hidden field="LocateGearDropUsingVisionCommand"/>
-	<hidden field="GearFinderLocation"/>
-	<hidden field="BallPickupCommand"/>
-	<hidden field="Distance"/>
-	<hidden field="LeftEncoder"/>
-	<hidden field="FeedbackApproach"/>
-	<hidden field="DistancePerPulse"/>
-	<hidden field="ApproachGearDropCommandGroup"/>
-	<hidden field="GearFinderStatus"/>
-	<hidden field="GearApproachDist"/>
-	<hidden field="RotateByAngleCommand-ninety"/>
-	<hidden field="ApproachGearDropCommand"/>
-	<hidden field="DriveForwardByDistanceCommand-12in"/>
-	<hidden field="Pickup Gear Command Group"/>
-	<hidden field="GearDrop inital static distance (deg)"/>
-	<hidden field="GearFinderBlobCount"/>
-	<hidden field="DefaultLinearGain"/>
-	<hidden field="Autonomous Command"/>
 </xml>

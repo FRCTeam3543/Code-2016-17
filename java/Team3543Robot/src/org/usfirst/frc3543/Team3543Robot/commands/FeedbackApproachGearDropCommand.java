@@ -45,7 +45,7 @@ public class FeedbackApproachGearDropCommand extends Command {
 		
 		if (gearDrop != null) {
 
-			double distance = gearDrop.distanceFromTarget - World.GEAR_DROP_POST + 5; // just on
+			double distance = gearDrop.distanceFromTarget; // just on
 			OI.dashboard.putGearfinderLocation(String.format("Gear drop at %.1f in", distance));
 
 			double gain = linearGainProvider.getValue();
@@ -93,7 +93,7 @@ public class FeedbackApproachGearDropCommand extends Command {
 	}
 	
 	protected double computeAngleToGearDropPerpendicular(GearDrop gearDrop2) {
-		double d = gearDrop.distanceFromTarget - World.GEAR_DROP_POST;
+		double d = gearDrop.distanceFromTarget;
 		double x = gearDrop.offsetFromCenter;
 		return  Math.asin(x/d);
 	}

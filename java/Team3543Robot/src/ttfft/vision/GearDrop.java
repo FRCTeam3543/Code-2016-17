@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.opencv.core.KeyPoint;
 import org.usfirst.frc3543.Team3543Robot.Robot;
+import org.usfirst.frc3543.Team3543Robot.World;
 
 public class GearDrop {
 	public static final Logger LOGGER = Logger.getLogger(GearDrop.class.getName());
@@ -83,7 +84,7 @@ public class GearDrop {
 		double rho = (double)centerSpanInPixels / settings.outputImageWidth;
 		double wt = Settings.CENTER_SPAN_IN_INCHES / 2;
 //		LOGGER.info(String.format("theta = %.2f rho = %.2f wt = %.2f (%s, %s)", theta, rho, wt, centerSpanInPixels, settings.outputImageWidth));
-		distanceFromTarget = wt / (rho * Math.tan(theta));
+		distanceFromTarget = wt / (rho * Math.tan(theta)) - World.GEAR_DROP_POST + World.GEAR_DROP_POST_TARGET;
 		double width = distanceFromTarget * Math.tan(theta);
 		offsetFromCenter = (double)offset[0] / (double)settings.outputImageWidth * width;
 	}

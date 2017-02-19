@@ -41,11 +41,13 @@ public class RaiseBallChuteCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.ballPickupSubsystem.closeDumper();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	// always true since this is just one command to the servo
+        return true;
     }
 
     // Called once after isFinished returns true

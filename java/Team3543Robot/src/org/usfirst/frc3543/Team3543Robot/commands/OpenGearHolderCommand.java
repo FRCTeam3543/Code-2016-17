@@ -37,23 +37,23 @@ public class OpenGearHolderCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	once = false;
     }
 
+    boolean once = false;
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	if (!Robot.gearHolder.isOpening()) {
-        	Robot.gearHolder.open();    		
-    	}
+    protected void execute() {    	
+    	Robot.gearHolder.open();  
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return Robot.gearHolder.isOpen();
+    protected boolean isFinished() {    	
+		return Robot.gearHolder.isOpen();    	
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.gearHolder.stop();
+//    	Robot.gearHolder.stop();
     }
 
     // Called when another command which requires one or more of the same

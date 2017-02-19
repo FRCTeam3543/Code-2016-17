@@ -112,7 +112,7 @@ Children:
           validators: &id004 [DigitalChannel]
           value: '0'
         Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
-          name: Distance Per Pulse, validators: null, value: 0.044}
+          name: Distance Per Pulse, validators: null, value: 0.05}
         PID Source: !!robotbuilder.data.properties.ChoicesProperty
           choices: &id005 [kDisplacement, kRate]
           default: kRate
@@ -146,7 +146,7 @@ Children:
           validators: *id004
           value: '2'
         Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
-          name: Distance Per Pulse, validators: null, value: 0.011}
+          name: Distance Per Pulse, validators: null, value: 0.05}
         PID Source: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id005
           default: kRate
@@ -195,7 +195,7 @@ Children:
           validators: &id010 [PWMOutput]
           value: '1'
       Base: Servo
-      Name: Servo 1
+      Name: BallDumpServo1
     - Children: []
       Properties:
         Output Channel (PWM): !!robotbuilder.data.properties.ChoicesProperty
@@ -205,7 +205,7 @@ Children:
           validators: *id010
           value: '2'
       Base: Servo
-      Name: Servo 2
+      Name: BallDumpServo2
     - Children: []
       Properties:
         Type: !!robotbuilder.data.properties.ChoicesProperty
@@ -571,37 +571,19 @@ Children:
         validators: null
         value: []
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id016 []
+        default: []
         name: Parameter presets
         validators: null
-        value: *id016
+        value: []
       Commands: !!robotbuilder.data.properties.ListProperty
-        default: &id017 []
+        default: []
         name: Commands
         validators: [List]
-        value: *id017
+        value: []
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: false}
     Base: Command Group
     Name: DefaultAutonomousCommand
-  - Children: []
-    Properties:
-      Parameters: !!robotbuilder.data.properties.ParametersProperty
-        default: []
-        name: Parameters
-        validators: null
-        value: []
-      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Requires, type: Subsystem, validators: null, value: GearHolder}
-      Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id018 []
-        name: Parameter presets
-        validators: null
-        value: *id018
-      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
-        name: Button on SmartDashboard, validators: null, value: true}
-    Base: Command
-    Name: OpenGearHolderCommand
   Properties: {}
   Base: Commands
   Name: Commands
