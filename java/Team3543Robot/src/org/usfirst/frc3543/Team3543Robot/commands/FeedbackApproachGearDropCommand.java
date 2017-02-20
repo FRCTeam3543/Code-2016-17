@@ -3,13 +3,10 @@ package org.usfirst.frc3543.Team3543Robot.commands;
 import org.usfirst.frc3543.Team3543Robot.OI;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
-import org.usfirst.frc3543.Team3543Robot.World;
 import org.usfirst.frc3543.Team3543Robot.util.NumberProvider;
 import org.usfirst.frc3543.Team3543Robot.util.SmartDashboardNumberProvider;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import ttfft.vision.GearDrop;
 
 /**
