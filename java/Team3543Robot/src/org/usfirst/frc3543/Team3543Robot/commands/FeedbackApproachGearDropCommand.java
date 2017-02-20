@@ -76,14 +76,14 @@ public class FeedbackApproachGearDropCommand extends Command {
 				Scheduler.getInstance().add(new DriveForwardByDistanceCommand(distance, gain));
 			}
 			else {
-				double rotationGain = rotationGainProvider.getValue();				
-				double offset = gearDrop.offsetFromCenter;
+//				double rotationGain = rotationGainProvider.getValue();				
+//				double offset = gearDrop.offsetFromCenter;
 				double angle = computeAngleToGearDropPerpendicular(gearDrop);
 				// use 10 degrees = -1 angle
 				double limit = Math.toRadians(10);
 				// -10 to 10 maps to -1 to 1
 				double curveGain = Math.max(-1, Math.min(1, angle/limit));
-				Robot.driveLine.drive(gain, curveGain * rotationGain);
+				Robot.driveLine.drive(gain, curveGain);
 				//Robot.driveLine.drive(gain, (angle < 0 ? -1 : 1) * rotationGain);
 			}
 		}
