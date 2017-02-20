@@ -55,6 +55,8 @@ public class VisionSubsystem extends Subsystem {
     private AxisCamera camera;
     private CvSink sink;
     private GearDropPipeline gearDropPipeline;
+    private GearDrop lastGearDrop = null;
+    public static final long MAX_AGE_MS = 500;	// half a second is too old
     
 	public VisionSubsystem() {
 		super();
@@ -77,10 +79,20 @@ public class VisionSubsystem extends Subsystem {
 			// but for now we're not writing it anywhere
 //			outputStream.putFrame(image);
 			GearDrop gd = gearDropPipeline.detectGearDropOutput();
+			if (gd != null) lastGearDrop = gd;
 			return gd;
 		}
 	}
 	
+	public GearDrop lastKnownGearDrop() {
+		if (lastGearDrop != null && (lastGearDrop.timestamp + MAX_AGE_MS) > System.currentTimeMillis() ) {
+			return lastGearDrop;
+		}
+		else {
+			return null;
+		}
+	}
+		
 	public void init() {
 		camera = CameraServer.getInstance().addAxisCamera(RobotMap.AXIS_CAMERA_HOST);		
 		camera.setResolution(640, 480);		
