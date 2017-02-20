@@ -70,6 +70,12 @@ public class FeedbackApproachGearDropCommand extends Command {
 
 		// do we have a gear drop?
 		if (gearDrop != null) {		
+			if (!enabled) {
+				// enables PID and puts the setpoints at zero
+				Robot.driveLine.enablePID();
+				enabled = true;
+			}				
+			
 			// is it a new one?  We should update our set points based on the new distance and angle.
 			if (haveNewGearDrop) {
 				double distance = gearDrop.distanceFromTarget; // just on
@@ -78,11 +84,6 @@ public class FeedbackApproachGearDropCommand extends Command {
 				OI.dashboard.putGearfinderLocation(String.format("Gear drop at %.1f in", distance));
 //				double gain = linearGainProvider.getValue();
 				// is this our first gear drop?  Enable PID.
-				if (!enabled) {
-					// enables PID and puts the setpoints at zero
-					Robot.driveLine.enablePID();
-					enabled = true;
-				}				
 				Robot.driveLine.setpoint(distance, angle);
 			}
 		}
@@ -109,7 +110,15 @@ public class FeedbackApproachGearDropCommand extends Command {
 	
 	@Override
 	protected void end() {
+		Robot.driveLine.disablePID();
 		Robot.driveLine.stop();
+		super.end();
+	}
+	
+	@Override
+	protected void interrupted() {
+		end();		
+		super.interrupted();
 	}
 	
 	/**
@@ -134,6 +143,6 @@ public class FeedbackApproachGearDropCommand extends Command {
 	 */
 	@Override
 	protected boolean isFinished() {
-		return gearDrop == null || gearDrop.distanceFromTarget < MIN_DETECT_DISTANCE;		
+		return !enabled;
 	}
 }

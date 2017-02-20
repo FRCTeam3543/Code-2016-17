@@ -158,7 +158,7 @@ public class DriveLine extends Subsystem {
     
     public void disablePID() {
     	distancePIDController.disable();
-    	distancePIDController.disable();    	    	
+    	anglePIDController.disable();    
     }
     
     public void stop() {
@@ -193,7 +193,7 @@ public class DriveLine extends Subsystem {
     	distancePIDController.enable();
     	anglePIDController.enable();
     	// init setpoint at 0, 0 (so do nothing)
-    	setpoint(0, 0);
+    	setpoint(0, 0);    	
     }
 
 	public void init() {
