@@ -70,8 +70,8 @@ public class FeedbackApproachGearDropCommand extends Command {
 				Scheduler.getInstance().add(new DriveForwardByDistanceCommand(distance, gain));
 			}
 			else {
-				double rotationGain = rotationGainProvider.getValue();				
-				double offset = gearDrop.offsetFromCenter;
+//				double rotationGain = rotationGainProvider.getValue();				
+//				double offset = gearDrop.offsetFromCenter;
 				double angle = computeAngleToGearDropPerpendicular(gearDrop);
 				// use 10 degrees = -1 angle
 				double limit = Math.toRadians(10);
