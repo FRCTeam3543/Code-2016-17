@@ -76,8 +76,8 @@ public class FeedbackApproachGearDropCommand extends Command {
 				// use 10 degrees = -1 angle
 				double limit = Math.toRadians(10);
 				double curveGain = Math.max(-1, Math.min(1, angle/limit));
-				//Robot.driveLine.drive(gain, (angle < 0 ? -1 : 1) * curveGain * rotationGain);
-				Robot.driveLine.drive(gain, (angle < 0 ? -1 : 1) * rotationGain);
+				Robot.driveLine.drive(gain, curveGain);
+				//Robot.driveLine.drive(gain, (angle < 0 ? -1 : 1) * rotationGain);
 			}
 		}
 		else {
