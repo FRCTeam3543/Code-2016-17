@@ -5,9 +5,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  * Command to "zig zag" the robot.  Rotate, drive forward, then rotate back. 
  * 
- * Rotates toward a line, drives forward and rotates back again.
+ * Rotates toward a line, drives forward and rotates back again.  This is mostly
+ * for testing and calibration purposes, it is not used in competition.
+ * 
  * @author MK
- *
  */
 public class ZigZagCommand extends CommandGroup {
 	

@@ -1,5 +1,8 @@
 package ttfft.vision;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -9,10 +12,19 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
+import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgproc.Imgproc;
 
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+/**
+ * Subclass of GripPipeline - use this one in the code
+ * 
+ * This class exists for two reasons: first, so that we can regenerate the 
+ * underlying GRIP class without overwriting custom code.  Second, so that
+ * the pipeline produces a GearDrop object, which GRIP routines cannot do.
+ * 
+ * @author MK
+ *
+ */
 public class GearDropPipeline extends GripPipeline {
 	public static final Logger LOGGER = Logger.getLogger(GearDropPipeline.class.getName());
 	
@@ -124,4 +136,5 @@ public class GearDropPipeline extends GripPipeline {
 		
 		return ret;
 	}
+	
 }

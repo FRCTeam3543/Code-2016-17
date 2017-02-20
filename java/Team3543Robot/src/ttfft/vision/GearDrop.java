@@ -6,6 +6,11 @@ import org.opencv.core.KeyPoint;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.World;
 
+/**
+ * Models the Gear Drop relative to the robot.
+ * 
+ * @author MK
+ */
 public class GearDrop {
 	public static final Logger LOGGER = Logger.getLogger(GearDrop.class.getName());
 	
@@ -53,7 +58,7 @@ public class GearDrop {
 
 	public void recompute() {
 		angleToGround = computeAngleToGround(left, right);
-		// FIXME - compute
+		// TODO - compute this - we are not using it after all
 		skewAngle = 0;
 
 		sizeDiff = computeSizeDiff(left, right);

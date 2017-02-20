@@ -20,9 +20,15 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-
 /**
- *
+ * Subsystem to track the Robot state.  For now just encapsulates the autonomous mode switch panel.
+ * 
+ * Prior to the autonomous portion of the match, when the robot is placed on the
+ * field, set the switches to middle/side and left/right.  This ensures the robot
+ * does the correct pattern when autonomous mode is launched.
+ * 
+ * @author MK
+ * @See {@link RobotMap.AutonomousMode}
  */
 public class RobotState extends Subsystem {
 	

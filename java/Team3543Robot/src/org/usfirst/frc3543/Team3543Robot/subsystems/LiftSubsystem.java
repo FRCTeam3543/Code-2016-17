@@ -24,6 +24,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 
 /**
+ * Subsystem to operate the lift motors
+ * 
+ * Contains three high-level methods lift(), lower() and stop().  The lower() method
+ * just calls lift() with a negative magnitude.  
+ * 
+ * @author MK
  *
  */
 public class LiftSubsystem extends Subsystem {
@@ -73,6 +79,14 @@ public class LiftSubsystem extends Subsystem {
     
     public void stop() {
     	liftSubsystemDrive.stopMotor();
+    }
+    
+    public void lower() {
+    	lift(-RobotMap.DEFAULT_LIFT_GAIN);
+    }
+    
+    public void lower(double mag) {
+    	lift(-mag);
     }
     
     public void lift(double mag) {

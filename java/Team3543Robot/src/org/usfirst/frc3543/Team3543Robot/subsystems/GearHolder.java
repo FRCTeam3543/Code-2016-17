@@ -21,7 +21,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 
 /**
- *
+ * Subsystem for the gear holder, which starts inside the robot envelope and the gets deployed.
+ * 
+ * This abstracts the underlying implementation (a servo that opens a latch) with
+ * high-level open() and close() methods.
+ * 
+ * @author MK
  */
 public class GearHolder extends Subsystem {
 

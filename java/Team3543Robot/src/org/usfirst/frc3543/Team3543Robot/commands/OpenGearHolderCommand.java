@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 
 /**
- *
+ * Command to open the gear holder - rotates the servo open
+ * 
+ * @author MK
  */
 public class OpenGearHolderCommand extends Command {
 

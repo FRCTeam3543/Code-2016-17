@@ -13,14 +13,15 @@ import com.ctre.CANTalon;
 //import com.team254.lib.trajectory.WaypointSequence;
 //import com.team254.lib.trajectory.WaypointSequence.Waypoint;
 
-import usfirst.frc.team2168.robot.FalconPathPlanner;
+//import usfirst.frc.team2168.robot.FalconPathPlanner;
 
 /**
  * Take a set of x,y Points and generate a Path then a Talon SRX MotionProfile.Point array
  * 
  * This generates the profiles for the left and right motors based on two points (start, dest)
  * 
- * @author mfkah
+ * This was an experiment, most of the details are commented out
+ * 
  * @see https://github.com/KHEngineering/SmoothPathPlanner
  */
 public class MotionProfilePlanGenerator {
@@ -30,7 +31,7 @@ public class MotionProfilePlanGenerator {
 	public static class MotionProfilePlan {
 		public MotionProfile.PVTPoint[] leftSide;
 		public MotionProfile.PVTPoint[] rightSide;	
-		public FalconPathPlanner path;
+//		public FalconPathPlanner path;
 	}	
 	
 	
@@ -44,12 +45,12 @@ public class MotionProfilePlanGenerator {
 		double timeStep = 0.1; //period of control loop on Rio, seconds
 		double robotTrackWidth = Robot.geometry.wheelBase / 12; //distance between left and right wheels, feet
 
-		FalconPathPlanner path = new FalconPathPlanner(waypoints);
-		path.calculate(totalTime, timeStep, robotTrackWidth);
+//		FalconPathPlanner path = new FalconPathPlanner(waypoints);
+//		path.calculate(totalTime, timeStep, robotTrackWidth);
 		
 		// zero velocity at each
 		MotionProfilePlan result = new MotionProfilePlan();
-		result.path = path;
+//		result.path = path;
 //		
 //		WaypointSequence seq = new WaypointSequence(points.length);
 		
