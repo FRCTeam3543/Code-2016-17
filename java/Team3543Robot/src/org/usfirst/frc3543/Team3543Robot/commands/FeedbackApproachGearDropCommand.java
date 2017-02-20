@@ -47,7 +47,10 @@ public class FeedbackApproachGearDropCommand extends Command {
 	@Override
 	protected void initialize() {
 		gearDrop = null;
+		Robot.driveLine.disablePID();
 	}
+		
+	boolean first = true;
 	
 	@Override
 	public void execute() {
@@ -56,7 +59,10 @@ public class FeedbackApproachGearDropCommand extends Command {
 		}		
 		
 		if (gearDrop != null) {
-
+			if (first) {
+				Robot.driveLine.enablePID();
+				first = false;
+			}
 			double distance = gearDrop.distanceFromTarget; // just on
 			OI.dashboard.putGearfinderLocation(String.format("Gear drop at %.1f in", distance));
 
@@ -75,12 +81,15 @@ public class FeedbackApproachGearDropCommand extends Command {
 				double angle = computeAngleToGearDropPerpendicular(gearDrop);
 				// use 10 degrees = -1 angle
 				double limit = Math.toRadians(10);
+				// -10 to 10 maps to -1 to 1
 				double curveGain = Math.max(-1, Math.min(1, angle/limit));
-				//Robot.driveLine.drive(gain, (angle < 0 ? -1 : 1) * curveGain * rotationGain);
-				Robot.driveLine.drive(gain, (angle < 0 ? -1 : 1) * rotationGain);
+				Robot.driveLine.drive(gain, curveGain * rotationGain);
+				//Robot.driveLine.drive(gain, (angle < 0 ? -1 : 1) * rotationGain);
 			}
 		}
 		else {
+			Robot.driveLine.disablePID();
+			first = true;
 			Robot.LOGGER.info("Oops, lots visibility");
 			Robot.driveLine.stop();
 			OI.dashboard.putGearfinderLocation("No gear drop");
