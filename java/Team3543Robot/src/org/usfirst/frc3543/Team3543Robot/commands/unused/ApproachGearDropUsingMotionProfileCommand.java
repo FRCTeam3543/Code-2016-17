@@ -3,13 +3,9 @@ package org.usfirst.frc3543.Team3543Robot.commands.unused;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.subsystems.DriveLine.MotionProfileController;
 import org.usfirst.frc3543.Team3543Robot.util.GearDropProvider;
-import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfile;
 import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfilePlan;
 import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfilePlanGenerator;
 import org.usfirst.frc3543.Team3543Robot.util.unused.XYTPoint;
-
-import com.team254.lib.trajectory.WaypointSequence.Waypoint;
-
 import edu.wpi.first.wpilibj.command.Command;
 import ttfft.vision.GearDrop;
 
