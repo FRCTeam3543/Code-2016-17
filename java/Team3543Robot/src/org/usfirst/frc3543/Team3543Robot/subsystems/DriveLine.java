@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
-
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -60,13 +60,26 @@ public class DriveLine extends Subsystem {
 
     public double gyroSensitivity = 0.007;
 
-    public PIDForDistance distancePIDController;
-    public PIDForAngle anglePIDController;
+    public PID distancePIDController;
+    public PID anglePIDController;
 
     public DriveLine() {
     	super();
-    	distancePIDController = new PIDForDistance(RobotMap.PID_FORWARD_P, RobotMap.PID_FORWARD_I, RobotMap.PID_FORWARD_D);
-    	anglePIDController = new PIDForAngle(RobotMap.PID_ANGLE_P, RobotMap.PID_ANGLE_I, RobotMap.PID_ANGLE_D);    	
+    	distancePIDController = new PID(this, RobotMap.PID_FORWARD_P, RobotMap.PID_FORWARD_I, RobotMap.PID_FORWARD_D) {
+			@Override
+			protected double returnPIDInput() {
+				// distance controller is operated from the left and right quad
+				// encoders
+				return driveLine.getAverageEncoderValue();
+			}
+    	};
+    	anglePIDController = new PID(this, RobotMap.PID_ANGLE_P, RobotMap.PID_ANGLE_I, RobotMap.PID_ANGLE_D) {
+			@Override
+			protected double returnPIDInput() {
+				// controlled from the Gyro
+				return driveLine.getGyroAngleRadians();
+			}    		
+    	};
     }
     
     // Put methods for controlling this subsystem
@@ -84,6 +97,10 @@ public class DriveLine extends Subsystem {
     	
     	analogGyro1.setSensitivity(RobotMap.GYRO_SENSITIVITY);    
 		this.analogGyro1.calibrate();
+    }
+    
+    public double getAverageEncoderValue() {
+    	return (this.getLeftEncoderValue() + this.getRightEncoderValue()) / 2;
     }
     
     public void tankDrive(Joystick left, Joystick right) {
@@ -170,8 +187,13 @@ public class DriveLine extends Subsystem {
     }
     
     public void enablePID() {
+    	// first off, we zero the encoders and the gyro
+    	this.resetEncoders();
+    	this.resetGyro();    	    	
     	distancePIDController.enable();
     	anglePIDController.enable();
+    	// init setpoint at 0, 0 (so do nothing)
+    	setpoint(0, 0);
     }
 
 	public void init() {
@@ -262,6 +284,36 @@ public class DriveLine extends Subsystem {
 		drive(distanceOutput, angleOutput);
 	}
 
+		
+	public static abstract class PID extends PIDSubsystem {
+		DriveLine driveLine;
+		double currentOutput = 0;
+		
+		PID(DriveLine driveLine, double p, double i, double d) {
+			super(p,i,d);
+			this.driveLine = driveLine;
+		}
+		
+		@Override
+		protected abstract double returnPIDInput();
+
+		@Override
+		protected void usePIDOutput(double output) {
+			currentOutput = output;
+			driveLine.updateOutputFromPIDControllers();			
+		}
+		
+		public double getCurrentOutput() {
+			return currentOutput;
+		}
+		
+		@Override
+		protected void initDefaultCommand() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 		
 }
 

@@ -50,46 +50,48 @@ public class FeedbackApproachGearDropCommand extends Command {
 		Robot.driveLine.disablePID();
 	}
 		
-	boolean first = true;
+	boolean enabled = false;
 	
 	@Override
 	public void execute() {
-		if (gearDrop == null || gearDrop.distanceFromTarget >= MIN_DETECT_DISTANCE) {
-			gearDrop = detectGearDrop();
-		}		
+		boolean haveNewGearDrop = false;
 		
-		if (gearDrop != null) {
-			if (first) {
-				Robot.driveLine.enablePID();
-				first = false;
-			}
-			double distance = gearDrop.distanceFromTarget; // just on
-			OI.dashboard.putGearfinderLocation(String.format("Gear drop at %.1f in", distance));
+		// try to update the gear drop.  See if we detected a new one
+		GearDrop newGearDrop = detectGearDrop();
+		// do we have a new one? Great!  Nope?  Continue to use the old one UNLESS IT IS REALLY OLD
+		if (newGearDrop != null) {
+			gearDrop = newGearDrop;
+			haveNewGearDrop = true;
+		}			
+		
+		// if the gear drop is REALLY OLD we can't trust it, so disable things
+		// really, we should switch to a scanning mode where we turn in place to try and find it...
+		if (gearDrop != null && (System.currentTimeMillis() > (gearDrop.timestamp + 2000))) {
+			// 2 seconds old, way too old
+			gearDrop = null;
+		}
 
-			double gain = linearGainProvider.getValue();
-			
-			boolean closeIn = gearDrop.distanceFromTarget <= MIN_DETECT_DISTANCE;
-			if (closeIn) {
-				// do nothing
-				OI.dashboard.putGearfinderLocation(String.format("Closing %.1f in", distance));
-				Robot.driveLine.stop();
-				Scheduler.getInstance().add(new DriveForwardByDistanceCommand(distance, gain));
-			}
-			else {
-//				double rotationGain = rotationGainProvider.getValue();				
-//				double offset = gearDrop.offsetFromCenter;
+		// do we have a gear drop?
+		if (gearDrop != null) {		
+			// is it a new one?  We should update our set points based on the new distance and angle.
+			if (haveNewGearDrop) {
+				double distance = gearDrop.distanceFromTarget; // just on
 				double angle = computeAngleToGearDropPerpendicular(gearDrop);
-				// use 10 degrees = -1 angle
-				double limit = Math.toRadians(10);
-				// -10 to 10 maps to -1 to 1
-				double curveGain = Math.max(-1, Math.min(1, angle/limit));
-				Robot.driveLine.drive(gain, curveGain);
-				//Robot.driveLine.drive(gain, (angle < 0 ? -1 : 1) * rotationGain);
+
+				OI.dashboard.putGearfinderLocation(String.format("Gear drop at %.1f in", distance));
+//				double gain = linearGainProvider.getValue();
+				// is this our first gear drop?  Enable PID.
+				if (!enabled) {
+					// enables PID and puts the setpoints at zero
+					Robot.driveLine.enablePID();
+					enabled = true;
+				}				
+				Robot.driveLine.setpoint(distance, angle);
 			}
 		}
 		else {
 			Robot.driveLine.disablePID();
-			first = true;
+			enabled = false;
 			Robot.LOGGER.info("Oops, lots visibility");
 			Robot.driveLine.stop();
 			OI.dashboard.putGearfinderLocation("No gear drop");
@@ -119,7 +121,7 @@ public class FeedbackApproachGearDropCommand extends Command {
 	 * @param gearDrop2
 	 * @return
 	 */
-	protected double computeAngleToGearDropPerpendicular(GearDrop gearDrop2) {
+	protected double computeAngleToGearDropPerpendicular(GearDrop gearDrop) {
 		double d = gearDrop.distanceFromTarget;
 		double x = gearDrop.offsetFromCenter;
 		return  Math.asin(x/d);
