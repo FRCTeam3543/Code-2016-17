@@ -3,14 +3,14 @@ package org.usfirst.frc3543.Team3543Robot.util.unused;
 /**
  * Tool for calculating a Cubic Bezier
  * 
- * Useful for motion planning, except that it doesn't include orientations
+ * Useful for motion planning, except that it doesn't include orientations (so not!)
  * 
  * Adapted from http://devmag.org.za/2011/04/05/bzier-curves-a-tutorial/
  * 
  * @author MK
  *
  */
-public class CubicBezierPathCalculator extends PathCalculator {
+public class CubicBezierPathCalculator {
 
 	XYPoint point1;
 	XYPoint controlPoint1;

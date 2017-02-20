@@ -16,7 +16,7 @@ import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import org.usfirst.frc3543.Team3543Robot.commands.*;
 import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfile;
-import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfilePlanGenerator.MotionProfilePlan;
+import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfilePlan;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;

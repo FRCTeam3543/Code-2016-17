@@ -4,8 +4,9 @@ import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.subsystems.DriveLine.MotionProfileController;
 import org.usfirst.frc3543.Team3543Robot.util.GearDropProvider;
 import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfile;
+import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfilePlan;
 import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfilePlanGenerator;
-import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfilePlanGenerator.MotionProfilePlan;
+import org.usfirst.frc3543.Team3543Robot.util.unused.XYTPoint;
 
 import com.team254.lib.trajectory.WaypointSequence.Waypoint;
 
@@ -17,11 +18,13 @@ public class ApproachGearDropUsingMotionProfileCommand extends Command {
 	private GearDropProvider gearDropProvider = null;
 	private GearDrop gearDrop = null;
 	private MotionProfilePlan plan = null;
+	private MotionProfilePlanGenerator planGenerator = null;
 	
 	private MotionProfileController controller = null;	
 	
-	public ApproachGearDropUsingMotionProfileCommand(GearDropProvider gearDropProvider) {
+	public ApproachGearDropUsingMotionProfileCommand(MotionProfilePlanGenerator generator, GearDropProvider gearDropProvider) {
 		this.gearDropProvider = gearDropProvider;
+		this.planGenerator = generator;
 	}
 	
 	@Override
@@ -48,16 +51,26 @@ public class ApproachGearDropUsingMotionProfileCommand extends Command {
 		}
 	}
 	
+	protected MotionProfilePlanGenerator getPlanGenerator() {
+		return this.planGenerator;
+	}
+	
 	protected MotionProfilePlan computeMotionProfiles() {
-		double[] from = new double[] { 0, 0 }; //Waypoint(0,0,0);
-		// TODO - should not be zero?
-//		Waypoint to = new Waypoint(gearDrop.offsetFromCenter, gearDrop.distanceFromTarget, 0);
-		double[] to = new double[] { gearDrop.offsetFromCenter, gearDrop.distanceFromTarget };
+		XYTPoint from = new XYTPoint( 0, 0, 0 ); 
+		XYTPoint to = new XYTPoint( gearDrop.offsetFromCenter, gearDrop.distanceFromTarget, gearDrop.skewAngle);
+
+		double timeInterval = this.guessTimeInterval(gearDrop.distanceFromTarget);
 		
-		MotionProfilePlan plan = (new MotionProfilePlanGenerator()).generate(from, to);
+		MotionProfilePlan plan = this.getPlanGenerator().generate(from, to, timeInterval);
 		return plan;
 	}
 	
+	protected double guessTimeInterval(double distanceFromTarget) {
+		// FIXME - this is just an example
+		// we want to max out at ~ 12 inches per second (6 seconds for 10 feet)
+		return distanceFromTarget * (double)10/6;
+	}
+
 	@Override
 	protected boolean isFinished() {
 		// done if no gear drop or we are done trajectory
