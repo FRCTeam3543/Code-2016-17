@@ -9,6 +9,16 @@ import org.usfirst.frc3543.Team3543Robot.util.SmartDashboardNumberProvider;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Command to package up the full autonomous gear drop command.
+ * 
+ * - drives forward by a fixed distance (established by the mode switches on the bot)
+ * - turns by a fixed angle (also established by mode)
+ * - activates the FeedbackApporachGearDropCommand to finish docking
+ * 
+ * @author MK
+ *
+ */
 public class GearDropAutonomousCommandGroup extends CommandGroup {
 	DriveForwardByDistanceCommand driveForward;
 	RotateByAngleCommand rotate;

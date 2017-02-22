@@ -9,6 +9,11 @@ import org.usfirst.frc3543.Team3543Robot.util.SmartDashboardNumberProvider;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Drive forward by a given distance
+ * 
+ * @author MK
+ */
 public class DriveForwardByDistanceCommand extends Command {
 	protected double targetDistance = 0;
 	protected double startingEncoderValue = 0;

@@ -20,7 +20,9 @@ import org.usfirst.frc3543.Team3543Robot.util.NumberProvider;
 import org.usfirst.frc3543.Team3543Robot.util.SmartDashboardNumberProvider;
 
 /**
- *
+ * Command to start the robot lift motor
+ * 
+ * @author MK
  */
 public class LiftRobotCommand extends Command {
 	NumberProvider gainProvider;

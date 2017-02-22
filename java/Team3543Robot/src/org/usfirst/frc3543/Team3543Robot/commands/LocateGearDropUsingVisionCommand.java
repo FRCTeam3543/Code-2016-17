@@ -10,6 +10,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import ttfft.vision.GearDrop;
 
+/**
+ * Command to locate the gear drop using the vision subsystem
+ * 
+ * This is mostly for the SmartDashboard button, to allow testing of the
+ * vision subsystem.
+ * 
+ * @author MK
+ */
 public class LocateGearDropUsingVisionCommand extends Command implements GearDropProvider {
 
 	private GearDrop gearDrop = null;

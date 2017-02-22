@@ -1,10 +1,11 @@
 package org.usfirst.frc3543.Team3543Robot;
 
 /**
- * Robot geometry - 
+ * Stores settings related to the robot's physical size.
  * 
- * @author mfkah
- *
+ * Because FIRST started with our neighbours to the south, everything is in inches.
+ * 
+ * @author MK
  */
 public class RobotGeometry {
 	

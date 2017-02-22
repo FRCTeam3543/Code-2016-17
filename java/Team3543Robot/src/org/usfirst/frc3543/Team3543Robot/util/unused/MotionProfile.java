@@ -8,7 +8,6 @@ import com.ctre.CANTalon.TalonControlMode;
  * Motion profile example, adapted from
  * 
  * Adapted from https://github.com/CrossTheRoadElec/FRC-Examples/blob/master/JAVA_MotionProfileExample/src/org/usfirst/frc/team3539/robot/MotionProfileExample.java
- * @author mfkah
  *
  */
 public class MotionProfile {

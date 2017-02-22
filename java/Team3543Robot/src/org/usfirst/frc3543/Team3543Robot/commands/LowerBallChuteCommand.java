@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 
 /**
- *
+ * Command to lower the ball chute in order to dump the balls
+ * 
+ * @author MK
  */
 public class LowerBallChuteCommand extends Command {
 

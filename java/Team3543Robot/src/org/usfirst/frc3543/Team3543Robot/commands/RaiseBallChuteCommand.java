@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 
 /**
- *
+ * Command to close the ball dumper
+ * 
+ * @see LowerBallChuteCommand
  */
 public class RaiseBallChuteCommand extends Command {
 

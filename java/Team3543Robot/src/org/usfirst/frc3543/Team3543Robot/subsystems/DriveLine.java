@@ -16,7 +16,7 @@ import org.usfirst.frc3543.Team3543Robot.Robot;
 import org.usfirst.frc3543.Team3543Robot.RobotMap;
 import org.usfirst.frc3543.Team3543Robot.commands.*;
 import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfile;
-import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfilePlanGenerator.MotionProfilePlan;
+import org.usfirst.frc3543.Team3543Robot.util.unused.MotionProfilePlan;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
@@ -29,8 +29,15 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 /**
+ * Main DriveLine.  Packages the 4 drive CANTalons, left/right quadrature encoders and gyro
+ * 
+ * Note that all the commands that use the drive line use high-level methods in this
+ * class, they don't tale to the RobotDrive (etc.) directly.  Putting in high-level
+ * methods is a good idea because it allows you to abstract the underlying actuators
+ * from the commands.
+ * 
+ * @author MK
  *
  */
 public class DriveLine extends Subsystem {

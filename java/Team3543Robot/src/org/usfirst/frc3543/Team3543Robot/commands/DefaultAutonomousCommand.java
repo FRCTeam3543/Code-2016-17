@@ -18,7 +18,11 @@ import org.usfirst.frc3543.Team3543Robot.RobotMap.AutonomousMode;
 import org.usfirst.frc3543.Team3543Robot.subsystems.*;
 
 /**
- *
+ * Default autonomous command for 2017
+ * 
+ * Ensure the gear holder is open, then run the autonomous gear drop
+ * command group.  Make sure the mode switches on the robot are correct 
+ * first!
  */
 public class DefaultAutonomousCommand extends CommandGroup {
 

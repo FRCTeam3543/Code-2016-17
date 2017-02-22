@@ -1,10 +1,11 @@
 package org.usfirst.frc3543.Team3543Robot;
 
 /**
- * Dimensions etc for the world.  Everything in imperial
+ * Settings and dimensions for the world/game field
  * 
- * @author mfkah
- *
+ * Because FIRST started with our neighbours to the south, everything is in inches.
+ * 
+ * @author MK
  */
 public class World {
 

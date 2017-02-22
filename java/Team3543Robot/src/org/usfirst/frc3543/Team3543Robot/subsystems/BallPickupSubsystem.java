@@ -20,9 +20,10 @@ import edu.wpi.first.wpilibj.Victor;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-
 /**
- *
+ * Subsystem for the ball pickup/dump task.  Includes the pickup motor and the dumper servos.
+ * 
+ * @author MK
  */
 public class BallPickupSubsystem extends Subsystem {
 

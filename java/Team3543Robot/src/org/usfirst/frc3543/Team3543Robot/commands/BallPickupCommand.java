@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc3543.Team3543Robot.Robot;
 
 /**
- *
+ * Command to enable the ball pickup motor
  */
 public class BallPickupCommand extends Command {
 
