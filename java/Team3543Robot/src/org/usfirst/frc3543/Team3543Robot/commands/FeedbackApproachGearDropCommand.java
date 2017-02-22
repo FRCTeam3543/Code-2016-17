@@ -67,7 +67,9 @@ public class FeedbackApproachGearDropCommand extends Command {
 				// do nothing
 				OI.dashboard.putGearfinderLocation(String.format("Closing %.1f in", distance));
 				Robot.driveLine.stop();
-				Scheduler.getInstance().add(new DriveForwardByDistanceCommand(distance, gain));
+//				Scheduler.getInstance().add(new DriveForwardByDistanceCommand(distance, gain));
+				Scheduler.getInstance().add(new DockGearCommand(distance, gain));
+				
 			}
 			else {
 //				double rotationGain = rotationGainProvider.getValue();				
