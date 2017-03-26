@@ -12,7 +12,7 @@ public class GearDropPipelineTest {
 	
 	public static void main(String [] args) {
 		// load an image
-		String base = "D:\\Projects\\FRCTeam3543\\Code-2016-17\\java\\Capture";
+		String base = "D:\\Projects\\FRCTeam3543\\Code-2016-17\\java\\Team3543Robot\\GearDropField3";
 		String img = base + ".png";
 		String imgOut = base + "-out.png";
 		String maskOut = base + "-mask.png";
@@ -24,6 +24,7 @@ public class GearDropPipelineTest {
 		Settings settings = new Settings();
 		settings.inputImageWidth = m.cols();
 		settings.inputImageHeight = m.rows();
+		System.out.println("Image is "+settings.inputImageWidth+" by "+settings.inputImageHeight);
 		GearDropPipeline pipeline = new GearDropPipeline(settings);
 		pipeline.process(m);
 		

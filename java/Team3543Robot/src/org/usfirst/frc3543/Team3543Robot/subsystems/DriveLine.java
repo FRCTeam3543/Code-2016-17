@@ -190,9 +190,13 @@ public class DriveLine extends Subsystem {
 
 	public void resetEncoders() {
 		double dpp = OI.dashboard.getWheelEncoderDistancePerPulse();
+		// hack
+//		double leftdpp = dpp * (1-0.028);
+//		double leftdpp = dpp * (1-0.038);
+		double leftdpp = dpp;// * (1-0.1);
 
 		this.quadratureEncoderLeft.reset();
-		this.quadratureEncoderLeft.setDistancePerPulse(dpp);
+		this.quadratureEncoderLeft.setDistancePerPulse(leftdpp);
 		this.quadratureEncoderRight.reset();
 		this.quadratureEncoderRight.setDistancePerPulse(dpp);
 		this.updateDashboard();

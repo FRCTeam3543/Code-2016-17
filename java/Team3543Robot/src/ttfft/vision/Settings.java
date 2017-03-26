@@ -9,7 +9,7 @@ public class Settings implements Cloneable {
 
 	public double targetAngle = 15.0/180 * Math.PI;
 	public double targetSizeDiff = 0.8; // 80% same size
-	public double targetRelativeDistance = 1.9; // distance between centers as percentage of average diameter
+	public double targetRelativeDistance = 2.4; // distance between centers as percentage of average diameter
 	public long targetCenterSpan = 90; // TODO pixels, move to RobotMap or some vision constants file
 	
 	/// Statics
@@ -17,7 +17,7 @@ public class Settings implements Cloneable {
 	/**
 	 * Distance between tape centers in M
 	 */
-	public static final double CENTER_SPAN_IN_INCHES = 7.5; 	// 25.4 mm per inch, span is 7.5in	
+	public static final double CENTER_SPAN_IN_INCHES = 8.25; 	// 25.4 mm per inch, span is 7.5in	
 	public static final double CENTER_SPAN_IN_M = CENTER_SPAN_IN_INCHES * 25.4 / 1000; 	// 25.4 mm per inch, span is 7.5in
 	
 	/**
