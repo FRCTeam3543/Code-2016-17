@@ -8,8 +8,8 @@ public class Settings implements Cloneable {
 	public int inputImageHeight = 480;
 
 	public double targetAngle = 15.0/180 * Math.PI;
-	public double targetSizeDiff = 0.8; // 80% same size
-	public double targetRelativeDistance = 2.4; // distance between centers as percentage of average diameter
+	public double targetSizeDiff = 0.75; // 80% same size
+	public double targetRelativeDistance = 2.3; // distance between centers as percentage of average diameter
 	public long targetCenterSpan = 90; // TODO pixels, move to RobotMap or some vision constants file
 	
 	/// Statics

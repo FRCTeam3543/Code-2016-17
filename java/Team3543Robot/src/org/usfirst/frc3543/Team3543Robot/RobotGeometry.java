@@ -25,9 +25,9 @@ public class RobotGeometry {
 		overallWidth = 36;
 		overallLength = overallWidth;
 		overallHeight = 24;
-		cameraY = 18;
+		cameraY = 16;
 		cameraX = 0;
-		cameraZ = 4;		
+		cameraZ = 18;		
 		frontAxleZ = 4;	// ???
 	}
 	

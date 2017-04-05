@@ -94,13 +94,7 @@ public class FeedbackApproachGearDropCommand extends Command {
 		if (gd == null) {
 			Robot.driveLine.stop();
 			for (int i=0; i<4;i++) {
-				try {
-					gd = Robot.visionSubsystem.detectGearDrop();
-				}
-				catch (Throwable th) {
-					Robot.log("ERROR: vision not working");
-					break;
-				}
+				gd = Robot.visionSubsystem.detectGearDrop();
 				if (gd != null) break;
 			}			
 		}

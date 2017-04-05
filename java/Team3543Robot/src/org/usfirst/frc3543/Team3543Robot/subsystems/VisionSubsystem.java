@@ -63,57 +63,36 @@ public class VisionSubsystem extends Subsystem {
 	}
 		
 	public GearDrop detectGearDrop() {
-		if (camera != null && sink != null && visionFailures < MAX_VISION_FAILURES) {			
-			synchronized(visionLock) {
-	//			Robot.log("Grabbing an image");
-				Mat image = new Mat();
-				// not well-coded but we need to stop issues of camera 
-				// failing causing teleop to fail
-				try {
-					if (sink.grabFrame(image) == 0) { // 640 by 480
-						Robot.log("Image fetch failed: "+sink.getError());
-						visionFailures++;
-						return null;
-					}
-				}
-				catch (Throwable th) {
-					Robot.log("Could not grab image");
-					th.printStackTrace();	
-					visionFailures++;
-					return null;					
-				}
-				gearDropPipeline.process(image);		
-				MatOfKeyPoint points = gearDropPipeline.findBlobsOutput();
-				// Leaving this in for now, plots the detected gear drop on the image
-				for (KeyPoint point: points.toList()) {
-					// original image is twice as big as the processed one
-					Imgproc.circle(image, new Point(point.pt.x * 2, point.pt.y * 2), Math.round(point.size * 2), new Scalar(255,255,200));
-				}
-				// but for now we're not writing it anywhere
-	//			outputStream.putFrame(image);
-				GearDrop gd = gearDropPipeline.detectGearDropOutput();
-				return gd;
+		synchronized(visionLock) {
+//			Robot.log("Grabbing an image");
+			Mat image = new Mat();
+			// not well-coded but we need to stop issues of camera 
+			// failing causing teleop to fail
+			if (sink.grabFrame(image) == 0) { // 640 by 480
+				Robot.log("Image fetch failed: "+sink.getError());
+				visionFailures++;
+				return null;
 			}
-		}
-		else {
-			// OFF
-			Robot.log("VISION NOT WORKING, skipping gear detection");
-			return null;
+			gearDropPipeline.process(image);		
+			MatOfKeyPoint points = gearDropPipeline.findBlobsOutput();
+			// Leaving this in for now, plots the detected gear drop on the image
+			for (KeyPoint point: points.toList()) {
+				// original image is twice as big as the processed one
+				Imgproc.circle(image, new Point(point.pt.x * 2, point.pt.y * 2), Math.round(point.size * 2), new Scalar(255,255,200));
+			}
+			// but for now we're not writing it anywhere
+//			outputStream.putFrame(image);
+			GearDrop gd = gearDropPipeline.detectGearDropOutput();
+			return gd;
 		}
 	}
 	
 	public void init() {
 		// try/catch here
-		try {
-			camera = CameraServer.getInstance().addAxisCamera(RobotMap.AXIS_CAMERA_HOST);		
-			camera.setResolution(640, 480);		
-			sink = CameraServer.getInstance().getVideo();
-			gearDropPipeline = new GearDropPipeline();
-		}
-		catch (Throwable th) {
-			System.err.println("FATAL ERROR - Cannot initialize camera on  "+RobotMap.AXIS_CAMERA_HOST);
-			th.printStackTrace();
-		}
+		camera = CameraServer.getInstance().addAxisCamera(RobotMap.AXIS_CAMERA_HOST);		
+		camera.setResolution(640, 480);		
+		sink = CameraServer.getInstance().getVideo();
+		gearDropPipeline = new GearDropPipeline();
 	}
 	
 	/**
