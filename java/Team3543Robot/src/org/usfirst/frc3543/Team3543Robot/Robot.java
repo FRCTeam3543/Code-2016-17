@@ -103,7 +103,8 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
+        updateDashboard();    	
+        Scheduler.getInstance().run();        
     }
 
     public void teleopInit() {
@@ -119,8 +120,8 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        updateDashboard();    	
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("Gear Holder Position", Robot.gearHolder.getPosition());
     }
 
     /**
@@ -132,5 +133,11 @@ public class Robot extends IterativeRobot {
     
     public static void log(String message) {
     	LOGGER.info(message);
+    }
+    
+    protected void updateDashboard() {
+        SmartDashboard.putNumber("Gear Holder Position", Robot.gearHolder.getPosition());
+        SmartDashboard.putNumber(OI.DRIVELINE_ENCODER_LEFT, Robot.driveLine.getLeftEncoderValue());
+        SmartDashboard.putNumber(OI.DRIVELINE_ENCODER_RIGHT, Robot.driveLine.getRightEncoderValue());        
     }
 }

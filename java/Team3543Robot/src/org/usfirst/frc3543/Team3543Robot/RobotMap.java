@@ -72,9 +72,13 @@ public class RobotMap {
 	public static final double MIN_SPEED = 0.12;	
     public static final double DRIVELINE_TIMER_DELAY = 0.01;	// delay passed to Timer.delay() on driveline calls
     //public static final double DEFAULT_DISTANCE_PER_PULSE = 0.05; // this is comp
-    public static final double DEFAULT_DISTANCE_PER_PULSE = 0.068;
+    public static final double DEFAULT_DISTANCE_PER_PULSE = 0.0284; // this is comp
+    
+    //public static final double DEFAULT_DISTANCE_PER_PULSE = 0.068;
     
     public static final double GYRO_SENSITIVITY = 0.0019;	// volts per degree per second
+    public static final double GYRO_FEEDBACK_GAIN = 35;	// volts per degree per second based on full turn at 15 degrees off
+    
 //    public static final double DRIVELINE_GYRO_SENSITIVITY = 0.007;	// volts per degree per second, drive line straight
     public static final double DEFAULT_LINEAR_GAIN = 0.25;
     public static final double DEFAULT_ROTATION_GAIN = 0.27;
@@ -122,11 +126,15 @@ public class RobotMap {
         driveLineAnalogGyro1 = new AnalogGyro(1);
         LiveWindow.addSensor("DriveLine", "AnalogGyro 1", driveLineAnalogGyro1);
         driveLineAnalogGyro1.setSensitivity(0.007);
-        driveLineQuadratureEncoderLeft = new Encoder(0, 1, false, EncodingType.k4X);
+//        driveLineQuadratureEncoderLeft = new Encoder(0, 1, false, EncodingType.k4X);
+        driveLineQuadratureEncoderLeft = new Encoder(0, 1, false, EncodingType.k2X);
+        
         LiveWindow.addSensor("DriveLine", "QuadratureEncoderLeft", driveLineQuadratureEncoderLeft);
         driveLineQuadratureEncoderLeft.setDistancePerPulse(0.05);
         driveLineQuadratureEncoderLeft.setPIDSourceType(PIDSourceType.kRate);
-        driveLineQuadratureEncoderRight = new Encoder(2, 3, false, EncodingType.k4X);
+//        driveLineQuadratureEncoderRight = new Encoder(2, 3, false, EncodingType.k4X);
+        driveLineQuadratureEncoderRight = new Encoder(2, 3, false, EncodingType.k2X);
+        
         LiveWindow.addSensor("DriveLine", "QuadratureEncoderRight", driveLineQuadratureEncoderRight);
         driveLineQuadratureEncoderRight.setDistancePerPulse(0.05);
         driveLineQuadratureEncoderRight.setPIDSourceType(PIDSourceType.kRate);

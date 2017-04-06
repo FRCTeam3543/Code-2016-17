@@ -26,7 +26,7 @@ public class DriveForwardByDistanceCommand extends Command {
 	public static final double END_TRAPEZOID_POINT = 0.8;
 	public static final double MIN_MAGNITUDE = 0.12;
 	
-	public static final double SENSITIVITY = 0.5; //inches
+	public static final double SENSITIVITY = 0.75; //inches
 	public DriveForwardByDistanceCommand(double distanceInInches, double powerGain) {
 		this(NumberProvider.fixedValue(distanceInInches), NumberProvider.fixedValue(powerGain));
 	}
@@ -87,8 +87,8 @@ public class DriveForwardByDistanceCommand extends Command {
 		else {
 			mag = Math.min(-MIN_MAGNITUDE, mag);						
 		}
-		Robot.driveLine.drive(mag * this.powerGain);
-//		Robot.driveLine.driveStraight(mag * this.powerGain);		
+//		Robot.driveLine.drive(mag * this.powerGain);
+		Robot.driveLine.driveStraight(mag * this.powerGain);		
 	}
 
 	@Override

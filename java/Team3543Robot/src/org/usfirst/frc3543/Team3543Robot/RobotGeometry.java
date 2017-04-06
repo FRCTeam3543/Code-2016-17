@@ -19,6 +19,11 @@ public class RobotGeometry {
 	public double cameraZ; 	// camera distance from robot centerline (back from face)
 	public double frontAxleZ;	// distance from the nose of the robot to the front Axle
 	
+	public double encoderCyclesPerRev;
+	public double encoderPulsesPerRev;
+	public double encoderDistancePerPulse;
+	public double gearReduction = 0.4615;	// 12/26 from sprocket to wheel gear
+	
 	public RobotGeometry() {
 		// TODO - set all these robot geometry values
 		wheelBase = 24;
@@ -27,8 +32,17 @@ public class RobotGeometry {
 		overallHeight = 24;
 		cameraY = 16;
 		cameraX = 0;
-		cameraZ = 18;		
 		frontAxleZ = 4;	// ???
+		cameraZ = 18 + frontAxleZ;		
+		
+		encoderCyclesPerRev = 360;
+		encoderPulsesPerRev = 1440;
+		gearReduction = 0.4615;
+		
+		double wheelDiameter = 6; // inches
+		double wheelCircumference = Math.PI * wheelDiameter;
+		encoderDistancePerPulse = wheelCircumference / (encoderCyclesPerRev * gearReduction);
+				
 	}
 	
 	
