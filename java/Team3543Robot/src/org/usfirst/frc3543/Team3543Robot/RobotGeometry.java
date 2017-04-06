@@ -35,6 +35,7 @@ public class RobotGeometry {
 		frontAxleZ = 4;	// ???
 		cameraZ = 18 + frontAxleZ;		
 		
+		// AndyMark E4T Quadrature Encoder
 		encoderCyclesPerRev = 360;
 		encoderPulsesPerRev = 1440;
 		gearReduction = 0.4615;
