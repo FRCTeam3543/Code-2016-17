@@ -57,6 +57,9 @@ public class VisionSubsystem extends Subsystem {
     private GearDropPipeline gearDropPipeline;
     private int visionFailures = 0;
     protected static final int MAX_VISION_FAILURES = 2000;
+    private AxisCamera camera;
+    private CvSink sink;
+    private GearDropPipeline gearDropPipeline;
     
 	public VisionSubsystem() {
 		super();
