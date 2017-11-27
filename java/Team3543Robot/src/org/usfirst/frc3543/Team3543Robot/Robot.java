@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.logging.Logger;
 
@@ -102,7 +103,8 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
+        updateDashboard();    	
+        Scheduler.getInstance().run();        
     }
 
     public void teleopInit() {
@@ -118,6 +120,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        updateDashboard();    	
         Scheduler.getInstance().run();
     }
 
@@ -130,5 +133,11 @@ public class Robot extends IterativeRobot {
     
     public static void log(String message) {
     	LOGGER.info(message);
+    }
+    
+    protected void updateDashboard() {
+        SmartDashboard.putNumber("Gear Holder Position", Robot.gearHolder.getPosition());
+        SmartDashboard.putNumber(OI.DRIVELINE_ENCODER_LEFT, Robot.driveLine.getLeftEncoderValue());
+        SmartDashboard.putNumber(OI.DRIVELINE_ENCODER_RIGHT, Robot.driveLine.getRightEncoderValue());        
     }
 }

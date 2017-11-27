@@ -53,6 +53,7 @@ public class GearHolder extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
 //    	setDefaultCommand(new OpenGearHolderCommand());
+    	setAngle(45);
     }
         
     public void open() {    	
@@ -68,8 +69,29 @@ public class GearHolder extends Subsystem {
     	_open = false;
     }
     
+    public void setPosition(double pos) {
+    	gearHolderServo.setPosition(pos);
+    }
+
+    public double getPosition() {
+    	return gearHolderServo.getPosition();
+    }
+    
+    public void setAngle(double angleInDegrees) {
+    	gearHolderServo.setAngle(angleInDegrees);
+    }
+    
+    public void boop() {
+    	gearHolderServo.setAngle(10); // 10 degrees
+    	_open = true;
+    }
+    
     public boolean isOpen() {
     	return _open;
+    }
+    
+    public double getAngle() {
+    	return gearHolderServo.getAngle();
     }
 
 	public void stop() {

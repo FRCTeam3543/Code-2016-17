@@ -89,7 +89,7 @@ public class GearDrop {
 		double rho = (double)centerSpanInPixels / settings.outputImageWidth;
 		double wt = Settings.CENTER_SPAN_IN_INCHES / 2;
 //		LOGGER.info(String.format("theta = %.2f rho = %.2f wt = %.2f (%s, %s)", theta, rho, wt, centerSpanInPixels, settings.outputImageWidth));
-		distanceFromTarget = wt / (rho * Math.tan(theta)) - World.GEAR_DROP_POST + World.GEAR_DROP_POST_TARGET;
+		distanceFromTarget = wt / (rho * Math.tan(theta)) - World.GEAR_DROP_POST + World.GEAR_DROP_POST_TARGET - Robot.geometry.cameraZ;
 		double width = distanceFromTarget * Math.tan(theta);
 		offsetFromCenter = (double)offset[0] / (double)settings.outputImageWidth * width;
 	}

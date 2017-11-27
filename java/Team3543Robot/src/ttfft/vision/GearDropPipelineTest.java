@@ -12,7 +12,9 @@ public class GearDropPipelineTest {
 	
 	public static void main(String [] args) {
 		// load an image
-		String base = "D:\\Projects\\FRCTeam3543\\Code-2016-17\\java\\Capture";
+//		String base = "D:\\Projects\\FRCTeam3543\\NorthBay\\BlueSide2";
+		String base = "D:\\Projects\\FRCTeam3543\\NorthBay\\BlueMiddle2";
+		
 		String img = base + ".png";
 		String imgOut = base + "-out.png";
 		String maskOut = base + "-mask.png";
@@ -24,6 +26,7 @@ public class GearDropPipelineTest {
 		Settings settings = new Settings();
 		settings.inputImageWidth = m.cols();
 		settings.inputImageHeight = m.rows();
+		System.out.println("Image is "+settings.inputImageWidth+" by "+settings.inputImageHeight);
 		GearDropPipeline pipeline = new GearDropPipeline(settings);
 		pipeline.process(m);
 		
@@ -35,7 +38,7 @@ public class GearDropPipelineTest {
 		Imgcodecs.imwrite(thresholdOut, pipeline.hsvThresholdOutput());
 		if (drop != null) {
 
-			System.out.println(String.format("FOUND IT AT: [%d, %d] distance = %.1fm", drop.gearDropPoint[0], drop.gearDropPoint[1], drop.distanceFromTarget));
+			System.out.println(String.format("FOUND IT AT: [%d, %d] distance = %.1fin", drop.gearDropPoint[0], drop.gearDropPoint[1], drop.distanceFromTarget));
 		}
 		else {
 			System.out.println("No blobs found");

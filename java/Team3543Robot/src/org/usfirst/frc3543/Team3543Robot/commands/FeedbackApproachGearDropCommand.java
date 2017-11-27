@@ -26,7 +26,8 @@ import ttfft.vision.GearDrop;
  */
 public class FeedbackApproachGearDropCommand extends Command {
 	GearDrop gearDrop = null;
-	public static final double MIN_DETECT_DISTANCE = 33; // inches
+	public static final double MIN_DETECT_DISTANCE = 30; // inches
+	public static final int DRIVE_BLIND_MAX = 6;
 	NumberProvider rotationGainProvider;
 	NumberProvider linearGainProvider;
 	
@@ -49,18 +50,28 @@ public class FeedbackApproachGearDropCommand extends Command {
 		gearDrop = null;
 	}
 	
+	boolean neverGearDrop = true;
+	int driveBlindCount = 0;
 	@Override
 	public void execute() {
+		GearDrop lastGearDrop = gearDrop;
 		if (gearDrop == null || gearDrop.distanceFromTarget >= MIN_DETECT_DISTANCE) {
 			gearDrop = detectGearDrop();
+			if (gearDrop != null) neverGearDrop = false;
 		}		
+		// if we don't have a new gear drop use the last one
+		if (gearDrop == null && lastGearDrop != null) gearDrop = lastGearDrop;
+		// if we never had one, invent
+		if (gearDrop == null && neverGearDrop) {
+			// can we invent a drive forward distance?			
+		}
 		
+		double gain = linearGainProvider.getValue();		
 		if (gearDrop != null) {
 
 			double distance = gearDrop.distanceFromTarget; // just on
 			OI.dashboard.putGearfinderLocation(String.format("Gear drop at %.1f in", distance));
 
-			double gain = linearGainProvider.getValue();
 			
 			boolean closeIn = gearDrop.distanceFromTarget <= MIN_DETECT_DISTANCE;
 			if (closeIn) {
@@ -68,6 +79,7 @@ public class FeedbackApproachGearDropCommand extends Command {
 				OI.dashboard.putGearfinderLocation(String.format("Closing %.1f in", distance));
 				Robot.driveLine.stop();
 //				Scheduler.getInstance().add(new DriveForwardByDistanceCommand(distance, gain));
+				Robot.driveLine.resetAll();
 				Scheduler.getInstance().add(new DockGearCommand(distance, gain));
 				
 			}
@@ -76,11 +88,15 @@ public class FeedbackApproachGearDropCommand extends Command {
 //				double offset = gearDrop.offsetFromCenter;
 				double angle = computeAngleToGearDropPerpendicular(gearDrop);
 				// use 10 degrees = -1 angle
-				double limit = Math.toRadians(10);
+				double limit = Math.toRadians(15);
 				double curveGain = Math.max(-1, Math.min(1, angle/limit));
 				Robot.driveLine.drive(gain, curveGain);
 				//Robot.driveLine.drive(gain, (angle < 0 ? -1 : 1) * rotationGain);
 			}
+		}
+		else if (driveBlindCount++ < DRIVE_BLIND_MAX) {
+			// drive forward
+			Robot.driveLine.drive(gain, 0);
 		}
 		else {
 			Robot.LOGGER.info("Oops, lots visibility");

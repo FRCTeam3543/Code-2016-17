@@ -52,6 +52,11 @@ public class VisionSubsystem extends Subsystem {
     // write to variables the main thread is using.
     public final Object visionLock = new Object();
 
+    private AxisCamera camera = null;
+    private CvSink sink = null;
+    private GearDropPipeline gearDropPipeline;
+    private int visionFailures = 0;
+    protected static final int MAX_VISION_FAILURES = 2000;
     private AxisCamera camera;
     private CvSink sink;
     private GearDropPipeline gearDropPipeline;
@@ -64,8 +69,12 @@ public class VisionSubsystem extends Subsystem {
 		synchronized(visionLock) {
 //			Robot.log("Grabbing an image");
 			Mat image = new Mat();
+			// not well-coded but we need to stop issues of camera 
+			// failing causing teleop to fail
 			if (sink.grabFrame(image) == 0) { // 640 by 480
-				Robot.log(sink.getError());
+				Robot.log("Image fetch failed: "+sink.getError());
+				visionFailures++;
+				return null;
 			}
 			gearDropPipeline.process(image);		
 			MatOfKeyPoint points = gearDropPipeline.findBlobsOutput();
@@ -82,9 +91,10 @@ public class VisionSubsystem extends Subsystem {
 	}
 	
 	public void init() {
+		// try/catch here
 		camera = CameraServer.getInstance().addAxisCamera(RobotMap.AXIS_CAMERA_HOST);		
 		camera.setResolution(640, 480);		
-		sink = CameraServer.getInstance().getVideo();		
+		sink = CameraServer.getInstance().getVideo();
 		gearDropPipeline = new GearDropPipeline();
 	}
 	

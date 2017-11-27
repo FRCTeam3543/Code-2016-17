@@ -26,7 +26,7 @@ public class DriveForwardByDistanceCommand extends Command {
 	public static final double END_TRAPEZOID_POINT = 0.8;
 	public static final double MIN_MAGNITUDE = 0.12;
 	
-	public static final double SENSITIVITY = 0.5; //inches
+	public static final double SENSITIVITY = 0.75; //inches
 	public DriveForwardByDistanceCommand(double distanceInInches, double powerGain) {
 		this(NumberProvider.fixedValue(distanceInInches), NumberProvider.fixedValue(powerGain));
 	}
@@ -56,7 +56,7 @@ public class DriveForwardByDistanceCommand extends Command {
 	@Override 
 	protected void initialize() {
 		// read the starting encoder values
-		Robot.driveLine.resetEncoders();		
+		Robot.driveLine.resetAll();	
 		this.setTargetDistance(distanceProvider.getValue());
 		this.setPowerGain(gainProvider.getValue());
 	}
@@ -65,24 +65,37 @@ public class DriveForwardByDistanceCommand extends Command {
 	public void execute() {
 		// trapezoid func for velocity for smooth drive.		
 		Robot.driveLine.updateDashboard();
-		double dist =  Math.max(this.targetDistance, Robot.driveLine.getLeftEncoderValue());
+		double dist = Robot.driveLine.getLeftEncoderValue();
+		if (this.targetDistance > 0) {
+			dist =  Math.max(this.targetDistance, dist);
+		}
+		else {
+			dist = Math.min(this.targetDistance, dist);
+		}
+		
 		double percentTraveled = (this.targetDistance - dist) / this.targetDistance;
-		double mag = 1;
+		double mag = this.targetDistance >= 0 ? 1 : -1;
 		if (percentTraveled < START_TRAPEZOID_POINT) {
 			mag *= (START_TRAPEZOID_POINT - percentTraveled) / START_TRAPEZOID_POINT;
 		}
 		else if (percentTraveled > END_TRAPEZOID_POINT) {
 			mag *= (1 - (percentTraveled - END_TRAPEZOID_POINT)) / START_TRAPEZOID_POINT;
 		}
-		mag = Math.max(MIN_MAGNITUDE, mag);
-		Robot.driveLine.drive(mag * this.powerGain);
+		if (this.targetDistance > 0) {
+			mag = Math.max(MIN_MAGNITUDE, mag);	
+		}
+		else {
+			mag = Math.min(-MIN_MAGNITUDE, mag);						
+		}
+//		Robot.driveLine.drive(mag * this.powerGain);
+		Robot.driveLine.driveStraight(mag * this.powerGain);		
 	}
 
 	@Override
 	protected boolean isFinished() {
 		double enc = Robot.driveLine.getLeftEncoderValue();
 		OI.dashboard.putDistanceRemaining(this.targetDistance - enc);
-		return (this.targetDistance -enc)  < SENSITIVITY;
+		return Math.abs(this.targetDistance - enc)  < SENSITIVITY;
 	}
 	
 	@Override
