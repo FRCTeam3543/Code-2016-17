@@ -51,14 +51,15 @@ public class GripPipeline {
 		// Step Blur0:
 		Mat blurInput = resizeImageOutput;
 		BlurType blurType = BlurType.get("Box Blur");
-		double blurRadius = 5.405405405405405;
+		double blurRadius = 5;
 		blur(blurInput, blurType, blurRadius, blurOutput);
 
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = blurOutput;
-		double[] hsvThresholdHue = {92.0, 180.0};	// last calib @ event was 0
-		double[] hsvThresholdSaturation = {0.0, 152.0};
-		double[] hsvThresholdValue = {63.0,235.0};
+		double[] hsvThresholdHue = {0, 180.0};	// last calib @ event was 0
+		double[] hsvThresholdSaturation = {0.0, 255.0};
+		// North bay middle calibration
+		double[] hsvThresholdValue = {162.0,255.0};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step CV_erode0:
@@ -77,7 +78,7 @@ public class GripPipeline {
 
 		// Step Find_Blobs0:
 		Mat findBlobsInput = maskOutput;
-		double findBlobsMinArea = 8.0;
+		double findBlobsMinArea = 30.0;
 		double[] findBlobsCircularity = {0.0, 1.0};
 		boolean findBlobsDarkBlobs = false;
 		findBlobs(findBlobsInput, findBlobsMinArea, findBlobsCircularity, findBlobsDarkBlobs, findBlobsOutput);

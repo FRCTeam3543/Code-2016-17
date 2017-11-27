@@ -32,7 +32,7 @@ public class RobotGeometry {
 		overallHeight = 24;
 		cameraY = 16;
 		cameraX = 0;
-		frontAxleZ = 4;	// ???
+		frontAxleZ = 3;	// from the bumper
 		cameraZ = 18 + frontAxleZ;		
 		
 		// AndyMark E4T Quadrature Encoder

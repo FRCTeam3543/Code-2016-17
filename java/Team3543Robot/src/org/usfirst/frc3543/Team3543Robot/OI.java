@@ -113,6 +113,9 @@ public class OI {
 
     public JoystickButton liftRobotButton;
     public JoystickButton lowerRobotButton;
+    public JoystickButton liftRobotButton2;
+    public JoystickButton lowerRobotButton2;
+    
     public JoystickButton dropGearButton;
     public JoystickButton resumeArcadeDriveButton;
     public JoystickButton lowerBallDumperButton;
@@ -134,10 +137,15 @@ public class OI {
 
         lowerRobotButton = new JoystickButton(rightJoystick, 7);
         lowerRobotButton.whileHeld(new LowerRobotCommand());
-                       
 
-        dropGearButton = new JoystickButton(rightJoystick, 11);
-        dropGearButton.whenPressed(feedbackApproach);
+        liftRobotButton2 = new JoystickButton(rightJoystick, 11);
+        liftRobotButton2.whileHeld(new LiftRobotCommand());
+        
+//        lowerRobotButton2 = new JoystickButton(rightJoystick, 10);
+//        lowerRobotButton2.whileHeld(new LowerRobotCommand());
+
+//        dropGearButton = new JoystickButton(rightJoystick, 11);
+//        dropGearButton.whenPressed(feedbackApproach);
         
         ArcadeDriveWithJoystick arcade = new ArcadeDriveWithJoystick();
         resumeArcadeDriveButton = new JoystickButton(rightJoystick, 1);

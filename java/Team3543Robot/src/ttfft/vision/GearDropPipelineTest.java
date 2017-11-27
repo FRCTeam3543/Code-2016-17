@@ -12,7 +12,9 @@ public class GearDropPipelineTest {
 	
 	public static void main(String [] args) {
 		// load an image
-		String base = "D:\\Projects\\FRCTeam3543\\Code-2016-17\\java\\Team3543Robot\\GearDropField2d";
+//		String base = "D:\\Projects\\FRCTeam3543\\NorthBay\\BlueSide2";
+		String base = "D:\\Projects\\FRCTeam3543\\NorthBay\\BlueMiddle2";
+		
 		String img = base + ".png";
 		String imgOut = base + "-out.png";
 		String maskOut = base + "-mask.png";

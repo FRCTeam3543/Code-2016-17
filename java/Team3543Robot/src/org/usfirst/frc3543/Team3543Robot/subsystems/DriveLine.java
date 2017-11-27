@@ -194,11 +194,16 @@ public class DriveLine extends Subsystem {
 	}
 
 	public void resetEncoders() {
-		double dpp = OI.dashboard.getWheelEncoderDistancePerPulse();
+		double dpp = OI.dashboard.getWheelEncoderDistancePerPulse();	
+		
 		// hack
 //		double leftdpp = dpp * (1-0.028);
 //		double leftdpp = dpp * (1-0.038);
 		double leftdpp = dpp;// * (1-0.1);
+		
+		// North Bay Calibration
+		leftdpp = dpp * 24 / 30.885;
+		dpp = dpp * 24 / 31.356; 
 
 		this.quadratureEncoderLeft.reset();
 		this.quadratureEncoderLeft.setDistancePerPulse(leftdpp);
@@ -225,6 +230,11 @@ public class DriveLine extends Subsystem {
 	public void updateDashboard() {
         OI.dashboard.putDrivelineEncoders(getLeftEncoderValue(), getRightEncoderValue());
         OI.dashboard.putDrivelineGyro(getGyroAngle());
+	}
+
+	public void resetAll() {
+		resetEncoders();
+		resetGyro();		
 	}
 	
 }

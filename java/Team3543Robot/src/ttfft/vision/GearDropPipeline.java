@@ -87,7 +87,7 @@ public class GearDropPipeline extends GripPipeline {
 				}
 			}			
 		});
-//		LOGGER.info("\n----\nDETECT GEAR DROP have "+list.size()+" blobs\n----");
+		LOGGER.info("\n----\nDETECT GEAR DROP have "+list.size()+" blobs\n----");
 		
 //		SmartDashboard.putNumber(OI.GEARFINDER_BLOB_COUNT, list.size());
 		GearDrop ret = null;

@@ -84,13 +84,15 @@ public class RobotMap {
     public static final double DEFAULT_ROTATION_GAIN = 0.27;
     public static final double DEFAULT_LIFT_GAIN = 1.0; //1.0;
     
-    public static final double DEFAULT_AUTONOMOUS_LEFT_DISTANCE = 180;
-    public static final double DEFAULT_AUTONOMOUS_LEFT_ANGLE = 55;
+    // baseline is 7ft 9.25 in out - calc how far to go out and turn
+    // 
+    public static final double DEFAULT_AUTONOMOUS_LEFT_DISTANCE = 72;
+    public static final double DEFAULT_AUTONOMOUS_LEFT_ANGLE = 60;
 
-    public static final double DEFAULT_AUTONOMOUS_RIGHT_DISTANCE = 170;
+    public static final double DEFAULT_AUTONOMOUS_RIGHT_DISTANCE = 72;
     public static final double DEFAULT_AUTONOMOUS_RIGHT_ANGLE = -DEFAULT_AUTONOMOUS_LEFT_ANGLE;
 
-    public static final double DEFAULT_AUTONOMOUS_MIDDLE_DISTANCE = 45;	// inches
+    public static final double DEFAULT_AUTONOMOUS_MIDDLE_DISTANCE = 50;	// inches
     public static final double DEFAULT_AUTONOMOUS_MIDDLE_ANGLE = 0;    
     
     public static final double DEFAULT_GEAR_HOLDER_SERVO_OPEN_ANGLE = 360;

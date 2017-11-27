@@ -56,7 +56,7 @@ public class DriveForwardByDistanceCommand extends Command {
 	@Override 
 	protected void initialize() {
 		// read the starting encoder values
-		Robot.driveLine.resetEncoders();				
+		Robot.driveLine.resetAll();	
 		this.setTargetDistance(distanceProvider.getValue());
 		this.setPowerGain(gainProvider.getValue());
 	}
